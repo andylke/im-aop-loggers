@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.github.andylke</groupId>
 	<artifactId>im-aop-loggers</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 
   <name>I'm AOP Loggers</name>
   <description>A handy and configurable sets of annotation-based loggers for Spring Boot that can log every execution of a method when entering or exiting normally or abnormally, without you writing a single line of code using aspect-oriented programming (AOP)</description>
