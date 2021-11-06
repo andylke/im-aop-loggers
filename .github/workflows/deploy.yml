@@ -1,0 +1,31 @@
+name: Deploy
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+jobs:
+  publish:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+          server-id: ossrh
+          server-username: MAVEN_USERNAME
+          server-password: MAVEN_USER_PASSWORD
+          gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          gpg-passphrase: MAVEN_GPG_PASSPHRASE
+      - name: Run Maven Deploy
+        run: mvn deploy
+        env:
+          MAVEN_USERNAME: ${{ github.actor }}
+          MAVEN_USER_PASSWORD: ${{ secrets.MAVEN_USER_PASSWORD }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+      - name: Upload Code Coverage
+        uses: codecov/codecov-action@v1
+        with:
+          files: ./target/site/jacoco/jacoco.xml
