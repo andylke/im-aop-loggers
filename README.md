@@ -283,7 +283,7 @@ logging.level.im.aop.loggers.advice.LogAroundService=DEBUG
 
 # Sample
 
-Sample project is available in [andylke/demo-im-aop-loggers-sample](https://github.com/andylke/demo-im-aop-loggers-sample).
+Sample project is available in [andylke/im-aop-loggers-sample](https://github.com/andylke/im-aop-loggers-sample).
 
 # License
 
