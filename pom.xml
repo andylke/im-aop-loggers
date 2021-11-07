@@ -23,10 +23,6 @@
     </license>
   </licenses>
 
-  <scm>
-    <url>https://github.com/henkelian/im-aop-loggers-spring-boot</url>
-  </scm>
-
   <developers>
     <developer>
       <name>Andy Lian</name>
