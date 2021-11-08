@@ -37,10 +37,6 @@ public class LogAfterReturningService {
 
   public void logAfterReturning(
       final JoinPoint joinPoint, final LogAfterReturning annotation, final Object returnValue) {
-    if (isDisabled()) {
-      return;
-    }
-
     final long enteringTime = System.nanoTime();
 
     final Logger logger = LOGGER_SERVICE.getLogger(annotation.declaringClass(), joinPoint);
@@ -60,10 +56,6 @@ public class LogAfterReturningService {
   private void logElapsed(long enteringTime) {
     LOGGER.debug(
         "[logAfterReturning] elapsed [{}]", Duration.ofNanos(System.nanoTime() - enteringTime));
-  }
-
-  private boolean isDisabled() {
-    return aopLoggersProperties.isEnabled() == false;
   }
 
   private boolean isLoggerLevelDisabled(final Logger logger, final Level level) {

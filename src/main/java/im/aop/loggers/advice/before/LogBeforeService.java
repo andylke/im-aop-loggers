@@ -32,10 +32,6 @@ public class LogBeforeService {
   }
 
   public void logBefore(final JoinPoint joinPoint, final LogBefore annotation) {
-    if (isDisabled()) {
-      return;
-    }
-
     final long enteringTime = System.nanoTime();
 
     final Logger logger = LOGGER_SERVICE.getLogger(annotation.declaringClass(), joinPoint);
@@ -54,10 +50,6 @@ public class LogBeforeService {
 
   private void logElapsed(long enteringTime) {
     LOGGER.debug("[logBefore] elapsed [{}]", Duration.ofNanos(System.nanoTime() - enteringTime));
-  }
-
-  private boolean isDisabled() {
-    return aopLoggersProperties.isEnabled() == false;
   }
 
   private boolean isLoggerLevelDisabled(final Logger logger, final Level level) {

@@ -124,24 +124,6 @@ class LogAfterThrowingServiceTests {
   }
 
   @Test
-  void doesNotLogExitedAbnormallyMessage_whenDisabled(final CapturedOutput capturedOutput) {
-    runner
-        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=false")
-        .run(
-            (context) -> {
-              final LogAfterThrowing annotation = mockLogAfterThrowing(Level.ERROR, "foo", null);
-              LoggingSystem.get(ClassLoader.getSystemClassLoader())
-                  .setLogLevel(Foo.class.getName(), LogLevel.ERROR);
-
-              final LogAfterThrowingService service =
-                  context.getBean(LogAfterThrowingService.class);
-              service.logAfterThrowing(joinPoint, annotation, new RuntimeException("foo"));
-
-              assertThat(capturedOutput).doesNotContain("ERROR " + Foo.class.getName() + " - foo");
-            });
-  }
-
-  @Test
   void doesNotLogExitedAbnormallyMessage_whenLoggerLevelDisabled(
       final CapturedOutput capturedOutput) {
     runner.run(
@@ -256,26 +238,6 @@ class LogAfterThrowingServiceTests {
 
           assertThat(capturedOutput).contains("ERROR " + Foo.class.getName() + " - foo");
         });
-  }
-
-  @Test
-  void doesNotLogElapsed_whenDisabled(final CapturedOutput capturedOutput) {
-    runner
-        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=false")
-        .run(
-            (context) -> {
-              final LogAfterThrowing annotation = mockLogAfterThrowing(Level.ERROR, "foo", null);
-              LoggingSystem.get(ClassLoader.getSystemClassLoader())
-                  .setLogLevel(Foo.class.getName(), LogLevel.ERROR);
-              LoggingSystem.get(ClassLoader.getSystemClassLoader())
-                  .setLogLevel(LogAfterThrowingService.class.getName(), LogLevel.DEBUG);
-
-              final LogAfterThrowingService service =
-                  context.getBean(LogAfterThrowingService.class);
-              service.logAfterThrowing(joinPoint, annotation, new RuntimeException("foo"));
-
-              assertThat(capturedOutput).doesNotContain("[logAfterThrowing] elapsed [");
-            });
   }
 
   @Test

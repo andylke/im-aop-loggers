@@ -37,10 +37,6 @@ public class LogAfterThrowingService {
 
   public void logAfterThrowing(
       final JoinPoint joinPoint, final LogAfterThrowing annotation, final Throwable exception) {
-    if (isDisabled()) {
-      return;
-    }
-
     final long enteringTime = System.nanoTime();
 
     final Logger logger = LOGGER_SERVICE.getLogger(annotation.declaringClass(), joinPoint);
@@ -61,10 +57,6 @@ public class LogAfterThrowingService {
   private void logElapsed(long enteringTime) {
     LOGGER.debug(
         "[logAfterThrowing] elapsed [{}]", Duration.ofNanos(System.nanoTime() - enteringTime));
-  }
-
-  private boolean isDisabled() {
-    return aopLoggersProperties.isEnabled() == false;
   }
 
   private boolean isLoggerLevelDisabled(final Logger logger, final Level level) {

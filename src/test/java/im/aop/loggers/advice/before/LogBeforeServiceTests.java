@@ -119,23 +119,6 @@ class LogBeforeServiceTests {
   }
 
   @Test
-  void doesNotLogEnteringMessage_whenDisabled(final CapturedOutput capturedOutput) {
-    runner
-        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=false")
-        .run(
-            (context) -> {
-              final LogBefore annotation = mockLogBefore(Level.INFO, "foo");
-              LoggingSystem.get(ClassLoader.getSystemClassLoader())
-                  .setLogLevel(Foo.class.getName(), LogLevel.INFO);
-
-              final LogBeforeService service = context.getBean(LogBeforeService.class);
-              service.logBefore(joinPoint, annotation);
-
-              assertThat(capturedOutput).doesNotContain("INFO " + Foo.class.getName() + " - foo");
-            });
-  }
-
-  @Test
   void doesNotLogEnteringMessage_whenLoggerLevelDisabled(final CapturedOutput capturedOutput) {
     runner.run(
         (context) -> {
@@ -148,25 +131,6 @@ class LogBeforeServiceTests {
 
           assertThat(capturedOutput).doesNotContain("INFO " + Foo.class.getName() + " - foo");
         });
-  }
-
-  @Test
-  void doesNotLogElapsed_whenDisabled(final CapturedOutput capturedOutput) {
-    runner
-        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=false")
-        .run(
-            (context) -> {
-              final LogBefore annotation = mockLogBefore(Level.INFO, "foo");
-              LoggingSystem.get(ClassLoader.getSystemClassLoader())
-                  .setLogLevel(Foo.class.getName(), LogLevel.INFO);
-              LoggingSystem.get(ClassLoader.getSystemClassLoader())
-                  .setLogLevel(LogBeforeService.class.getName(), LogLevel.DEBUG);
-
-              final LogBeforeService service = context.getBean(LogBeforeService.class);
-              service.logBefore(joinPoint, annotation);
-
-              assertThat(capturedOutput).doesNotContain("[logBefore] elapsed [");
-            });
   }
 
   @Test

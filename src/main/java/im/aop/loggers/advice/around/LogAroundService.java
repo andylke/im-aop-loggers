@@ -49,10 +49,6 @@ public class LogAroundService {
 
   public Object logAround(final ProceedingJoinPoint joinPoint, final LogAround logAround)
       throws Throwable {
-    if (isDisabled()) {
-      return joinPoint.proceed();
-    }
-
     final long enteringTime = System.nanoTime();
 
     final Logger logger = LOGGER_SERVICE.getLogger(logAround.declaringClass(), joinPoint);
@@ -90,10 +86,6 @@ public class LogAroundService {
     LOGGER.debug(
         "[logAround] elapsed [{}]",
         Duration.ofNanos(System.nanoTime() - enteringTime - proceedElapsedTime));
-  }
-
-  private boolean isDisabled() {
-    return aopLoggersProperties.isEnabled() == false;
   }
 
   private boolean isLoggerLevelDisabled(final Logger logger, final Level level) {

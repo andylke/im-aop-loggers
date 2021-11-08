@@ -122,24 +122,6 @@ class LogAfterReturningServiceTests {
   }
 
   @Test
-  void doesNotLogExitedMessage_whenDisabled(final CapturedOutput capturedOutput) {
-    runner
-        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=false")
-        .run(
-            (context) -> {
-              final LogAfterReturning annotation = mockLogAfterReturning(Level.INFO, "foo");
-              LoggingSystem.get(ClassLoader.getSystemClassLoader())
-                  .setLogLevel(Foo.class.getName(), LogLevel.INFO);
-
-              final LogAfterReturningService service =
-                  context.getBean(LogAfterReturningService.class);
-              service.logAfterReturning(joinPoint, annotation, "foo");
-
-              assertThat(capturedOutput).doesNotContain("INFO " + Foo.class.getName() + " - foo");
-            });
-  }
-
-  @Test
   void doesNotLogExitedMessage_whenLoggerLevelDisabled(final CapturedOutput capturedOutput) {
     runner.run(
         (context) -> {
@@ -152,26 +134,6 @@ class LogAfterReturningServiceTests {
 
           assertThat(capturedOutput).doesNotContain("INFO " + Foo.class.getName() + " - foo");
         });
-  }
-
-  @Test
-  void doesNotLogElapsed_whenDisabled(final CapturedOutput capturedOutput) {
-    runner
-        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=false")
-        .run(
-            (context) -> {
-              final LogAfterReturning annotation = mockLogAfterReturning(Level.INFO, "foo");
-              LoggingSystem.get(ClassLoader.getSystemClassLoader())
-                  .setLogLevel(Foo.class.getName(), LogLevel.INFO);
-              LoggingSystem.get(ClassLoader.getSystemClassLoader())
-                  .setLogLevel(LogAfterReturningService.class.getName(), LogLevel.DEBUG);
-
-              final LogAfterReturningService service =
-                  context.getBean(LogAfterReturningService.class);
-              service.logAfterReturning(joinPoint, annotation, "foo");
-
-              assertThat(capturedOutput).doesNotContain("[logAfterReturning] elapsed [");
-            });
   }
 
   @Test
