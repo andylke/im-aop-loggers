@@ -1,40 +1,44 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<parent>
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>2.4.4</version>
     <relativePath/> <!-- lookup parent from repository -->
-	</parent>
-	<groupId>com.github.andylke</groupId>
-	<artifactId>im-aop-loggers</artifactId>
-	<version>1.0.2</version>
-
+  </parent>
+  <groupId>com.github.andylke</groupId>
+  <artifactId>im-aop-loggers</artifactId>
+  <version>1.0.2</version>
+  
   <name>I'm AOP Loggers</name>
   <description>A handy and configurable sets of annotation-based loggers for Spring Boot that can log every execution of a method when entering or exiting normally or abnormally, without you writing a single line of code using aspect-oriented programming (AOP)</description>
   <inceptionYear>2021</inceptionYear>
-
+  
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>
       <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
     </license>
   </licenses>
-
+  
   <developers>
     <developer>
       <name>Andy Lian</name>
       <email>andylke@gmail.com</email>
     </developer>
   </developers>
-
+  
+  <scm>
+    <url>https://github.com/andylke/im-aop-loggers.git</url>
+  </scm>
+  
   <properties>
     <java.version>11</java.version>
     <jacoco-maven-plugin.version>0.8.6</jacoco-maven-plugin.version>
   </properties>
-
+  
   <dependencies>
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -48,7 +52,7 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-validation</artifactId>
     </dependency>
-
+  
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
@@ -61,9 +65,9 @@
       </exclusions>
     </dependency>
   </dependencies>
-
-	<build>
-		<plugins>
+  
+  <build>
+    <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -96,7 +100,7 @@
           </execution>
         </executions>
       </plugin>
-
+      
       <plugin>
         <groupId>org.jacoco</groupId>
         <artifactId>jacoco-maven-plugin</artifactId>
@@ -135,7 +139,7 @@
           </execution>
         </executions>
       </plugin>
-
+      
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-gpg-plugin</artifactId>
@@ -157,7 +161,7 @@
           </execution>
         </executions>
       </plugin>
-
+      
       <plugin>
         <groupId>org.sonatype.plugins</groupId>
         <artifactId>nexus-staging-maven-plugin</artifactId>
@@ -169,10 +173,10 @@
           <autoReleaseAfterClose>true</autoReleaseAfterClose>
         </configuration>
       </plugin>
-
+    
     </plugins>
-	</build>
-
+  </build>
+  
   <distributionManagement>
     <snapshotRepository>
       <id>ossrh</id>
