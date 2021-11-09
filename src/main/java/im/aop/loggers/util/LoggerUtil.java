@@ -8,6 +8,8 @@ import im.aop.loggers.Level;
 
 public final class LoggerUtil {
 
+  private LoggerUtil() {}
+
   public static Logger getLogger(final Class<?> declaringClass, final JoinPoint joinPoint) {
     return LoggerFactory.getLogger(
         declaringClass == null || declaringClass == void.class

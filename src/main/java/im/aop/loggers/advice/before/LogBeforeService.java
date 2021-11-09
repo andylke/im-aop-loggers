@@ -18,8 +18,6 @@ public class LogBeforeService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LogBeforeService.class);
 
-  private static final LoggerUtil LOGGER_SERVICE = new LoggerUtil();
-
   private static final StringSubstitutor STRING_SUBSTITUTOR = new StringSubstitutor();
 
   private static final JoinPointStringSupplierRegistrar JOIN_POINT_STRING_SUPPLIER_REGISTRAR =
@@ -34,7 +32,7 @@ public class LogBeforeService {
   public void logBefore(final JoinPoint joinPoint, final LogBefore annotation) {
     final long enteringTime = System.nanoTime();
 
-    final Logger logger = LOGGER_SERVICE.getLogger(annotation.declaringClass(), joinPoint);
+    final Logger logger = LoggerUtil.getLogger(annotation.declaringClass(), joinPoint);
     final Level enteringLevel = getEnteringLevel(annotation.level());
     if (isLoggerLevelDisabled(logger, enteringLevel)) {
       logElapsed(enteringTime);
@@ -53,7 +51,7 @@ public class LogBeforeService {
   }
 
   private boolean isLoggerLevelDisabled(final Logger logger, final Level level) {
-    return LOGGER_SERVICE.isEnabled(logger, level) == false;
+    return LoggerUtil.isEnabled(logger, level) == false;
   }
 
   private void logEnteringMessage(
@@ -67,7 +65,7 @@ public class LogBeforeService {
     final String message =
         STRING_SUBSTITUTOR.substitute(getEnteringMesage(enteringMessage), stringLookup);
 
-    LOGGER_SERVICE.log(logger, enteringLevel, message);
+    LoggerUtil.log(logger, enteringLevel, message);
   }
 
   private Level getEnteringLevel(final Level enteringLevel) {

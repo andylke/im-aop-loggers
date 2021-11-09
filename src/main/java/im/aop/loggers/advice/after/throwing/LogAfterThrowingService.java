@@ -27,8 +27,6 @@ public class LogAfterThrowingService {
   private static final ExceptionStringSupplierRegistrar EXCEPTION_STRING_SUPPLIER_REGISTRAR =
       new ExceptionStringSupplierRegistrar();
 
-  private static final LoggerUtil LOGGER_SERVICE = new LoggerUtil();
-
   private final AopLoggersProperties aopLoggersProperties;
 
   public LogAfterThrowingService(final AopLoggersProperties aopLoggersProperties) {
@@ -39,7 +37,7 @@ public class LogAfterThrowingService {
       final JoinPoint joinPoint, final LogAfterThrowing annotation, final Throwable exception) {
     final long enteringTime = System.nanoTime();
 
-    final Logger logger = LOGGER_SERVICE.getLogger(annotation.declaringClass(), joinPoint);
+    final Logger logger = LoggerUtil.getLogger(annotation.declaringClass(), joinPoint);
     final Level exitedAbnormallyLevel = getExitedAbnormallyLevel(annotation.level());
     if (isLoggerLevelDisabled(logger, exitedAbnormallyLevel)
         || isIgnoredException(exception, annotation.ignoreExceptions())) {
@@ -60,7 +58,7 @@ public class LogAfterThrowingService {
   }
 
   private boolean isLoggerLevelDisabled(final Logger logger, final Level level) {
-    return LOGGER_SERVICE.isEnabled(logger, level) == false;
+    return LoggerUtil.isEnabled(logger, level) == false;
   }
 
   private boolean isIgnoredException(
@@ -104,9 +102,9 @@ public class LogAfterThrowingService {
             getExitedAbnormallyMessage(annotation.exitedAbnormallyMessage()), stringLookup);
 
     if (annotation.printStackTrace()) {
-      LOGGER_SERVICE.logException(logger, exitedAbnormallyLevel, message, exception);
+      LoggerUtil.logException(logger, exitedAbnormallyLevel, message, exception);
     } else {
-      LOGGER_SERVICE.log(logger, exitedAbnormallyLevel, message);
+      LoggerUtil.log(logger, exitedAbnormallyLevel, message);
     }
   }
 

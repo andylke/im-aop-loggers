@@ -27,8 +27,6 @@ public class LogAfterReturningService {
   private static final ReturnValueStringSupplierRegistrar RETURN_VALUE_STRING_SUPPLIER_REGISTRAR =
       new ReturnValueStringSupplierRegistrar();
 
-  private static final LoggerUtil LOGGER_SERVICE = new LoggerUtil();
-
   private final AopLoggersProperties aopLoggersProperties;
 
   public LogAfterReturningService(final AopLoggersProperties aopLoggersProperties) {
@@ -39,7 +37,7 @@ public class LogAfterReturningService {
       final JoinPoint joinPoint, final LogAfterReturning annotation, final Object returnValue) {
     final long enteringTime = System.nanoTime();
 
-    final Logger logger = LOGGER_SERVICE.getLogger(annotation.declaringClass(), joinPoint);
+    final Logger logger = LoggerUtil.getLogger(annotation.declaringClass(), joinPoint);
     final Level exitedLevel = getExitedLevel(annotation.level());
     if (isLoggerLevelDisabled(logger, exitedLevel)) {
       logElapsed(enteringTime);
@@ -59,7 +57,7 @@ public class LogAfterReturningService {
   }
 
   private boolean isLoggerLevelDisabled(final Logger logger, final Level level) {
-    return LOGGER_SERVICE.isEnabled(logger, level) == false;
+    return LoggerUtil.isEnabled(logger, level) == false;
   }
 
   private void logExitedMessage(
@@ -74,7 +72,7 @@ public class LogAfterReturningService {
 
     final String message =
         STRING_SUBSTITUTOR.substitute(getExitedMessage(exitedMessage), stringLookup);
-    LOGGER_SERVICE.log(logger, exitedLevel, message);
+    LoggerUtil.log(logger, exitedLevel, message);
   }
 
   private Level getExitedLevel(final Level exitedLevel) {
