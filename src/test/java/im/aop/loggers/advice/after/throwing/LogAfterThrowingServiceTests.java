@@ -19,8 +19,8 @@ import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 
 import im.aop.loggers.AopLoggersProperties;
+import im.aop.loggers.Level;
 import im.aop.loggers.advice.after.returning.LogAfterReturningService;
-import im.aop.loggers.logging.Level;
 
 /**
  * Tests for {@link LogAfterReturningService}.

@@ -8,12 +8,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import im.aop.loggers.AopLoggersProperties;
-import im.aop.loggers.logging.Level;
-import im.aop.loggers.logging.LoggerService;
-import im.aop.loggers.logging.message.ExceptionStringSupplierRegistrar;
-import im.aop.loggers.logging.message.JoinPointStringSupplierRegistrar;
-import im.aop.loggers.logging.message.StringSubstitutor;
-import im.aop.loggers.logging.message.StringSupplierLookup;
+import im.aop.loggers.Level;
+import im.aop.loggers.messageinterpolation.ExceptionStringSupplierRegistrar;
+import im.aop.loggers.messageinterpolation.JoinPointStringSupplierRegistrar;
+import im.aop.loggers.messageinterpolation.StringSubstitutor;
+import im.aop.loggers.messageinterpolation.StringSupplierLookup;
+import im.aop.loggers.util.LoggerUtil;
 
 public class LogAfterThrowingService {
 
@@ -27,7 +27,7 @@ public class LogAfterThrowingService {
   private static final ExceptionStringSupplierRegistrar EXCEPTION_STRING_SUPPLIER_REGISTRAR =
       new ExceptionStringSupplierRegistrar();
 
-  private static final LoggerService LOGGER_SERVICE = new LoggerService();
+  private static final LoggerUtil LOGGER_SERVICE = new LoggerUtil();
 
   private final AopLoggersProperties aopLoggersProperties;
 

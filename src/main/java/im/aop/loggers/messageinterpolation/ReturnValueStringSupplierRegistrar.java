@@ -1,4 +1,4 @@
-package im.aop.loggers.logging.message;
+package im.aop.loggers.messageinterpolation;
 
 import java.util.Arrays;
 import java.util.function.Supplier;

@@ -7,8 +7,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import im.aop.loggers.logging.Level;
-
 /**
  * Tests for {@link AopLoggersProperties}.
  *

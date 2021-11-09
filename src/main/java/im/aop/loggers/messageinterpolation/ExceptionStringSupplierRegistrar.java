@@ -1,4 +1,4 @@
-package im.aop.loggers.logging.message;
+package im.aop.loggers.messageinterpolation;
 
 public class ExceptionStringSupplierRegistrar implements StringSupplierRegistrar<Throwable> {
 

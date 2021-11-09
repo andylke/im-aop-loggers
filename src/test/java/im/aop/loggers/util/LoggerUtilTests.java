@@ -1,4 +1,4 @@
-package im.aop.loggers.logging;
+package im.aop.loggers.util;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -15,14 +15,14 @@ import org.springframework.boot.logging.LoggingSystem;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 
+import im.aop.loggers.Level;
+
 /**
- * Tests for {@link LoggerService}.
+ * Tests for {@link LoggerUtil}.
  *
  * @author Andy Lian
  */
-class LoggerServiceTests {
-
-  private static final LoggerService LOGGER_SERVICE = new LoggerService();
+class LoggerUtilTests {
 
   static class TestFoo {
     void foo() {}
@@ -37,7 +37,7 @@ class LoggerServiceTests {
     final MethodSignature methodSignature = mockMethodSignature(TestFoo.class, "foo");
     final JoinPoint joinPoint = mockJoinPoint(methodSignature);
 
-    final Logger logger = LOGGER_SERVICE.getLogger(TestBar.class, joinPoint);
+    final Logger logger = LoggerUtil.getLogger(TestBar.class, joinPoint);
     assertThat(logger.getName()).isEqualTo(TestBar.class.getName());
   }
 
@@ -46,7 +46,7 @@ class LoggerServiceTests {
     final MethodSignature methodSignature = mockMethodSignature(TestFoo.class, "foo");
     final JoinPoint joinPoint = mockJoinPoint(methodSignature);
 
-    final Logger logger = LOGGER_SERVICE.getLogger(void.class, joinPoint);
+    final Logger logger = LoggerUtil.getLogger(void.class, joinPoint);
     assertThat(logger.getName()).isEqualTo(TestFoo.class.getName());
   }
 
@@ -55,7 +55,7 @@ class LoggerServiceTests {
     final MethodSignature methodSignature = mockMethodSignature(TestFoo.class, "foo");
     final JoinPoint joinPoint = mockJoinPoint(methodSignature);
 
-    final Logger logger = LOGGER_SERVICE.getLogger(null, joinPoint);
+    final Logger logger = LoggerUtil.getLogger(null, joinPoint);
     assertThat(logger.getName()).isEqualTo(TestFoo.class.getName());
   }
 
@@ -64,7 +64,7 @@ class LoggerServiceTests {
     LoggingSystem.get(ClassLoader.getSystemClassLoader()).setLogLevel("foo", LogLevel.TRACE);
 
     final Logger logger = LoggerFactory.getLogger("foo");
-    assertThat(LOGGER_SERVICE.isEnabled(logger, Level.TRACE)).isTrue();
+    assertThat(LoggerUtil.isEnabled(logger, Level.TRACE)).isTrue();
   }
 
   @Test
@@ -72,7 +72,7 @@ class LoggerServiceTests {
     LoggingSystem.get(ClassLoader.getSystemClassLoader()).setLogLevel("foo", LogLevel.DEBUG);
 
     final Logger logger = LoggerFactory.getLogger("foo");
-    assertThat(LOGGER_SERVICE.isEnabled(logger, Level.DEBUG)).isTrue();
+    assertThat(LoggerUtil.isEnabled(logger, Level.DEBUG)).isTrue();
   }
 
   @Test
@@ -80,7 +80,7 @@ class LoggerServiceTests {
     LoggingSystem.get(ClassLoader.getSystemClassLoader()).setLogLevel("foo", LogLevel.INFO);
 
     final Logger logger = LoggerFactory.getLogger("foo");
-    assertThat(LOGGER_SERVICE.isEnabled(logger, Level.INFO)).isTrue();
+    assertThat(LoggerUtil.isEnabled(logger, Level.INFO)).isTrue();
   }
 
   @Test
@@ -88,7 +88,7 @@ class LoggerServiceTests {
     LoggingSystem.get(ClassLoader.getSystemClassLoader()).setLogLevel("foo", LogLevel.WARN);
 
     final Logger logger = LoggerFactory.getLogger("foo");
-    assertThat(LOGGER_SERVICE.isEnabled(logger, Level.WARN)).isTrue();
+    assertThat(LoggerUtil.isEnabled(logger, Level.WARN)).isTrue();
   }
 
   @Test
@@ -96,13 +96,13 @@ class LoggerServiceTests {
     LoggingSystem.get(ClassLoader.getSystemClassLoader()).setLogLevel("foo", LogLevel.ERROR);
 
     final Logger logger = LoggerFactory.getLogger("foo");
-    assertThat(LOGGER_SERVICE.isEnabled(logger, Level.ERROR)).isTrue();
+    assertThat(LoggerUtil.isEnabled(logger, Level.ERROR)).isTrue();
   }
 
   @Test
   void isEnabled_givenLevelEqualsDefault() {
     final Logger logger = LoggerFactory.getLogger("foo");
-    assertThat(LOGGER_SERVICE.isEnabled(logger, Level.DEFAULT)).isFalse();
+    assertThat(LoggerUtil.isEnabled(logger, Level.DEFAULT)).isFalse();
   }
 
   @Test
@@ -111,7 +111,7 @@ class LoggerServiceTests {
     LoggingSystem.get(ClassLoader.getSystemClassLoader()).setLogLevel("foo", LogLevel.TRACE);
 
     final Logger logger = LoggerFactory.getLogger("foo");
-    LOGGER_SERVICE.log(logger, Level.TRACE, "foo");
+    LoggerUtil.log(logger, Level.TRACE, "foo");
     assertThat(capturedOutput).containsOnlyOnce("TRACE foo - foo");
   }
 
@@ -121,7 +121,7 @@ class LoggerServiceTests {
     LoggingSystem.get(ClassLoader.getSystemClassLoader()).setLogLevel("foo", LogLevel.DEBUG);
 
     final Logger logger = LoggerFactory.getLogger("foo");
-    LOGGER_SERVICE.log(logger, Level.DEBUG, "foo");
+    LoggerUtil.log(logger, Level.DEBUG, "foo");
     assertThat(capturedOutput).containsOnlyOnce("DEBUG foo - foo");
   }
 
@@ -131,7 +131,7 @@ class LoggerServiceTests {
     LoggingSystem.get(ClassLoader.getSystemClassLoader()).setLogLevel("foo", LogLevel.INFO);
 
     final Logger logger = LoggerFactory.getLogger("foo");
-    LOGGER_SERVICE.log(logger, Level.INFO, "foo");
+    LoggerUtil.log(logger, Level.INFO, "foo");
     assertThat(capturedOutput).containsOnlyOnce("INFO foo - foo");
   }
 
@@ -141,7 +141,7 @@ class LoggerServiceTests {
     LoggingSystem.get(ClassLoader.getSystemClassLoader()).setLogLevel("foo", LogLevel.WARN);
 
     final Logger logger = LoggerFactory.getLogger("foo");
-    LOGGER_SERVICE.log(logger, Level.WARN, "foo");
+    LoggerUtil.log(logger, Level.WARN, "foo");
     assertThat(capturedOutput).containsOnlyOnce("WARN foo - foo");
   }
 
@@ -151,7 +151,7 @@ class LoggerServiceTests {
     LoggingSystem.get(ClassLoader.getSystemClassLoader()).setLogLevel("foo", LogLevel.ERROR);
 
     final Logger logger = LoggerFactory.getLogger("foo");
-    LOGGER_SERVICE.log(logger, Level.ERROR, "foo");
+    LoggerUtil.log(logger, Level.ERROR, "foo");
     assertThat(capturedOutput).containsOnlyOnce("ERROR foo - foo");
   }
 
@@ -161,7 +161,7 @@ class LoggerServiceTests {
     LoggingSystem.get(ClassLoader.getSystemClassLoader()).setLogLevel("foo", LogLevel.DEBUG);
 
     final Logger logger = LoggerFactory.getLogger("foo");
-    LOGGER_SERVICE.log(logger, Level.DEFAULT, "foo");
+    LoggerUtil.log(logger, Level.DEFAULT, "foo");
     assertThat(capturedOutput).doesNotContain("foo - foo");
   }
 
@@ -171,7 +171,7 @@ class LoggerServiceTests {
     LoggingSystem.get(ClassLoader.getSystemClassLoader()).setLogLevel("foo", LogLevel.TRACE);
 
     final Logger logger = LoggerFactory.getLogger("foo");
-    LOGGER_SERVICE.logException(logger, Level.TRACE, "foo", new RuntimeException("foo"));
+    LoggerUtil.logException(logger, Level.TRACE, "foo", new RuntimeException("foo"));
     assertThat(capturedOutput)
         .containsOnlyOnce("TRACE foo - foo")
         .containsSubsequence("TRACE foo - foo", "java.lang.RuntimeException: foo");
@@ -183,7 +183,7 @@ class LoggerServiceTests {
     LoggingSystem.get(ClassLoader.getSystemClassLoader()).setLogLevel("foo", LogLevel.DEBUG);
 
     final Logger logger = LoggerFactory.getLogger("foo");
-    LOGGER_SERVICE.logException(logger, Level.DEBUG, "foo", new RuntimeException("foo"));
+    LoggerUtil.logException(logger, Level.DEBUG, "foo", new RuntimeException("foo"));
     assertThat(capturedOutput)
         .containsOnlyOnce("DEBUG foo - foo")
         .containsSubsequence("DEBUG foo - foo", "java.lang.RuntimeException: foo");
@@ -195,7 +195,7 @@ class LoggerServiceTests {
     LoggingSystem.get(ClassLoader.getSystemClassLoader()).setLogLevel("foo", LogLevel.INFO);
 
     final Logger logger = LoggerFactory.getLogger("foo");
-    LOGGER_SERVICE.logException(logger, Level.INFO, "foo", new RuntimeException("foo"));
+    LoggerUtil.logException(logger, Level.INFO, "foo", new RuntimeException("foo"));
     assertThat(capturedOutput)
         .containsOnlyOnce("INFO foo - foo")
         .containsSubsequence("INFO foo - foo", "java.lang.RuntimeException: foo");
@@ -207,7 +207,7 @@ class LoggerServiceTests {
     LoggingSystem.get(ClassLoader.getSystemClassLoader()).setLogLevel("foo", LogLevel.WARN);
 
     final Logger logger = LoggerFactory.getLogger("foo");
-    LOGGER_SERVICE.logException(logger, Level.WARN, "foo", new RuntimeException("foo"));
+    LoggerUtil.logException(logger, Level.WARN, "foo", new RuntimeException("foo"));
     assertThat(capturedOutput)
         .containsOnlyOnce("WARN foo - foo")
         .containsSubsequence("WARN foo - foo", "java.lang.RuntimeException: foo");
@@ -219,7 +219,7 @@ class LoggerServiceTests {
     LoggingSystem.get(ClassLoader.getSystemClassLoader()).setLogLevel("foo", LogLevel.ERROR);
 
     final Logger logger = LoggerFactory.getLogger("foo");
-    LOGGER_SERVICE.logException(logger, Level.ERROR, "foo", new RuntimeException("foo"));
+    LoggerUtil.logException(logger, Level.ERROR, "foo", new RuntimeException("foo"));
     assertThat(capturedOutput)
         .containsOnlyOnce("ERROR foo - foo")
         .containsSubsequence("ERROR foo - foo", "java.lang.RuntimeException: foo");
@@ -231,7 +231,7 @@ class LoggerServiceTests {
     LoggingSystem.get(ClassLoader.getSystemClassLoader()).setLogLevel("foo", LogLevel.DEBUG);
 
     final Logger logger = LoggerFactory.getLogger("foo");
-    LOGGER_SERVICE.logException(logger, Level.DEFAULT, "foo", new RuntimeException("foo"));
+    LoggerUtil.logException(logger, Level.DEFAULT, "foo", new RuntimeException("foo"));
     assertThat(capturedOutput)
         .doesNotContain("foo - foo")
         .doesNotContain("java.lang.RuntimeException: foo");

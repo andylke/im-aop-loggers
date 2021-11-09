@@ -6,8 +6,6 @@ import javax.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
-import im.aop.loggers.logging.Level;
-
 @Validated
 @ConfigurationProperties(prefix = AopLoggersProperties.PREFIX)
 public class AopLoggersProperties {

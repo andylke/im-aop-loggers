@@ -6,7 +6,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-import im.aop.loggers.logging.Level;
+import im.aop.loggers.Level;
 
 /**
  * Log before entering the target method.

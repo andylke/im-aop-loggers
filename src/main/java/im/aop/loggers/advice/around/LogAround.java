@@ -7,7 +7,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.time.temporal.ChronoUnit;
 
-import im.aop.loggers.logging.Level;
+import im.aop.loggers.Level;
 
 /**
  * Log before entering and after leaving the target method, regardless of leaving normally or

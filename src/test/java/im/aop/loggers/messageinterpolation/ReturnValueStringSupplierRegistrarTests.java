@@ -1,4 +1,4 @@
-package im.aop.loggers.logging.message;
+package im.aop.loggers.messageinterpolation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;

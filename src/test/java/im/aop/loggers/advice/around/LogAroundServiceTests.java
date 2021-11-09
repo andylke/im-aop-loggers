@@ -22,7 +22,7 @@ import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 
 import im.aop.loggers.AopLoggersProperties;
-import im.aop.loggers.logging.Level;
+import im.aop.loggers.Level;
 
 /**
  * Tests for {@link LogAroundService}.

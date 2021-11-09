@@ -8,21 +8,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import im.aop.loggers.AopLoggersProperties;
-import im.aop.loggers.logging.Level;
-import im.aop.loggers.logging.LoggerService;
-import im.aop.loggers.logging.message.ElapsedStringSupplierRegistrar;
-import im.aop.loggers.logging.message.ElapsedTimeLimitStringSupplierRegistrar;
-import im.aop.loggers.logging.message.ExceptionStringSupplierRegistrar;
-import im.aop.loggers.logging.message.JoinPointStringSupplierRegistrar;
-import im.aop.loggers.logging.message.ReturnValueStringSupplierRegistrar;
-import im.aop.loggers.logging.message.StringSubstitutor;
-import im.aop.loggers.logging.message.StringSupplierLookup;
+import im.aop.loggers.Level;
+import im.aop.loggers.messageinterpolation.ElapsedStringSupplierRegistrar;
+import im.aop.loggers.messageinterpolation.ElapsedTimeLimitStringSupplierRegistrar;
+import im.aop.loggers.messageinterpolation.ExceptionStringSupplierRegistrar;
+import im.aop.loggers.messageinterpolation.JoinPointStringSupplierRegistrar;
+import im.aop.loggers.messageinterpolation.ReturnValueStringSupplierRegistrar;
+import im.aop.loggers.messageinterpolation.StringSubstitutor;
+import im.aop.loggers.messageinterpolation.StringSupplierLookup;
+import im.aop.loggers.util.LoggerUtil;
 
 public class LogAroundService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LogAroundService.class);
 
-  private static final LoggerService LOGGER_SERVICE = new LoggerService();
+  private static final LoggerUtil LOGGER_SERVICE = new LoggerUtil();
 
   private static final StringSubstitutor STRING_SUBSTITUTOR = new StringSubstitutor();
 

@@ -1,4 +1,4 @@
-package im.aop.loggers.logging.message;
+package im.aop.loggers.messageinterpolation;
 
 /**
  * Used by {@link StringSubstitutor} to lookup for String value by key.

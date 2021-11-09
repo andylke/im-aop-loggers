@@ -1,19 +1,21 @@
-package im.aop.loggers.logging;
+package im.aop.loggers.util;
 
 import org.aspectj.lang.JoinPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LoggerService {
+import im.aop.loggers.Level;
 
-  public Logger getLogger(final Class<?> declaringClass, final JoinPoint joinPoint) {
+public final class LoggerUtil {
+
+  public static Logger getLogger(final Class<?> declaringClass, final JoinPoint joinPoint) {
     return LoggerFactory.getLogger(
         declaringClass == null || declaringClass == void.class
             ? joinPoint.getSignature().getDeclaringType()
             : declaringClass);
   }
 
-  public boolean isEnabled(final Logger logger, final Level level) {
+  public static boolean isEnabled(final Logger logger, final Level level) {
     switch (level) {
       case TRACE:
         return logger.isTraceEnabled();
@@ -30,7 +32,7 @@ public class LoggerService {
     }
   }
 
-  public void log(final Logger logger, final Level level, final String message) {
+  public static void log(final Logger logger, final Level level, final String message) {
     switch (level) {
       case TRACE:
         logger.trace(message);
@@ -52,7 +54,7 @@ public class LoggerService {
     }
   }
 
-  public void logException(
+  public static void logException(
       final Logger logger, final Level level, final String message, final Throwable exception) {
     switch (level) {
       case TRACE:

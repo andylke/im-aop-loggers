@@ -4,7 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
 
-import im.aop.loggers.logging.Level;
+import im.aop.loggers.Level;
 
 /**
  * Tests for {@link LogBefore}.

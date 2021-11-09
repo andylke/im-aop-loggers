@@ -6,8 +6,8 @@ import java.time.temporal.ChronoUnit;
 
 import org.junit.jupiter.api.Test;
 
+import im.aop.loggers.Level;
 import im.aop.loggers.advice.before.LogBefore;
-import im.aop.loggers.logging.Level;
 
 /**
  * Tests for {@link LogAround}.
