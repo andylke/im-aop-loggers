@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 import im.aop.loggers.AopLoggersProperties;
+import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 
 /**
  * Tests for {@link LogBeforeAdvice}.
@@ -25,7 +26,8 @@ class LogBeforeAdviceTests {
 
   private ApplicationContextRunner runner =
       new ApplicationContextRunner()
-          .withUserConfiguration(LogBeforeAdviceTestConfiguration.class)
+          .withUserConfiguration(
+              StringSubstitutorConfiguration.class, LogBeforeAdviceTestConfiguration.class)
           .withBean(LogBeforeAdvice.class)
           .withBean(AopLoggersProperties.class);
 

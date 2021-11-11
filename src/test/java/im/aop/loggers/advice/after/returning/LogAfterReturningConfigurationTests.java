@@ -8,6 +8,7 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 import im.aop.loggers.AopLoggersProperties;
+import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 
 /**
  * Tests for {@link LogAfterReturningConfiguration}.
@@ -18,7 +19,8 @@ class LogAfterReturningConfigurationTests {
 
   private final ApplicationContextRunner runner =
       new ApplicationContextRunner()
-          .withUserConfiguration(LogAfterReturningConfiguration.class)
+          .withUserConfiguration(
+              StringSubstitutorConfiguration.class, LogAfterReturningConfiguration.class)
           .withBean(AopLoggersProperties.class);
 
   @Test

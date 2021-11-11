@@ -8,6 +8,7 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 import im.aop.loggers.AopLoggersProperties;
+import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 
 /**
  * Tests for {@link LogAroundConfiguration}.
@@ -18,7 +19,7 @@ class LogAroundConfigurationTests {
 
   private final ApplicationContextRunner runner =
       new ApplicationContextRunner()
-          .withUserConfiguration(LogAroundConfiguration.class)
+          .withUserConfiguration(StringSubstitutorConfiguration.class, LogAroundConfiguration.class)
           .withBean(AopLoggersProperties.class);
 
   @Test

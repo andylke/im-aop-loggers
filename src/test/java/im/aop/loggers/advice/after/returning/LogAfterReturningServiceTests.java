@@ -19,6 +19,7 @@ import org.springframework.boot.test.system.OutputCaptureExtension;
 
 import im.aop.loggers.AopLoggersProperties;
 import im.aop.loggers.Level;
+import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 
 /**
  * Tests for {@link LogAfterReturningService}.
@@ -30,7 +31,8 @@ class LogAfterReturningServiceTests {
 
   private final ApplicationContextRunner runner =
       new ApplicationContextRunner()
-          .withUserConfiguration(AopLoggersPropertiesTestConfiguration.class)
+          .withUserConfiguration(
+              AopLoggersPropertiesTestConfiguration.class, StringSubstitutorConfiguration.class)
           .withBean(LogAfterReturningService.class);
 
   @TestConfiguration(proxyBeanMethods = false)

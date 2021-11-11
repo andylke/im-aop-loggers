@@ -8,12 +8,14 @@ import im.aop.loggers.advice.after.returning.LogAfterReturningConfiguration;
 import im.aop.loggers.advice.after.throwing.LogAfterThrowingConfiguration;
 import im.aop.loggers.advice.around.LogAroundConfiguration;
 import im.aop.loggers.advice.before.LogBeforeConfiguration;
+import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 
 @Configuration(proxyBeanMethods = false)
 public class AopLoggersAutoConfiguration {
 
   @EnableConfigurationProperties({AopLoggersProperties.class})
   @Import({
+    StringSubstitutorConfiguration.class,
     LogAfterReturningConfiguration.class,
     LogAfterThrowingConfiguration.class,
     LogAroundConfiguration.class,

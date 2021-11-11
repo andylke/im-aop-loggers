@@ -23,6 +23,7 @@ import org.springframework.boot.test.system.OutputCaptureExtension;
 
 import im.aop.loggers.AopLoggersProperties;
 import im.aop.loggers.Level;
+import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 
 /**
  * Tests for {@link LogAroundService}.
@@ -34,7 +35,8 @@ class LogAroundServiceTests {
 
   private final ApplicationContextRunner runner =
       new ApplicationContextRunner()
-          .withUserConfiguration(AopLoggersPropertiesTestConfiguration.class)
+          .withUserConfiguration(
+              AopLoggersPropertiesTestConfiguration.class, StringSubstitutorConfiguration.class)
           .withBean(LogAroundService.class);
 
   @TestConfiguration(proxyBeanMethods = false)
@@ -150,23 +152,6 @@ class LogAroundServiceTests {
           final LogAroundService service = context.getBean(LogAroundService.class);
           assertThat(service.logAround(joinPoint, annotation)).isEqualTo("foo");
         });
-  }
-
-  @Test
-  void logEnteringMessage_whenDisabled_willReturnValue(final CapturedOutput capturedOutput) {
-    runner
-        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=false")
-        .run(
-            (context) -> {
-              when(joinPoint.proceed()).thenReturn("foo");
-
-              final LogAround annotation = mockLogAroundForEntering(Level.INFO, "foo");
-              LoggingSystem.get(ClassLoader.getSystemClassLoader())
-                  .setLogLevel(Foo.class.getName(), LogLevel.INFO);
-
-              final LogAroundService service = context.getBean(LogAroundService.class);
-              assertThat(service.logAround(joinPoint, annotation)).isEqualTo("foo");
-            });
   }
 
   private LogAround mockLogAroundForEntering(final Level level, final String enteringMessage) {
@@ -296,23 +281,6 @@ class LogAroundServiceTests {
           final LogAroundService service = context.getBean(LogAroundService.class);
           assertThat(service.logAround(joinPoint, annotation)).isEqualTo("foo");
         });
-  }
-
-  @Test
-  void logExitedNormallyMessage_whenDisabled_willReturnValue(final CapturedOutput capturedOutput) {
-    runner
-        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=false")
-        .run(
-            (context) -> {
-              when(joinPoint.proceed()).thenReturn("foo");
-
-              final LogAround annotation = mockLogAroundForExitedNormally(Level.INFO, "foo");
-              LoggingSystem.get(ClassLoader.getSystemClassLoader())
-                  .setLogLevel(Foo.class.getName(), LogLevel.INFO);
-
-              final LogAroundService service = context.getBean(LogAroundService.class);
-              assertThat(service.logAround(joinPoint, annotation)).isEqualTo("foo");
-            });
   }
 
   private LogAround mockLogAroundForExitedNormally(final Level level, final String exitedMessage) {
@@ -543,24 +511,6 @@ class LogAroundServiceTests {
           final LogAroundService service = context.getBean(LogAroundService.class);
           assertThrows(RuntimeException.class, () -> service.logAround(joinPoint, annotation));
         });
-  }
-
-  @Test
-  void logExitedAbnormallyMessage_whenDisabled_willThrowException(
-      final CapturedOutput capturedOutput) {
-    runner
-        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=false")
-        .run(
-            (context) -> {
-              when(joinPoint.proceed()).thenThrow(new RuntimeException("foo"));
-
-              final LogAround annotation = mockLogAroundForExitAbnormally(Level.ERROR, "foo", null);
-              LoggingSystem.get(ClassLoader.getSystemClassLoader())
-                  .setLogLevel(Foo.class.getName(), LogLevel.INFO);
-
-              final LogAroundService service = context.getBean(LogAroundService.class);
-              assertThrows(RuntimeException.class, () -> service.logAround(joinPoint, annotation));
-            });
   }
 
   private LogAround mockLogAroundForExitAbnormally(

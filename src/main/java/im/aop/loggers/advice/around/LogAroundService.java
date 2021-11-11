@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import im.aop.loggers.AopLoggersProperties;
 import im.aop.loggers.Level;
@@ -22,22 +23,18 @@ public class LogAroundService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LogAroundService.class);
 
-  private static final StringSubstitutor STRING_SUBSTITUTOR = new StringSubstitutor();
+  @Autowired private StringSubstitutor stringSubstitutor;
 
-  private static final JoinPointStringSupplierRegistrar JOIN_POINT_STRING_SUPPLIER_REGISTRAR =
-      new JoinPointStringSupplierRegistrar();
+  @Autowired private JoinPointStringSupplierRegistrar joinPointStringSupplierRegistrar;
 
-  private static final ReturnValueStringSupplierRegistrar RETURN_VALUE_STRING_SUPPLIER_REGISTRAR =
-      new ReturnValueStringSupplierRegistrar();
+  @Autowired private ReturnValueStringSupplierRegistrar returnValueStringSupplierRegistrar;
 
-  private static final ExceptionStringSupplierRegistrar EXCEPTION_STRING_SUPPLIER_REGISTRAR =
-      new ExceptionStringSupplierRegistrar();
+  @Autowired private ExceptionStringSupplierRegistrar exceptionStringSupplierRegistrar;
 
-  private static final ElapsedStringSupplierRegistrar ELAPSED_STRING_SUPPLIER_REGISTRAR =
-      new ElapsedStringSupplierRegistrar();
+  @Autowired private ElapsedStringSupplierRegistrar elapsedStringSupplierRegistrar;
 
-  private static final ElapsedTimeLimitStringSupplierRegistrar
-      ELAPSED_TIME_LIMIT_STRING_SUPPLIER_REGISTRAR = new ElapsedTimeLimitStringSupplierRegistrar();
+  @Autowired
+  private ElapsedTimeLimitStringSupplierRegistrar elapsedTimeLimitStringSupplierRegistrar;
 
   private final AopLoggersProperties aopLoggersProperties;
 
@@ -127,10 +124,10 @@ public class LogAroundService {
       return;
     }
 
-    JOIN_POINT_STRING_SUPPLIER_REGISTRAR.register(stringLookup, joinPoint);
+    joinPointStringSupplierRegistrar.register(stringLookup, joinPoint);
 
     final String enteringMessage =
-        STRING_SUBSTITUTOR.substitute(
+        stringSubstitutor.substitute(
             getMessage(annotation.enteringMessage(), aopLoggersProperties.getEnteringMessage()),
             stringLookup);
     LoggerUtil.log(logger, enteringLevel, enteringMessage);
@@ -147,10 +144,10 @@ public class LogAroundService {
       return;
     }
 
-    ELAPSED_STRING_SUPPLIER_REGISTRAR.register(stringLookup, elapsedTime);
+    elapsedStringSupplierRegistrar.register(stringLookup, elapsedTime);
 
     final String elapsedMessage =
-        STRING_SUBSTITUTOR.substitute(
+        stringSubstitutor.substitute(
             getMessage(annotation.elapsedMessage(), aopLoggersProperties.getElapsedMessage()),
             stringLookup);
     LoggerUtil.log(logger, elapsedLevel, elapsedMessage);
@@ -177,11 +174,11 @@ public class LogAroundService {
       return;
     }
 
-    ELAPSED_STRING_SUPPLIER_REGISTRAR.register(stringLookup, elapsedTime);
-    ELAPSED_TIME_LIMIT_STRING_SUPPLIER_REGISTRAR.register(stringLookup, elapsedTimeLimit);
+    elapsedStringSupplierRegistrar.register(stringLookup, elapsedTime);
+    elapsedTimeLimitStringSupplierRegistrar.register(stringLookup, elapsedTimeLimit);
 
     final String elapsedWarningMessage =
-        STRING_SUBSTITUTOR.substitute(
+        stringSubstitutor.substitute(
             getMessage(
                 annotation.elapsedWarningMessage(),
                 aopLoggersProperties.getElapsedWarningMessage()),
@@ -200,10 +197,10 @@ public class LogAroundService {
       return;
     }
 
-    RETURN_VALUE_STRING_SUPPLIER_REGISTRAR.register(stringLookup, joinPoint, returnValue);
+    returnValueStringSupplierRegistrar.register(stringLookup, joinPoint, returnValue);
 
     final String exitedMessage =
-        STRING_SUBSTITUTOR.substitute(
+        stringSubstitutor.substitute(
             getMessage(annotation.exitedMessage(), aopLoggersProperties.getExitedMessage()),
             stringLookup);
     LoggerUtil.log(logger, exitedLevel, exitedMessage);
@@ -223,10 +220,10 @@ public class LogAroundService {
       return;
     }
 
-    EXCEPTION_STRING_SUPPLIER_REGISTRAR.register(stringLookup, exception);
+    exceptionStringSupplierRegistrar.register(stringLookup, exception);
 
     final String exitedAbnormallyMessage =
-        STRING_SUBSTITUTOR.substitute(
+        stringSubstitutor.substitute(
             getMessage(
                 annotation.exitedAbnormallyMessage(),
                 aopLoggersProperties.getExitedAbnormallyMessage()),

@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.aspectj.lang.JoinPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import im.aop.loggers.AopLoggersProperties;
 import im.aop.loggers.Level;
@@ -18,10 +19,9 @@ public class LogBeforeService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LogBeforeService.class);
 
-  private static final StringSubstitutor STRING_SUBSTITUTOR = new StringSubstitutor();
+  @Autowired private StringSubstitutor stringSubstitutor;
 
-  private static final JoinPointStringSupplierRegistrar JOIN_POINT_STRING_SUPPLIER_REGISTRAR =
-      new JoinPointStringSupplierRegistrar();
+  @Autowired private JoinPointStringSupplierRegistrar joinPointStringSupplierRegistrar;
 
   private final AopLoggersProperties aopLoggersProperties;
 
@@ -60,10 +60,10 @@ public class LogBeforeService {
       final String enteringMessage,
       final Logger logger,
       final StringSupplierLookup stringLookup) {
-    JOIN_POINT_STRING_SUPPLIER_REGISTRAR.register(stringLookup, joinPoint);
+    joinPointStringSupplierRegistrar.register(stringLookup, joinPoint);
 
     final String message =
-        STRING_SUBSTITUTOR.substitute(getEnteringMesage(enteringMessage), stringLookup);
+        stringSubstitutor.substitute(getEnteringMesage(enteringMessage), stringLookup);
 
     LoggerUtil.log(logger, enteringLevel, message);
   }

@@ -6,6 +6,7 @@ import java.util.Objects;
 import org.aspectj.lang.JoinPoint;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import im.aop.loggers.AopLoggersProperties;
 import im.aop.loggers.Level;
@@ -19,13 +20,11 @@ public class LogAfterReturningService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LogAfterReturningService.class);
 
-  private static final StringSubstitutor STRING_SUBSTITUTOR = new StringSubstitutor();
+  @Autowired private StringSubstitutor stringSubstitutor;
 
-  private static final JoinPointStringSupplierRegistrar JOIN_POINT_STRING_SUPPLIER_REGISTRAR =
-      new JoinPointStringSupplierRegistrar();
+  @Autowired private JoinPointStringSupplierRegistrar joinPointStringSupplierRegistrar;
 
-  private static final ReturnValueStringSupplierRegistrar RETURN_VALUE_STRING_SUPPLIER_REGISTRAR =
-      new ReturnValueStringSupplierRegistrar();
+  @Autowired private ReturnValueStringSupplierRegistrar returnValueStringSupplierRegistrar;
 
   private final AopLoggersProperties aopLoggersProperties;
 
@@ -67,11 +66,11 @@ public class LogAfterReturningService {
       final Logger logger,
       final StringSupplierLookup stringLookup,
       final Object returnValue) {
-    JOIN_POINT_STRING_SUPPLIER_REGISTRAR.register(stringLookup, joinPoint);
-    RETURN_VALUE_STRING_SUPPLIER_REGISTRAR.register(stringLookup, joinPoint, returnValue);
+    joinPointStringSupplierRegistrar.register(stringLookup, joinPoint);
+    returnValueStringSupplierRegistrar.register(stringLookup, joinPoint, returnValue);
 
     final String message =
-        STRING_SUBSTITUTOR.substitute(getExitedMessage(exitedMessage), stringLookup);
+        stringSubstitutor.substitute(getExitedMessage(exitedMessage), stringLookup);
     LoggerUtil.log(logger, exitedLevel, message);
   }
 
