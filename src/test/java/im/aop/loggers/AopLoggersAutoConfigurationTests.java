@@ -1,19 +1,18 @@
 package im.aop.loggers;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import im.aop.loggers.advice.after.returning.LogAfterReturningAdvice;
-import im.aop.loggers.advice.after.returning.LogAfterReturningService;
-import im.aop.loggers.advice.after.throwing.LogAfterThrowingAdvice;
-import im.aop.loggers.advice.after.throwing.LogAfterThrowingService;
-import im.aop.loggers.advice.around.LogAroundAdvice;
-import im.aop.loggers.advice.around.LogAroundService;
-import im.aop.loggers.advice.before.LogBeforeAdvice;
-import im.aop.loggers.advice.before.LogBeforeService;
+import im.aop.loggers.advice.after.returning.LogAfterReturningConfiguration;
+import im.aop.loggers.advice.after.throwing.LogAfterThrowingConfiguration;
+import im.aop.loggers.advice.around.LogAroundConfiguration;
+import im.aop.loggers.advice.before.LogBeforeConfiguration;
+import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 
 /**
  * Tests for {@link AopLoggersAutoConfiguration}.
@@ -27,7 +26,7 @@ class AopLoggersAutoConfigurationTests {
           .withConfiguration(AutoConfigurations.of(AopLoggersAutoConfiguration.class));
 
   @Test
-  void aopLoggersProperties() {
+  void aopLoggersPropertiesNotNull() {
     runner.run(
         (context) -> {
           assertThat(context.getBean(AopLoggersProperties.class))
@@ -37,82 +36,196 @@ class AopLoggersAutoConfigurationTests {
   }
 
   @Test
-  void logAfterReturningAdvice() {
+  void aopLoggersPropertiesIsNull_whenEnabled() {
+    runner
+        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=true")
+        .run(
+            (context) -> {
+              assertThat(context.getBean(AopLoggersProperties.class))
+                  .isNotNull()
+                  .isExactlyInstanceOf(AopLoggersProperties.class);
+            });
+  }
+
+  @Test
+  void aopLoggersPropertiesIsNull_whenDisabled() {
+    runner
+        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=false")
+        .run(
+            (context) -> {
+              assertThrows(
+                  NoSuchBeanDefinitionException.class,
+                  () -> assertThat(context.getBean(AopLoggersProperties.class)));
+            });
+  }
+
+  @Test
+  void stringSubstitutorConfigurationNotNull() {
     runner.run(
         (context) -> {
-          assertThat(context.getBean(LogAfterReturningAdvice.class))
+          assertThat(context.getBean(StringSubstitutorConfiguration.class))
               .isNotNull()
-              .isExactlyInstanceOf(LogAfterReturningAdvice.class);
+              .isExactlyInstanceOf(StringSubstitutorConfiguration.class);
         });
   }
 
   @Test
-  void logAfterReturningService() {
+  void stringSubstitutorConfigurationIsNull_whenEnabled() {
+    runner
+        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=true")
+        .run(
+            (context) -> {
+              assertThat(context.getBean(StringSubstitutorConfiguration.class))
+                  .isNotNull()
+                  .isExactlyInstanceOf(StringSubstitutorConfiguration.class);
+            });
+  }
+
+  @Test
+  void stringSubstitutorConfigurationIsNull_whenDisabled() {
+    runner
+        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=false")
+        .run(
+            (context) -> {
+              assertThrows(
+                  NoSuchBeanDefinitionException.class,
+                  () -> assertThat(context.getBean(StringSubstitutorConfiguration.class)));
+            });
+  }
+
+  @Test
+  void logAfterReturningConfigurationNotNull() {
     runner.run(
         (context) -> {
-          assertThat(context.getBean(LogAfterReturningService.class))
+          assertThat(context.getBean(LogAfterReturningConfiguration.class))
               .isNotNull()
-              .isExactlyInstanceOf(LogAfterReturningService.class);
+              .isExactlyInstanceOf(LogAfterReturningConfiguration.class);
         });
   }
 
   @Test
-  void logAfterThrowingAdvice() {
+  void logAfterReturningConfigurationIsNull_whenEnabled() {
+    runner
+        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=true")
+        .run(
+            (context) -> {
+              assertThat(context.getBean(LogAfterReturningConfiguration.class))
+                  .isNotNull()
+                  .isExactlyInstanceOf(LogAfterReturningConfiguration.class);
+            });
+  }
+
+  @Test
+  void logAfterReturningConfigurationIsNull_whenDisabled() {
+    runner
+        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=false")
+        .run(
+            (context) -> {
+              assertThrows(
+                  NoSuchBeanDefinitionException.class,
+                  () -> assertThat(context.getBean(LogAfterReturningConfiguration.class)));
+            });
+  }
+
+  @Test
+  void logAfterThrowingConfigurationNotNull() {
     runner.run(
         (context) -> {
-          assertThat(context.getBean(LogAfterThrowingAdvice.class))
+          assertThat(context.getBean(LogAfterThrowingConfiguration.class))
               .isNotNull()
-              .isExactlyInstanceOf(LogAfterThrowingAdvice.class);
+              .isExactlyInstanceOf(LogAfterThrowingConfiguration.class);
         });
   }
 
   @Test
-  void logAfterThrowingService() {
+  void logAfterThrowingConfigurationIsNull_whenEnabled() {
+    runner
+        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=true")
+        .run(
+            (context) -> {
+              assertThat(context.getBean(LogAfterThrowingConfiguration.class))
+                  .isNotNull()
+                  .isExactlyInstanceOf(LogAfterThrowingConfiguration.class);
+            });
+  }
+
+  @Test
+  void logAfterThrowingConfigurationIsNull_whenDisabled() {
+    runner
+        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=false")
+        .run(
+            (context) -> {
+              assertThrows(
+                  NoSuchBeanDefinitionException.class,
+                  () -> assertThat(context.getBean(LogAfterThrowingConfiguration.class)));
+            });
+  }
+
+  @Test
+  void logAroundConfigurationNotNull() {
     runner.run(
         (context) -> {
-          assertThat(context.getBean(LogAfterThrowingService.class))
+          assertThat(context.getBean(LogAroundConfiguration.class))
               .isNotNull()
-              .isExactlyInstanceOf(LogAfterThrowingService.class);
+              .isExactlyInstanceOf(LogAroundConfiguration.class);
         });
   }
 
   @Test
-  void logAroundAdvice() {
+  void logAroundConfigurationIsNull_whenEnabled() {
+    runner
+        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=true")
+        .run(
+            (context) -> {
+              assertThat(context.getBean(LogAroundConfiguration.class))
+                  .isNotNull()
+                  .isExactlyInstanceOf(LogAroundConfiguration.class);
+            });
+  }
+
+  @Test
+  void logAroundConfigurationIsNull_whenDisabled() {
+    runner
+        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=false")
+        .run(
+            (context) -> {
+              assertThrows(
+                  NoSuchBeanDefinitionException.class,
+                  () -> assertThat(context.getBean(LogAroundConfiguration.class)));
+            });
+  }
+
+  @Test
+  void logBeforeConfigurationNotNull() {
     runner.run(
         (context) -> {
-          assertThat(context.getBean(LogAroundAdvice.class))
+          assertThat(context.getBean(LogBeforeConfiguration.class))
               .isNotNull()
-              .isExactlyInstanceOf(LogAroundAdvice.class);
+              .isExactlyInstanceOf(LogBeforeConfiguration.class);
         });
   }
 
   @Test
-  void logAroundService() {
-    runner.run(
-        (context) -> {
-          assertThat(context.getBean(LogAroundService.class))
-              .isNotNull()
-              .isExactlyInstanceOf(LogAroundService.class);
-        });
+  void logBeforeConfigurationIsNull_whenEnabled() {
+    runner
+        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=true")
+        .run(
+            (context) -> {
+              assertThat(context.getBean(LogBeforeConfiguration.class))
+                  .isNotNull()
+                  .isExactlyInstanceOf(LogBeforeConfiguration.class);
+            });
   }
 
   @Test
-  void logBeforeAdvice() {
-    runner.run(
-        (context) -> {
-          assertThat(context.getBean(LogBeforeAdvice.class))
-              .isNotNull()
-              .isExactlyInstanceOf(LogBeforeAdvice.class);
-        });
-  }
-
-  @Test
-  void logBeforeService() {
-    runner.run(
-        (context) -> {
-          assertThat(context.getBean(LogBeforeService.class))
-              .isNotNull()
-              .isExactlyInstanceOf(LogBeforeService.class);
-        });
+  void logBeforeConfigurationIsNull_whenDisabled() {
+    runner
+        .withPropertyValues(AopLoggersProperties.PREFIX + ".enabled=false")
+        .run(
+            (context) -> {
+              assertThrows(
+                  NoSuchBeanDefinitionException.class,
+                  () -> assertThat(context.getBean(LogBeforeConfiguration.class)));
+            });
   }
 }

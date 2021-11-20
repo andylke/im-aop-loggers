@@ -6,6 +6,11 @@ import javax.validation.constraints.NotNull;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
+/**
+ * Configuration properties for AOP Loggers.
+ *
+ * @author Andy Lian
+ */
 @Validated
 @ConfigurationProperties(prefix = AopLoggersProperties.PREFIX)
 public class AopLoggersProperties {
