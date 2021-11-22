@@ -1,4 +1,4 @@
-package im.aop.loggers.advice.after.returning;
+package im.aop.loggers.advice.afterthrowing;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -9,35 +9,35 @@ import im.aop.loggers.AopLoggersProperties;
 import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 
 /**
- * Tests for {@link LogAfterReturningConfiguration}.
+ * Tests for {@link LogAfterThrowingConfiguration}.
  *
  * @author Andy Lian
  */
-class LogAfterReturningConfigurationTests {
+class LogAfterThrowingConfigurationTests {
 
   private final ApplicationContextRunner runner =
       new ApplicationContextRunner()
           .withUserConfiguration(
-              StringSubstitutorConfiguration.class, LogAfterReturningConfiguration.class)
+              StringSubstitutorConfiguration.class, LogAfterThrowingConfiguration.class)
           .withBean(AopLoggersProperties.class);
 
   @Test
-  void logAfterReturningAdviceNotNull() {
+  void logAfterThrowingAdviceNotNull() {
     runner.run(
         (context) -> {
-          assertThat(context.getBean(LogAfterReturningAdvice.class))
+          assertThat(context.getBean(LogAfterThrowingAdvice.class))
               .isNotNull()
-              .isExactlyInstanceOf(LogAfterReturningAdvice.class);
+              .isExactlyInstanceOf(LogAfterThrowingAdvice.class);
         });
   }
 
   @Test
-  void logAfterReturningServiceNotNull() {
+  void logAfterThrowingServiceNotNull() {
     runner.run(
         (context) -> {
-          assertThat(context.getBean(LogAfterReturningService.class))
+          assertThat(context.getBean(LogAfterThrowingService.class))
               .isNotNull()
-              .isExactlyInstanceOf(LogAfterReturningService.class);
+              .isExactlyInstanceOf(LogAfterThrowingService.class);
         });
   }
 }

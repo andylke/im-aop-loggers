@@ -1,4 +1,4 @@
-package im.aop.loggers.advice.after.returning;
+package im.aop.loggers.advice.afterreturning;
 
 import java.time.Duration;
 import java.util.Objects;

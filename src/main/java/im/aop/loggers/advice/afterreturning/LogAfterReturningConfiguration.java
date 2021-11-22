@@ -1,4 +1,4 @@
-package im.aop.loggers.advice.after.returning;
+package im.aop.loggers.advice.afterreturning;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

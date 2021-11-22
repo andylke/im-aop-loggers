@@ -1,4 +1,4 @@
-package im.aop.loggers.advice.after.returning;
+package im.aop.loggers.advice.afterreturning;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;

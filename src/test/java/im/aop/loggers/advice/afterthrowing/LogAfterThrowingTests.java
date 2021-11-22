@@ -1,4 +1,4 @@
-package im.aop.loggers.advice.after.throwing;
+package im.aop.loggers.advice.afterthrowing;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

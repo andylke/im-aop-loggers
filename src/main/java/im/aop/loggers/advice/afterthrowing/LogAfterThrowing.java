@@ -1,4 +1,4 @@
-package im.aop.loggers.advice.after.throwing;
+package im.aop.loggers.advice.afterthrowing;
 
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;

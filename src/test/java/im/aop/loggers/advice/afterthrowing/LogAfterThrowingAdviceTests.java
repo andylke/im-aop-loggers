@@ -1,6 +1,7 @@
-package im.aop.loggers.advice.after.returning;
+package im.aop.loggers.advice.afterthrowing;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.aspectj.lang.JoinPoint;
 import org.junit.jupiter.api.Test;
@@ -17,34 +18,37 @@ import im.aop.loggers.AopLoggersProperties;
 import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 
 /**
- * Tests for {@link LogAfterReturningAdvice}.
+ * Tests for {@link LogAfterThrowingAdvice}.
  *
  * @author Andy Lian
  */
 @ExtendWith(OutputCaptureExtension.class)
-class LogAfterReturningAdviceTests {
+class LogAfterThrowingAdviceTests {
 
   private ApplicationContextRunner runner =
       new ApplicationContextRunner()
           .withUserConfiguration(
-              StringSubstitutorConfiguration.class, LogAfterReturningAdviceTestConfiguration.class)
-          .withBean(LogAfterReturningAdvice.class)
+              StringSubstitutorConfiguration.class, LogAfterThrowingAdviceTestConfiguration.class)
+          .withBean(LogAfterThrowingAdvice.class)
           .withBean(AopLoggersProperties.class);
 
   @EnableAspectJAutoProxy
   @TestConfiguration(proxyBeanMethods = false)
-  static class LogAfterReturningAdviceTestConfiguration {
+  static class LogAfterThrowingAdviceTestConfiguration {
 
     @Bean
-    public LogAfterReturningService logAfterReturningService(
+    public LogAfterThrowingService LogAfterThrowingService(
         final AopLoggersProperties aopLoggersProperties) {
-      return new LogAfterReturningService(aopLoggersProperties) {
+      return new LogAfterThrowingService(aopLoggersProperties) {
 
         @Override
-        public void logAfterReturning(
-            JoinPoint joinPoint, LogAfterReturning logAfterReturning, Object returnedValue) {
+        public void logAfterThrowing(
+            JoinPoint joinPoint, LogAfterThrowing logAfterThrowing, Throwable thrownException) {
           LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringType())
-              .info("joinPoint={}, returnedValue={}", joinPoint, returnedValue);
+              .info(
+                  "joinPoint={}, thrownException={}",
+                  joinPoint,
+                  thrownException.getClass().getName());
         }
       };
     }
@@ -52,21 +56,25 @@ class LogAfterReturningAdviceTests {
 
   static class TestMethodContext {
 
-    @LogAfterReturning
-    public void methodWithoutParameter() {}
-
-    @LogAfterReturning
-    public void methodWithParameter(String foo) {}
-
-    @LogAfterReturning
-    public String methodWithResult() {
-      return "foo";
+    @LogAfterThrowing
+    public void methodWithoutParameter() {
+      throw new RuntimeException();
     }
 
-    @LogAfterReturning
+    @LogAfterThrowing
+    public void methodWithParameter(String foo) {
+      throw new RuntimeException();
+    }
+
+    @LogAfterThrowing
+    public String methodWithResult() {
+      throw new RuntimeException();
+    }
+
+    @LogAfterThrowing
     @Override
     public String toString() {
-      return super.toString();
+      throw new RuntimeException();
     }
   }
 
@@ -77,14 +85,14 @@ class LogAfterReturningAdviceTests {
         .run(
             context -> {
               final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
-              methodContext.methodWithoutParameter();
 
+              assertThrows(RuntimeException.class, () -> methodContext.methodWithoutParameter());
               assertThat(capturedOutput)
                   .contains(
                       "joinPoint=execution(void "
                           + TestMethodContext.class.getName()
                           + ".methodWithoutParameter())")
-                  .contains("returnedValue=null");
+                  .contains("thrownException=" + RuntimeException.class.getName());
             });
   }
 
@@ -95,14 +103,13 @@ class LogAfterReturningAdviceTests {
         .run(
             context -> {
               final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
-              methodContext.methodWithParameter("foo");
-
+              assertThrows(RuntimeException.class, () -> methodContext.methodWithParameter("foo"));
               assertThat(capturedOutput)
                   .contains(
                       "joinPoint=execution(void "
                           + TestMethodContext.class.getName()
                           + ".methodWithParameter(String))")
-                  .contains("returnedValue=null");
+                  .contains("thrownException=" + RuntimeException.class.getName());
             });
   }
 
@@ -113,14 +120,13 @@ class LogAfterReturningAdviceTests {
         .run(
             context -> {
               final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
-              methodContext.methodWithResult();
-
+              assertThrows(RuntimeException.class, () -> methodContext.methodWithResult());
               assertThat(capturedOutput)
                   .contains(
                       "joinPoint=execution(String "
                           + TestMethodContext.class.getName()
                           + ".methodWithResult())")
-                  .contains("returnedValue=foo");
+                  .contains("thrownException=" + RuntimeException.class.getName());
             });
   }
 
@@ -131,31 +137,34 @@ class LogAfterReturningAdviceTests {
         .run(
             context -> {
               final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
-              methodContext.toString();
-
+              assertThrows(RuntimeException.class, () -> methodContext.toString());
               assertThat(capturedOutput)
                   .contains(
                       "joinPoint=execution(String "
                           + TestMethodContext.class.getName()
                           + ".toString())")
-                  .contains("returnedValue=" + TestMethodContext.class.getName());
+                  .contains("thrownException=" + RuntimeException.class.getName());
             });
   }
 
-  @LogAfterReturning
+  @LogAfterThrowing
   static class TestClassContext {
 
-    public void methodWithoutParameter() {}
+    public void methodWithoutParameter() {
+      throw new RuntimeException();
+    }
 
-    public void methodWithParameter(String foo) {}
+    public void methodWithParameter(String foo) {
+      throw new RuntimeException();
+    }
 
     public String methodWithResult() {
-      return "foo";
+      throw new RuntimeException();
     }
 
     @Override
     public String toString() {
-      return super.toString();
+      throw new RuntimeException();
     }
   }
 
@@ -166,14 +175,13 @@ class LogAfterReturningAdviceTests {
         .run(
             context -> {
               final TestClassContext classContext = context.getBean(TestClassContext.class);
-              classContext.methodWithoutParameter();
-
+              assertThrows(RuntimeException.class, () -> classContext.methodWithoutParameter());
               assertThat(capturedOutput)
                   .contains(
                       "joinPoint=execution(void "
                           + TestClassContext.class.getName()
                           + ".methodWithoutParameter())")
-                  .contains("returnedValue=null");
+                  .contains("thrownException=" + RuntimeException.class.getName());
             });
   }
 
@@ -184,14 +192,13 @@ class LogAfterReturningAdviceTests {
         .run(
             context -> {
               final TestClassContext classContext = context.getBean(TestClassContext.class);
-              classContext.methodWithParameter("foo");
-
+              assertThrows(RuntimeException.class, () -> classContext.methodWithParameter("foo"));
               assertThat(capturedOutput)
                   .contains(
                       "joinPoint=execution(void "
                           + TestClassContext.class.getName()
                           + ".methodWithParameter(String))")
-                  .contains("returnedValue=null");
+                  .contains("thrownException=" + RuntimeException.class.getName());
             });
   }
 
@@ -202,14 +209,13 @@ class LogAfterReturningAdviceTests {
         .run(
             context -> {
               final TestClassContext classContext = context.getBean(TestClassContext.class);
-              classContext.methodWithResult();
-
+              assertThrows(RuntimeException.class, () -> classContext.methodWithResult());
               assertThat(capturedOutput)
                   .contains(
                       "joinPoint=execution(String "
                           + TestClassContext.class.getName()
                           + ".methodWithResult())")
-                  .contains("returnedValue=foo");
+                  .contains("thrownException=" + RuntimeException.class.getName());
             });
   }
 
@@ -220,14 +226,13 @@ class LogAfterReturningAdviceTests {
         .run(
             context -> {
               final TestClassContext classContext = context.getBean(TestClassContext.class);
-              classContext.toString();
-
+              assertThrows(RuntimeException.class, () -> classContext.toString());
               assertThat(capturedOutput)
                   .doesNotContain(
                       "joinPoint=execution(String "
                           + TestClassContext.class.getName()
                           + ".toString())")
-                  .doesNotContain("returnedValue=" + TestClassContext.class.getName());
+                  .doesNotContain("thrownException=" + RuntimeException.class.getName());
             });
   }
 
@@ -235,9 +240,9 @@ class LogAfterReturningAdviceTests {
   void publicMethod_fulfillCoverageRatio() {
     runner.run(
         (context) -> {
-          final LogAfterReturningAdvice logAfterReturningAdvice =
-              context.getBean(LogAfterReturningAdvice.class);
-          logAfterReturningAdvice.publicMethod();
+          final LogAfterThrowingAdvice logAfterThrowingAdvice =
+              context.getBean(LogAfterThrowingAdvice.class);
+          logAfterThrowingAdvice.publicMethod();
         });
   }
 
@@ -245,29 +250,29 @@ class LogAfterReturningAdviceTests {
   void toStringMethod_fulfillCoverageRatio() {
     runner.run(
         (context) -> {
-          final LogAfterReturningAdvice logAfterReturningAdvice =
-              context.getBean(LogAfterReturningAdvice.class);
-          logAfterReturningAdvice.toStringMethod();
+          final LogAfterThrowingAdvice logAfterThrowingAdvice =
+              context.getBean(LogAfterThrowingAdvice.class);
+          logAfterThrowingAdvice.toStringMethod();
         });
   }
 
   @Test
-  void logAfterReturningMethodContext_fulfillCoverageRatio() {
+  void logAfterThrowingMethodContext_fulfillCoverageRatio() {
     runner.run(
         (context) -> {
-          final LogAfterReturningAdvice logAfterReturningAdvice =
-              context.getBean(LogAfterReturningAdvice.class);
-          logAfterReturningAdvice.logAfterReturningMethodContext(null);
+          final LogAfterThrowingAdvice logAfterThrowingAdvice =
+              context.getBean(LogAfterThrowingAdvice.class);
+          logAfterThrowingAdvice.logAfterThrowingMethodContext(null);
         });
   }
 
   @Test
-  void logAfterReturningClassContext_fulfillCoverageRatio() {
+  void logAfterThrowingClassContext_fulfillCoverageRatio() {
     runner.run(
         (context) -> {
-          final LogAfterReturningAdvice logAfterReturningAdvice =
-              context.getBean(LogAfterReturningAdvice.class);
-          logAfterReturningAdvice.logAfterReturningClassContext(null);
+          final LogAfterThrowingAdvice logAfterThrowingAdvice =
+              context.getBean(LogAfterThrowingAdvice.class);
+          logAfterThrowingAdvice.logAfterThrowingClassContext(null);
         });
   }
 }

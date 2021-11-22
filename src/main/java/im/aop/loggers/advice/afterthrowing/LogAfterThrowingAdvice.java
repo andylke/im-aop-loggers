@@ -1,4 +1,4 @@
-package im.aop.loggers.advice.after.throwing;
+package im.aop.loggers.advice.afterthrowing;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;

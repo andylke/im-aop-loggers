@@ -1,4 +1,4 @@
-package im.aop.loggers.advice.after.throwing;
+package im.aop.loggers.advice.afterthrowing;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -20,7 +20,7 @@ import org.springframework.boot.test.system.OutputCaptureExtension;
 
 import im.aop.loggers.AopLoggersProperties;
 import im.aop.loggers.Level;
-import im.aop.loggers.advice.after.returning.LogAfterReturningService;
+import im.aop.loggers.advice.afterreturning.LogAfterReturningService;
 import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 
 /**

@@ -8,8 +8,8 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.boot.autoconfigure.AutoConfigurations;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
-import im.aop.loggers.advice.after.returning.LogAfterReturningConfiguration;
-import im.aop.loggers.advice.after.throwing.LogAfterThrowingConfiguration;
+import im.aop.loggers.advice.afterreturning.LogAfterReturningConfiguration;
+import im.aop.loggers.advice.afterthrowing.LogAfterThrowingConfiguration;
 import im.aop.loggers.advice.around.LogAroundConfiguration;
 import im.aop.loggers.advice.before.LogBeforeConfiguration;
 import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
