@@ -3,6 +3,7 @@ package im.aop.loggers.messageinterpolation;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 /**
  * Tests for {@link ExceptionStringSupplierRegistrar}.
@@ -11,14 +12,20 @@ import org.junit.jupiter.api.Test;
  */
 class ExceptionStringSupplierRegistrarTests {
 
-  private static final ExceptionStringSupplierRegistrar REGISTRAR =
-      new ExceptionStringSupplierRegistrar();
+  private final ApplicationContextRunner runner =
+      new ApplicationContextRunner().withBean(ExceptionStringSupplierRegistrar.class);
 
   @Test
   void exception() throws NoSuchMethodException, SecurityException {
-    final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
-    REGISTRAR.register(stringSupplierLookup, new RuntimeException("foo"));
-    assertThat(stringSupplierLookup.lookup("exception"))
-        .isEqualTo("type=RuntimeException, message=foo");
+    runner.run(
+        context -> {
+          final ExceptionStringSupplierRegistrar registrar =
+              context.getBean(ExceptionStringSupplierRegistrar.class);
+
+          final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
+          registrar.register(stringSupplierLookup, new RuntimeException("foo"));
+          assertThat(stringSupplierLookup.lookup("exception"))
+              .isEqualTo("type=RuntimeException, message=foo");
+        });
   }
 }

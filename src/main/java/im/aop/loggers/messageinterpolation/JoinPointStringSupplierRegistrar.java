@@ -1,11 +1,11 @@
 package im.aop.loggers.messageinterpolation;
 
 import java.lang.reflect.Method;
-import java.util.Objects;
 import java.util.function.Supplier;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Register String {@link Supplier} to {@link StringSupplierLookup} for {@link JoinPoint} variables.
@@ -19,6 +19,8 @@ public class JoinPointStringSupplierRegistrar implements StringSupplierRegistrar
   private static final String PARAMETERS_KEY = "parameters";
 
   private static final String NO_PARAMETERS_STRING = "none";
+
+  @Autowired private ToStringStrategy toStringStrategy;
 
   @Override
   public void register(StringSupplierLookup stringSupplierLookup, JoinPoint source) {
@@ -53,7 +55,7 @@ public class JoinPointStringSupplierRegistrar implements StringSupplierRegistrar
     final String[] parameterStrings = new String[parameterNames.length];
     for (int index = 0; index < parameterNames.length; index++) {
       parameterStrings[index] =
-          parameterNames[index] + "=" + Objects.toString(parameterValues[index]);
+          parameterNames[index] + "=" + toStringStrategy.toString(parameterValues[index]);
     }
     return String.join(", ", parameterStrings);
   }

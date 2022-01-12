@@ -1,10 +1,10 @@
 package im.aop.loggers.messageinterpolation;
 
-import java.util.Arrays;
 import java.util.function.Supplier;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Register String {@link Supplier} to {@link StringSupplierLookup} for returned value.
@@ -17,7 +17,7 @@ public class ReturnValueStringSupplierRegistrar {
 
   private static final String NO_RETURN_VALUE_STRING = "none";
 
-  private static final String NULL_RETURN_VALUE_STRING = "null";
+  @Autowired private ToStringStrategy toStringStrategy;
 
   public void register(
       StringSupplierLookup stringSupplierLookup, JoinPoint joinPoint, Object source) {
@@ -30,13 +30,7 @@ public class ReturnValueStringSupplierRegistrar {
       return NO_RETURN_VALUE_STRING;
     }
 
-    if (returnValue == null) {
-      return NULL_RETURN_VALUE_STRING;
-    }
-    if (returnValue.getClass().isArray()) {
-      return Arrays.deepToString((Object[]) returnValue);
-    }
-    return returnValue.toString();
+    return toStringStrategy.toString(returnValue);
   }
 
   private MethodSignature methodSignature(final JoinPoint joinPoint) {

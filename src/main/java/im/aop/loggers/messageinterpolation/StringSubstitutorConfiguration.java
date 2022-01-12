@@ -2,8 +2,15 @@ package im.aop.loggers.messageinterpolation;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 
+/**
+ * {@link Configuration} for {@link StringSubstitutor} and {@link StringSupplierRegistrar}.
+ *
+ * @author Andy Lian
+ */
 @Configuration(proxyBeanMethods = false)
+@Import({ToStringStrategyConfiguration.class})
 public class StringSubstitutorConfiguration {
 
   @Bean

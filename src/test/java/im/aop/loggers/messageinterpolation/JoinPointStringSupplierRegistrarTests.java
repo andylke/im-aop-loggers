@@ -9,6 +9,7 @@ import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 /**
  * Tests for {@link JoinPointStringSupplierRegistrar}.
@@ -17,8 +18,10 @@ import org.junit.jupiter.api.Test;
  */
 class JoinPointStringSupplierRegistrarTests {
 
-  private static final JoinPointStringSupplierRegistrar REGISTRAR =
-      new JoinPointStringSupplierRegistrar();
+  private final ApplicationContextRunner runner =
+      new ApplicationContextRunner()
+          .withUserConfiguration(ToStringStrategyConfiguration.class)
+          .withBean(JoinPointStringSupplierRegistrar.class);
 
   static class TestClass {
 
@@ -35,96 +38,139 @@ class JoinPointStringSupplierRegistrarTests {
 
   @Test
   void method_methodWithoutParameter() throws NoSuchMethodException, SecurityException {
-    final MethodSignature methodSignature =
-        mockMethodSignature(TestClass.class, "methodWithoutParameter", null, null);
-    final JoinPoint joinPoint = mockJoinPoint(methodSignature, null);
+    runner.run(
+        context -> {
+          final JoinPointStringSupplierRegistrar registrar =
+              context.getBean(JoinPointStringSupplierRegistrar.class);
 
-    final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
-    REGISTRAR.register(stringSupplierLookup, joinPoint);
-    assertThat(stringSupplierLookup.lookup("method")).isEqualTo("void methodWithoutParameter()");
+          final MethodSignature methodSignature =
+              mockMethodSignature(TestClass.class, "methodWithoutParameter", null, null);
+          final JoinPoint joinPoint = mockJoinPoint(methodSignature, null);
+
+          final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
+          registrar.register(stringSupplierLookup, joinPoint);
+          assertThat(stringSupplierLookup.lookup("method"))
+              .isEqualTo("void methodWithoutParameter()");
+        });
   }
 
   @Test
   void method_methodWithOneParameter() throws NoSuchMethodException, SecurityException {
-    final MethodSignature methodSignature =
-        mockMethodSignature(
-            TestClass.class, "methodWithOneParameter", Arrays.array(String.class), null);
-    final JoinPoint joinPoint = mockJoinPoint(methodSignature, null);
+    runner.run(
+        context -> {
+          final JoinPointStringSupplierRegistrar registrar =
+              context.getBean(JoinPointStringSupplierRegistrar.class);
 
-    final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
-    REGISTRAR.register(stringSupplierLookup, joinPoint);
-    assertThat(stringSupplierLookup.lookup("method"))
-        .isEqualTo("void methodWithOneParameter(String)");
+          final MethodSignature methodSignature =
+              mockMethodSignature(
+                  TestClass.class, "methodWithOneParameter", Arrays.array(String.class), null);
+          final JoinPoint joinPoint = mockJoinPoint(methodSignature, null);
+
+          final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
+          registrar.register(stringSupplierLookup, joinPoint);
+          assertThat(stringSupplierLookup.lookup("method"))
+              .isEqualTo("void methodWithOneParameter(String)");
+        });
   }
 
   @Test
   void method_methodWithTwoParameter() throws NoSuchMethodException, SecurityException {
-    final MethodSignature methodSignature =
-        mockMethodSignature(
-            TestClass.class,
-            "methodWithTwoParameter",
-            Arrays.array(String.class, String.class),
-            null);
-    final JoinPoint joinPoint = mockJoinPoint(methodSignature, null);
+    runner.run(
+        context -> {
+          final JoinPointStringSupplierRegistrar registrar =
+              context.getBean(JoinPointStringSupplierRegistrar.class);
 
-    final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
-    REGISTRAR.register(stringSupplierLookup, joinPoint);
-    assertThat(stringSupplierLookup.lookup("method"))
-        .isEqualTo("void methodWithTwoParameter(String, String)");
+          final MethodSignature methodSignature =
+              mockMethodSignature(
+                  TestClass.class,
+                  "methodWithTwoParameter",
+                  Arrays.array(String.class, String.class),
+                  null);
+          final JoinPoint joinPoint = mockJoinPoint(methodSignature, null);
+
+          final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
+          registrar.register(stringSupplierLookup, joinPoint);
+          assertThat(stringSupplierLookup.lookup("method"))
+              .isEqualTo("void methodWithTwoParameter(String, String)");
+        });
   }
 
   @Test
   void method_methodWithResult() throws NoSuchMethodException, SecurityException {
-    final MethodSignature methodSignature =
-        mockMethodSignature(TestClass.class, "methodWithResult", null, null);
-    final JoinPoint joinPoint = mockJoinPoint(methodSignature, null);
+    runner.run(
+        context -> {
+          final JoinPointStringSupplierRegistrar registrar =
+              context.getBean(JoinPointStringSupplierRegistrar.class);
 
-    final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
-    REGISTRAR.register(stringSupplierLookup, joinPoint);
-    assertThat(stringSupplierLookup.lookup("method")).isEqualTo("String methodWithResult()");
+          final MethodSignature methodSignature =
+              mockMethodSignature(TestClass.class, "methodWithResult", null, null);
+          final JoinPoint joinPoint = mockJoinPoint(methodSignature, null);
+
+          final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
+          registrar.register(stringSupplierLookup, joinPoint);
+          assertThat(stringSupplierLookup.lookup("method")).isEqualTo("String methodWithResult()");
+        });
   }
 
   @Test
   void methodParameters_withoutParameter() throws NoSuchMethodException, SecurityException {
-    final MethodSignature methodSignature =
-        mockMethodSignature(TestClass.class, "methodWithoutParameter", null, null);
-    final JoinPoint joinPoint = mockJoinPoint(methodSignature, null);
+    runner.run(
+        context -> {
+          final JoinPointStringSupplierRegistrar registrar =
+              context.getBean(JoinPointStringSupplierRegistrar.class);
 
-    final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
-    REGISTRAR.register(stringSupplierLookup, joinPoint);
-    assertThat(stringSupplierLookup.lookup("parameters")).isEqualTo("none");
+          final MethodSignature methodSignature =
+              mockMethodSignature(TestClass.class, "methodWithoutParameter", null, null);
+          final JoinPoint joinPoint = mockJoinPoint(methodSignature, null);
+
+          final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
+          registrar.register(stringSupplierLookup, joinPoint);
+          assertThat(stringSupplierLookup.lookup("parameters")).isEqualTo("none");
+        });
   }
 
   @Test
   void methodParameters_methodWithOneParameter() throws NoSuchMethodException, SecurityException {
-    final MethodSignature methodSignature =
-        mockMethodSignature(
-            TestClass.class,
-            "methodWithOneParameter",
-            Arrays.array(String.class),
-            Arrays.array("foo"));
-    final JoinPoint joinPoint = mockJoinPoint(methodSignature, Arrays.array("a"));
+    runner.run(
+        context -> {
+          final JoinPointStringSupplierRegistrar registrar =
+              context.getBean(JoinPointStringSupplierRegistrar.class);
 
-    final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
-    REGISTRAR.register(stringSupplierLookup, joinPoint);
-    assertThat(stringSupplierLookup.lookup("parameters")).isEqualTo("foo=a");
+          final MethodSignature methodSignature =
+              mockMethodSignature(
+                  TestClass.class,
+                  "methodWithOneParameter",
+                  Arrays.array(String.class),
+                  Arrays.array("foo"));
+          final JoinPoint joinPoint = mockJoinPoint(methodSignature, Arrays.array("a"));
+
+          final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
+          registrar.register(stringSupplierLookup, joinPoint);
+          assertThat(stringSupplierLookup.lookup("parameters")).isEqualTo("foo=a");
+        });
   }
 
   @Test
   void methodParameters_methodWithTwoParameter() throws NoSuchMethodException, SecurityException {
-    final MethodSignature methodSignature =
-        mockMethodSignature(
-            TestClass.class,
-            "methodWithTwoParameter",
-            Arrays.array(String.class, String.class),
-            null);
-    final JoinPoint joinPoint = mockJoinPoint(methodSignature, Arrays.array("a", "b"));
+    runner.run(
+        context -> {
+          final JoinPointStringSupplierRegistrar registrar =
+              context.getBean(JoinPointStringSupplierRegistrar.class);
 
-    when(methodSignature.getParameterNames()).thenReturn(new String[] {"foo", "bar"});
+          final MethodSignature methodSignature =
+              mockMethodSignature(
+                  TestClass.class,
+                  "methodWithTwoParameter",
+                  Arrays.array(String.class, String.class),
+                  null);
+          final JoinPoint joinPoint = mockJoinPoint(methodSignature, Arrays.array("a", "b"));
 
-    final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
-    REGISTRAR.register(stringSupplierLookup, joinPoint);
-    assertThat(stringSupplierLookup.lookup("parameters")).isEqualTo("foo=a, bar=b");
+          when(methodSignature.getParameterNames()).thenReturn(new String[] {"foo", "bar"});
+
+          final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
+          registrar.register(stringSupplierLookup, joinPoint);
+          assertThat(stringSupplierLookup.lookup("parameters")).isEqualTo("foo=a, bar=b");
+        });
   }
 
   private MethodSignature mockMethodSignature(

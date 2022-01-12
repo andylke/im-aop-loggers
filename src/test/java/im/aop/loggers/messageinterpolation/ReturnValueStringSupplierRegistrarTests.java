@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 /**
  * Tests for {@link ReturnValueStringSupplierRegistrar}.
@@ -15,43 +16,69 @@ import org.junit.jupiter.api.Test;
  */
 class ReturnValueStringSupplierRegistrarTests {
 
-  private static final ReturnValueStringSupplierRegistrar REGISTRAR =
-      new ReturnValueStringSupplierRegistrar();
+  private final ApplicationContextRunner runner =
+      new ApplicationContextRunner()
+          .withUserConfiguration(ToStringStrategyConfiguration.class)
+          .withBean(ReturnValueStringSupplierRegistrar.class);
 
   @Test
   void returnValue_nonNull() throws NoSuchMethodException, SecurityException {
-    final JoinPoint joinPoint = mockJoinPoint(mockMethodSignature(String.class));
+    runner.run(
+        context -> {
+          final ReturnValueStringSupplierRegistrar registrar =
+              context.getBean(ReturnValueStringSupplierRegistrar.class);
 
-    final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
-    REGISTRAR.register(stringSupplierLookup, joinPoint, "foo");
-    assertThat(stringSupplierLookup.lookup("return-value")).isEqualTo("foo");
+          final JoinPoint joinPoint = mockJoinPoint(mockMethodSignature(String.class));
+
+          final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
+          registrar.register(stringSupplierLookup, joinPoint, "foo");
+          assertThat(stringSupplierLookup.lookup("return-value")).isEqualTo("foo");
+        });
   }
 
   @Test
   void returnValue_null() throws NoSuchMethodException, SecurityException {
-    final JoinPoint joinPoint = mockJoinPoint(mockMethodSignature(String.class));
+    runner.run(
+        context -> {
+          final ReturnValueStringSupplierRegistrar registrar =
+              context.getBean(ReturnValueStringSupplierRegistrar.class);
 
-    final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
-    REGISTRAR.register(stringSupplierLookup, joinPoint, null);
-    assertThat(stringSupplierLookup.lookup("return-value")).isEqualTo("null");
+          final JoinPoint joinPoint = mockJoinPoint(mockMethodSignature(String.class));
+
+          final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
+          registrar.register(stringSupplierLookup, joinPoint, null);
+          assertThat(stringSupplierLookup.lookup("return-value")).isEqualTo("null");
+        });
   }
 
   @Test
   void returnValue_none() throws NoSuchMethodException, SecurityException {
-    final JoinPoint joinPoint = mockJoinPoint(mockMethodSignature(void.class));
+    runner.run(
+        context -> {
+          final ReturnValueStringSupplierRegistrar registrar =
+              context.getBean(ReturnValueStringSupplierRegistrar.class);
 
-    final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
-    REGISTRAR.register(stringSupplierLookup, joinPoint, null);
-    assertThat(stringSupplierLookup.lookup("return-value")).isEqualTo("none");
+          final JoinPoint joinPoint = mockJoinPoint(mockMethodSignature(void.class));
+
+          final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
+          registrar.register(stringSupplierLookup, joinPoint, null);
+          assertThat(stringSupplierLookup.lookup("return-value")).isEqualTo("none");
+        });
   }
 
   @Test
   void returnValue_stringArray() throws NoSuchMethodException, SecurityException {
-    final JoinPoint joinPoint = mockJoinPoint(mockMethodSignature(String[].class));
+    runner.run(
+        context -> {
+          final ReturnValueStringSupplierRegistrar registrar =
+              context.getBean(ReturnValueStringSupplierRegistrar.class);
 
-    final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
-    REGISTRAR.register(stringSupplierLookup, joinPoint, new String[] {"foo", "bar"});
-    assertThat(stringSupplierLookup.lookup("return-value")).isEqualTo("[foo, bar]");
+          final JoinPoint joinPoint = mockJoinPoint(mockMethodSignature(String[].class));
+
+          final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
+          registrar.register(stringSupplierLookup, joinPoint, new String[] {"foo", "bar"});
+          assertThat(stringSupplierLookup.lookup("return-value")).isEqualTo("[foo, bar]");
+        });
   }
 
   private MethodSignature mockMethodSignature(final Class<?> returnType)
