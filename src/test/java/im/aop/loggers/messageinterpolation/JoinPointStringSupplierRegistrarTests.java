@@ -146,7 +146,7 @@ class JoinPointStringSupplierRegistrarTests {
 
           final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
           registrar.register(stringSupplierLookup, joinPoint);
-          assertThat(stringSupplierLookup.lookup("parameters")).isEqualTo("foo=a");
+          assertThat(stringSupplierLookup.lookup("parameters")).isEqualTo("a");
         });
   }
 
@@ -169,7 +169,7 @@ class JoinPointStringSupplierRegistrarTests {
 
           final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
           registrar.register(stringSupplierLookup, joinPoint);
-          assertThat(stringSupplierLookup.lookup("parameters")).isEqualTo("foo=a, bar=b");
+          assertThat(stringSupplierLookup.lookup("parameters")).isEqualTo("a, b");
         });
   }
 

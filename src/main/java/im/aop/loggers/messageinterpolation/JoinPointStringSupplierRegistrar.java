@@ -45,26 +45,35 @@ public class JoinPointStringSupplierRegistrar implements StringSupplierRegistrar
   private String methodParameters(final JoinPoint joinPoint) {
     final MethodSignature methodSignature = methodSignature(joinPoint);
     final Method method = methodSignature.getMethod();
-    if (method.getParameterCount() == 0) {
+    final int parameterCount = method.getParameterCount() - 1;
+    if (parameterCount == -1) {
       return NO_PARAMETERS_STRING;
     }
 
-    final String[] parameterNames = methodSignature.getParameterNames();
     final Object[] parameterValues = joinPoint.getArgs();
-
-    final String[] parameterStrings = new String[parameterNames.length];
-    for (int index = 0; index < parameterNames.length; index++) {
-      parameterStrings[index] =
-          parameterNames[index] + "=" + toStringStrategy.toString(parameterValues[index]);
+    final StringBuilder builder = new StringBuilder();
+    for (int index = 0; ; index++) {
+      builder.append(toStringStrategy.toString(parameterValues[index]));
+      if (index == parameterCount) {
+        return builder.toString();
+      }
+      builder.append(", ");
     }
-    return String.join(", ", parameterStrings);
   }
 
   private String methodParameterTypes(final Class<?>[] parameterTypes) {
-    final String[] parameterTypeStrings = new String[parameterTypes.length];
-    for (int index = 0; index < parameterTypes.length; index++) {
-      parameterTypeStrings[index] = parameterTypes[index].getSimpleName();
+    final int parameterCount = parameterTypes.length - 1;
+    if (parameterCount == -1) {
+      return "";
     }
-    return String.join(", ", parameterTypeStrings);
+
+    final StringBuilder builder = new StringBuilder();
+    for (int index = 0; ; index++) {
+      builder.append(parameterTypes[index].getSimpleName());
+      if (index == parameterCount) {
+        return builder.toString();
+      }
+      builder.append(", ");
+    }
   }
 }

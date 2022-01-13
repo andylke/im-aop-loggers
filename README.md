@@ -44,7 +44,7 @@ public class FooService {
 
 This will log an `entering message` before executing the method.
 ```text
-DEBUG 26356 --- [           main] im.aop.loggers.demo.foo.FooService       : Entering [Foo accept(Foo)] with parameters [foo=Foo[foo=abc]]
+DEBUG 26356 --- [           main] im.aop.loggers.demo.foo.FooService       : Entering [Foo accept(Foo)] with parameters [Foo[foo=abc]]
 ```
 
 Log level and message template for `entering message` can be configured in `application.properties` using the following properties:
@@ -57,7 +57,7 @@ Message template for `entering message` supports the following variables:
 | Template Variable | Description | Values |
 |-------------------|-------------|--------|
 | `method` | Method signature | void foo(String) |
-| `parameters` | Method parameters | foo=abc |
+| `parameters` | Method parameters | abc |
 
 The logger can be further customized at `@LogBefore` annotation with the following attributes:
 | Annotation Attribute | Description |
@@ -219,7 +219,7 @@ This will log
 4. an `elapsed message` for the execution
 5. an `elapsed warning message` when execution time exceeded the configured limit. `elapsed time limit` needs to be configured on `@LogAround` annotation individually to enable `elapsed warning message` for that method.
 ```text
-INFO 19036 --- [           main] im.aop.loggers.demo.qux.QuxService       : Entering [Qux accept(Qux)] with parameters [qux=Qux[qux=abc]]
+INFO 19036 --- [           main] im.aop.loggers.demo.qux.QuxService       : Entering [Qux accept(Qux)] with parameters [Qux[qux=abc]]
 INFO 19036 --- [           main] im.aop.loggers.demo.qux.QuxService       : [Qux accept(Qux)] exited normally with return value [Qux[qux=abc]]
 INFO 19036 --- [           main] im.aop.loggers.demo.qux.QuxService       : [Qux accept(Qux)] elapsed [PT0.01394S]
 WARN 13248 --- [           main] im.aop.loggers.demo.qux.QuxService       : [Qux accept(Qux)] reached elapsed time limit [PT0.005S]
