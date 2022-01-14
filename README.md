@@ -285,6 +285,10 @@ logging.level.im.aop.loggers.advice.LogAroundService=DEBUG
 
 Sample project is available in [andylke/im-aop-loggers-sample](https://github.com/andylke/im-aop-loggers-sample).
 
+# Changelog
+
+Changelog is available in [CHANGELOG.md](CHANGELOG.md).
+
 # License
 
 Released under the [Apache 2.0 license](https://www.apache.org/licenses/LICENSE-2.0.html).
