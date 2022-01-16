@@ -12,6 +12,18 @@ import org.junit.jupiter.api.Test;
 class ObjectToStringStrategyTests {
 
   @Test
+  void canSupport_givenNull() {
+    final ObjectToStringStrategy toStringStrategy = new ObjectToStringStrategy();
+    assertThat(toStringStrategy.canSupport(null)).isTrue();
+  }
+
+  @Test
+  void canSupport_givenObjectClass() {
+    final ObjectToStringStrategy toStringStrategy = new ObjectToStringStrategy();
+    assertThat(toStringStrategy.canSupport(Object.class)).isTrue();
+  }
+
+  @Test
   void toString_givenNull() {
     final ObjectToStringStrategy toStringStrategy = new ObjectToStringStrategy();
     assertThat(toStringStrategy.toString(null)).isEqualTo("null");
@@ -21,12 +33,6 @@ class ObjectToStringStrategyTests {
   void toString_givenString() {
     final ObjectToStringStrategy toStringStrategy = new ObjectToStringStrategy();
     assertThat(toStringStrategy.toString("foo")).isEqualTo("foo");
-  }
-
-  @Test
-  void toString_givenStringArray() {
-    final ObjectToStringStrategy toStringStrategy = new ObjectToStringStrategy();
-    assertThat(toStringStrategy.toString(new String[] {"foo", "bar"})).isEqualTo("[foo, bar]");
   }
 
   static class TestObject {
@@ -51,14 +57,5 @@ class ObjectToStringStrategyTests {
   void toString_givenObject() {
     final ObjectToStringStrategy toStringStrategy = new ObjectToStringStrategy();
     assertThat(toStringStrategy.toString(new TestObject("foo"))).isEqualTo("[value=foo]");
-  }
-
-  @Test
-  void toString_givenObjectArray() {
-    final ObjectToStringStrategy toStringStrategy = new ObjectToStringStrategy();
-    assertThat(
-            toStringStrategy.toString(
-                new TestObject[] {new TestObject("foo"), new TestObject("bar")}))
-        .isEqualTo("[[value=foo], [value=bar]]");
   }
 }

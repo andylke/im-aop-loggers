@@ -2,7 +2,7 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
-
+- Support custom ToStringStrategy, fallback to ObjectToStringStrategy.
 
 ## [1.0.4] - 2022-01-14
 

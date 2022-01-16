@@ -20,7 +20,7 @@ public class JoinPointStringSupplierRegistrar implements StringSupplierRegistrar
 
   private static final String NO_PARAMETERS_STRING = "none";
 
-  @Autowired private ToStringStrategy toStringStrategy;
+  @Autowired private ToStringStrategyFactory toStringStrategyFactory;
 
   @Override
   public void register(StringSupplierLookup stringSupplierLookup, JoinPoint source) {
@@ -53,12 +53,16 @@ public class JoinPointStringSupplierRegistrar implements StringSupplierRegistrar
     final Object[] parameterValues = joinPoint.getArgs();
     final StringBuilder builder = new StringBuilder();
     for (int index = 0; ; index++) {
-      builder.append(toStringStrategy.toString(parameterValues[index]));
+      builder.append(toString(parameterValues[index]));
       if (index == parameterCount) {
         return builder.toString();
       }
       builder.append(", ");
     }
+  }
+
+  private String toString(Object object) {
+    return toStringStrategyFactory.findOrDefault(object).toString(object);
   }
 
   private String methodParameterTypes(final Class<?>[] parameterTypes) {

@@ -17,7 +17,7 @@ public class ReturnValueStringSupplierRegistrar {
 
   private static final String NO_RETURN_VALUE_STRING = "none";
 
-  @Autowired private ToStringStrategy toStringStrategy;
+  @Autowired private ToStringStrategyFactory toStringStrategyFactory;
 
   public void register(
       StringSupplierLookup stringSupplierLookup, JoinPoint joinPoint, Object source) {
@@ -30,7 +30,11 @@ public class ReturnValueStringSupplierRegistrar {
       return NO_RETURN_VALUE_STRING;
     }
 
-    return toStringStrategy.toString(returnValue);
+    return toString(returnValue);
+  }
+
+  private String toString(Object object) {
+    return toStringStrategyFactory.findOrDefault(object).toString(object);
   }
 
   private MethodSignature methodSignature(final JoinPoint joinPoint) {

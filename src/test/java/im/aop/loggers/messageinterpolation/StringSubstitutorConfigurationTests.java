@@ -20,10 +20,10 @@ class StringSubstitutorConfigurationTests {
           .withBean(AopLoggersProperties.class);
 
   @Test
-  void toStringStrategyNotNull() {
+  void toStringStrategyFactoryNotNull() {
     runner.run(
         (context) -> {
-          assertThat(context.getBean(ToStringStrategy.class)).isNotNull();
+          assertThat(context.getBean(ToStringStrategyFactory.class)).isNotNull();
         });
   }
 
