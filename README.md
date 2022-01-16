@@ -281,6 +281,32 @@ logging.level.im.aop.loggers.advice.LogAroundService=DEBUG
 
 ---
 
+# Customization
+
+`I'm AOP Loggers` uses `ToStringStrategy` interface to supply String representation when constructing log message for method arguments and returned value. By default it uses `ObjectToStringStrategy`, that works exactly like `String.valueOf(object)`.
+
+Implement `ToStringStrategy` and expose as a Spring `@Component` to supply a custom toString strategy.
+
+
+Example implementation for `ToStringStrategy`:
+```java
+@Component
+public class BarToStringStrategy implements ToStringStrategy {
+
+  @Override
+  public boolean canSupport(Class<?> type) {
+    return type == Bar.class;
+  }
+
+  @Override
+  public String toString(Object object) {
+    return "Bar is " + ((Bar) object).getBar();
+  }
+}
+```
+
+---
+
 # Sample
 
 Sample project is available in [andylke/im-aop-loggers-sample](https://github.com/andylke/im-aop-loggers-sample).
