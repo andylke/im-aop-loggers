@@ -37,7 +37,7 @@ public class DefaultToStringStrategyFactory implements ToStringStrategyFactory {
 
     return toStringStrategies
         .parallelStream()
-        .filter(toStringStrategy -> toStringStrategy.canSupport(object.getClass()))
+        .filter(toStringStrategy -> toStringStrategy.supports(object.getClass()))
         .findFirst()
         .orElse(objectToStringStrategy);
   }

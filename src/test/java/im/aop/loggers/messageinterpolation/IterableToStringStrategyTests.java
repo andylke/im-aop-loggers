@@ -11,31 +11,31 @@ import org.junit.jupiter.api.Test;
 class IterableToStringStrategyTests {
 
   @Test
-  void canSupport_givenNull() {
+  void supports_givenNull() {
     final IterableToStringStrategy toStringStrategy =
         new IterableToStringStrategy(new ObjectToStringStrategy());
-    assertThrows(NullPointerException.class, () -> toStringStrategy.canSupport(null));
+    assertThrows(NullPointerException.class, () -> toStringStrategy.supports(null));
   }
 
   @Test
-  void canSupport_givenObjectClass() {
+  void supports_givenObjectClass() {
     final IterableToStringStrategy toStringStrategy =
         new IterableToStringStrategy(new ObjectToStringStrategy());
-    assertThat(toStringStrategy.canSupport(Object.class)).isFalse();
+    assertThat(toStringStrategy.supports(Object.class)).isFalse();
   }
 
   @Test
-  void canSupport_givenIterableClass() {
+  void supports_givenIterableClass() {
     final IterableToStringStrategy toStringStrategy =
         new IterableToStringStrategy(new ObjectToStringStrategy());
-    assertThat(toStringStrategy.canSupport(Iterable.class)).isTrue();
+    assertThat(toStringStrategy.supports(Iterable.class)).isTrue();
   }
 
   @Test
-  void canSupport_givenListClass() {
+  void supports_givenListClass() {
     final IterableToStringStrategy toStringStrategy =
         new IterableToStringStrategy(new ObjectToStringStrategy());
-    assertThat(toStringStrategy.canSupport(List.class)).isTrue();
+    assertThat(toStringStrategy.supports(List.class)).isTrue();
   }
 
   @Test

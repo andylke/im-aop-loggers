@@ -8,7 +8,7 @@ package im.aop.loggers.messageinterpolation;
  */
 public interface ToStringStrategy {
 
-  boolean canSupport(Class<?> type);
+  boolean supports(Class<?> type);
 
   String toString(Object object);
 }

@@ -32,7 +32,7 @@ class DefaultToStringStrategyFactoryTests {
   static class TestToStringStrategy implements ToStringStrategy {
 
     @Override
-    public boolean canSupport(Class<?> type) {
+    public boolean supports(Class<?> type) {
       return type == TestClass.class;
     }
 

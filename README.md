@@ -294,7 +294,7 @@ Example implementation for `ToStringStrategy`:
 public class BarToStringStrategy implements ToStringStrategy {
 
   @Override
-  public boolean canSupport(Class<?> type) {
+  public boolean supports(Class<?> type) {
     return type == Bar.class;
   }
 

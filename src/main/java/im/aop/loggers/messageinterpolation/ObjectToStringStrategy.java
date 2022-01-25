@@ -9,7 +9,7 @@ package im.aop.loggers.messageinterpolation;
 public class ObjectToStringStrategy implements ToStringStrategy {
 
   @Override
-  public boolean canSupport(Class<?> type) {
+  public boolean supports(Class<?> type) {
     return true;
   }
 

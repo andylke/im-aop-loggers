@@ -8,24 +8,24 @@ import org.junit.jupiter.api.Test;
 class ArrayToStringStrategyTests {
 
   @Test
-  void canSupport_givenNull() {
+  void supports_givenNull() {
     final ArrayToStringStrategy toStringStrategy =
         new ArrayToStringStrategy(new ObjectToStringStrategy());
-    assertThrows(NullPointerException.class, () -> toStringStrategy.canSupport(null));
+    assertThrows(NullPointerException.class, () -> toStringStrategy.supports(null));
   }
 
   @Test
-  void canSupport_givenObjectClass() {
+  void supports_givenObjectClass() {
     final ArrayToStringStrategy toStringStrategy =
         new ArrayToStringStrategy(new ObjectToStringStrategy());
-    assertThat(toStringStrategy.canSupport(Object.class)).isFalse();
+    assertThat(toStringStrategy.supports(Object.class)).isFalse();
   }
 
   @Test
-  void canSupport_givenArrayClass() {
+  void supports_givenArrayClass() {
     final ArrayToStringStrategy toStringStrategy =
         new ArrayToStringStrategy(new ObjectToStringStrategy());
-    assertThat(toStringStrategy.canSupport(Object[].class)).isTrue();
+    assertThat(toStringStrategy.supports(Object[].class)).isTrue();
   }
 
   @Test

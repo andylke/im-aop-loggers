@@ -12,15 +12,15 @@ import org.junit.jupiter.api.Test;
 class ObjectToStringStrategyTests {
 
   @Test
-  void canSupport_givenNull() {
+  void supports_givenNull() {
     final ObjectToStringStrategy toStringStrategy = new ObjectToStringStrategy();
-    assertThat(toStringStrategy.canSupport(null)).isTrue();
+    assertThat(toStringStrategy.supports(null)).isTrue();
   }
 
   @Test
-  void canSupport_givenObjectClass() {
+  void supports_givenObjectClass() {
     final ObjectToStringStrategy toStringStrategy = new ObjectToStringStrategy();
-    assertThat(toStringStrategy.canSupport(Object.class)).isTrue();
+    assertThat(toStringStrategy.supports(Object.class)).isTrue();
   }
 
   @Test

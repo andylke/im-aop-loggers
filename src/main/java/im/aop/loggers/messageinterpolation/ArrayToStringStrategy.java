@@ -17,7 +17,7 @@ public class ArrayToStringStrategy implements ToStringStrategy {
   }
 
   @Override
-  public boolean canSupport(Class<?> type) {
+  public boolean supports(Class<?> type) {
     return type.isArray();
   }
 
