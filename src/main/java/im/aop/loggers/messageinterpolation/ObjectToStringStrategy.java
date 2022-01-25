@@ -1,5 +1,7 @@
 package im.aop.loggers.messageinterpolation;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  * {@link ToStringStrategy} implementation using {@link String#valueOf(boolean)}. Return "null" if a
  * is null.
@@ -8,6 +10,8 @@ package im.aop.loggers.messageinterpolation;
  */
 public class ObjectToStringStrategy implements ToStringStrategy {
 
+  private ReflectionToStringStrategy reflectionToStringStrategy;
+
   @Override
   public boolean supports(Class<?> type) {
     return true;
@@ -15,6 +19,17 @@ public class ObjectToStringStrategy implements ToStringStrategy {
 
   @Override
   public String toString(Object object) {
-    return String.valueOf(object);
+    if (object == null
+        || reflectionToStringStrategy == null
+        || reflectionToStringStrategy.supports(object.getClass()) == false) {
+      return String.valueOf(object);
+    } else {
+      return reflectionToStringStrategy.toString(object);
+    }
+  }
+
+  @Autowired
+  public void setReflectionToStringStrategy(ReflectionToStringStrategy reflectionToStringStrategy) {
+    this.reflectionToStringStrategy = reflectionToStringStrategy;
   }
 }

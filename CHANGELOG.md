@@ -3,6 +3,7 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 - Rename canSupport() method to supports() in ToStringStrategy.
+- Add optional ReflectionToStringBuilder support in ObjectToStringStrategy.
 
 ## [1.0.5] - 2022-01-16
 

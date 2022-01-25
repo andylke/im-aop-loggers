@@ -3,6 +3,7 @@ package im.aop.loggers.messageinterpolation;
 import java.util.List;
 
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -12,10 +13,16 @@ import org.springframework.context.annotation.Configuration;
  * @author Andy Lian
  */
 @Configuration(proxyBeanMethods = false)
+@EnableConfigurationProperties({ReflectionToStringProperties.class})
 class ToStringStrategyConfiguration {
 
   @Bean
-  @ConditionalOnMissingBean({ObjectToStringStrategy.class})
+  public ReflectionToStringStrategy reflectionToStringStrategy(
+      final ReflectionToStringProperties reflectionToStringProperties) {
+    return new ReflectionToStringStrategy(reflectionToStringProperties);
+  }
+
+  @Bean
   public ObjectToStringStrategy objectToStringStrategy() {
     return new ObjectToStringStrategy();
   }
