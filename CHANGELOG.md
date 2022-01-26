@@ -3,10 +3,17 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Change 
+- Change ReflectionToStringStrategy.supports() to filter by baseClasses instead of basePackages.
 
 ## [1.0.6] - 2022-01-25
+
+### Change
 - Rename canSupport() method to supports() in ToStringStrategy.
+
+### Added
 - Add optional ReflectionToStringBuilder support in ObjectToStringStrategy.
+
 
 ## [1.0.5] - 2022-01-16
 

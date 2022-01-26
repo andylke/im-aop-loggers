@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.context.properties.source.InvalidConfigurationPropertyValueException;
 
 /**
  * Tests for {@link ReflectionToStringStrategy}.
@@ -13,12 +14,14 @@ import org.junit.jupiter.api.Test;
 class ReflectionToStringStrategyTests {
 
   @Test
-  void supports_givenNull() {
+  void instantiate_givenInvalidBaseClassesInProperties() {
     final ReflectionToStringProperties reflectionToStringProperties =
         new ReflectionToStringProperties();
-    final ReflectionToStringStrategy toStringStrategy =
-        new ReflectionToStringStrategy(reflectionToStringProperties);
-    assertThrows(NullPointerException.class, () -> toStringStrategy.supports(null));
+    reflectionToStringProperties.setBaseClasses(new String[] {"foo"});
+
+    assertThrows(
+        InvalidConfigurationPropertyValueException.class,
+        () -> new ReflectionToStringStrategy(reflectionToStringProperties));
   }
 
   @Test
@@ -31,13 +34,23 @@ class ReflectionToStringStrategyTests {
   }
 
   @Test
-  void supports_givenObjectClass_withObjectPackageAsBasePackage() {
+  void supports_givenObjectClassAssignableToBaseClasses() {
     final ReflectionToStringProperties reflectionToStringProperties =
         new ReflectionToStringProperties();
-    reflectionToStringProperties.setBasePackages(new String[] {Object.class.getPackageName()});
+    reflectionToStringProperties.setBaseClasses(new String[] {Object.class.getName()});
     final ReflectionToStringStrategy toStringStrategy =
         new ReflectionToStringStrategy(reflectionToStringProperties);
     assertThat(toStringStrategy.supports(Object.class)).isTrue();
+  }
+
+  @Test
+  void supports_givenObjectClassNotAssignableToBaseClasses() {
+    final ReflectionToStringProperties reflectionToStringProperties =
+        new ReflectionToStringProperties();
+    reflectionToStringProperties.setBaseClasses(new String[] {String.class.getName()});
+    final ReflectionToStringStrategy toStringStrategy =
+        new ReflectionToStringStrategy(reflectionToStringProperties);
+    assertThat(toStringStrategy.supports(Object.class)).isFalse();
   }
 
   @Test

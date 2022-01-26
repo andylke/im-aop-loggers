@@ -23,26 +23,26 @@ class ReflectionToStringPropertiesTests {
           .withUserConfiguration(ReflectionToStringPropertiesTestConfiguration.class);
 
   @Test
-  void basePackages_defaultValue() {
+  void baseClasses_defaultValue() {
     runner.run(
         (context) -> {
           final ReflectionToStringProperties properties =
               context.getBean(ReflectionToStringProperties.class);
-          assertThat(properties.getBasePackages()).isEmpty();
+          assertThat(properties.getBaseClasses()).isEmpty();
         });
   }
 
   @Test
-  void basePackages_givenPropertyValue() {
+  void baseClasses_givenPropertyValue() {
     runner
         .withPropertyValues(
-            ReflectionToStringProperties.PREFIX + ".base-packages.0=foo",
-            ReflectionToStringProperties.PREFIX + ".base-packages.1=bar")
+            ReflectionToStringProperties.PREFIX + ".base-classes.0=foo",
+            ReflectionToStringProperties.PREFIX + ".base-classes.1=bar")
         .run(
             (context) -> {
               final ReflectionToStringProperties properties =
                   context.getBean(ReflectionToStringProperties.class);
-              assertThat(properties.getBasePackages()).containsExactly("foo", "bar");
+              assertThat(properties.getBaseClasses()).containsExactly("foo", "bar");
             });
   }
 

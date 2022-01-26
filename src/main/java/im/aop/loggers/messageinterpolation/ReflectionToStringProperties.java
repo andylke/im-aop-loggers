@@ -12,7 +12,7 @@ public class ReflectionToStringProperties {
 
   public static final String PREFIX = AopLoggersProperties.PREFIX + ".reflection-to-string";
 
-  private String[] basePackages = new String[] {};
+  private String[] baseClasses = new String[] {};
 
   private boolean excludeNullValues = true;
 
@@ -25,12 +25,12 @@ public class ReflectionToStringProperties {
             0, excludeFieldNames, new String[] {"username", "password", "passphrase", "secret"});
   }
 
-  public String[] getBasePackages() {
-    return basePackages;
+  public String[] getBaseClasses() {
+    return baseClasses;
   }
 
-  public void setBasePackages(String[] basePackages) {
-    this.basePackages = basePackages;
+  public void setBaseClasses(String[] baseClasses) {
+    this.baseClasses = baseClasses;
   }
 
   public boolean isExcludeNullValues() {
