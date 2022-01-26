@@ -3,8 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+
+## [1.0.7] - 2022-01-26
+
 ### Change 
 - Change ReflectionToStringStrategy.supports() to filter by baseClasses instead of basePackages.
+
 
 ## [1.0.6] - 2022-01-25
 
