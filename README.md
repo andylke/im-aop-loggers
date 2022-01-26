@@ -285,11 +285,11 @@ logging.level.im.aop.loggers.advice.LogAroundService=DEBUG
 
 `I'm AOP Loggers` uses `ToStringStrategy` interface to supply String representation when constructing log message for method arguments and returned value. By default it uses `ObjectToStringStrategy`, that works exactly like `String.valueOf(object)`. 
 
-`ObjectToStringStrategy` can be configured supply String representation using [ReflectionToStringBuilder](https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/builder/ReflectionToStringBuilder.html) by configuring property `im.aop.loggers.reflection-to-string.base-packages` with your Object's package name. Additional behavior can be configured in `application.properties` using the following properties:
+`ObjectToStringStrategy` can be configured supply String representation using [ReflectionToStringBuilder](https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/builder/ReflectionToStringBuilder.html) by configuring property `im.aop.loggers.reflection-to-string.base-classes` with your Object's class name. Additional behavior can be configured in `application.properties` using the following properties:
 
 | Configuration Properties | Default Value | Description |
 |--------------------------|---------------|-------------|
-| `im.aop.loggers.reflection-to-string.base-packages` | <EMPTY> | Base packages to use `ReflectionToStringStrategy` |
+| `im.aop.loggers.reflection-to-string.base-classes` | <EMPTY> | Base classes to use `ReflectionToStringStrategy` |
 | `im.aop.loggers.reflection-to-string.exclude-null-values` | true | Exclude field from supplied String whose values are null |  
 | `im.aop.loggers.reflection-to-string.exclude-field-names` | username, password, passphrase, secret | Exclude field from supplied String |
 
