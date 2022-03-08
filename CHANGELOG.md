@@ -3,6 +3,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Change 
+- Upgrade Spring Boot version to 2.6.4
+- Upgrade Jacoco Maven Plugin version to 0.8.7
+
 
 ## [1.0.7] - 2022-01-26
 
