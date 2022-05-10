@@ -69,6 +69,50 @@ class ReflectionToStringPropertiesTests {
   }
 
   @Test
+  void excludeEmptyValues_defaultValue() {
+    runner.run(
+        (context) -> {
+          final ReflectionToStringProperties properties =
+              context.getBean(ReflectionToStringProperties.class);
+          assertThat(properties.isExcludeEmptyValues()).isTrue();
+        });
+  }
+
+  @Test
+  void excludeEmptyValues_givenPropertyValue() {
+    runner
+        .withPropertyValues(ReflectionToStringProperties.PREFIX + ".exclude-empty-values=false")
+        .run(
+            (context) -> {
+              final ReflectionToStringProperties properties =
+                  context.getBean(ReflectionToStringProperties.class);
+              assertThat(properties.isExcludeEmptyValues()).isFalse();
+            });
+  }
+
+  @Test
+  void excludeZeroValues_defaultValue() {
+    runner.run(
+        (context) -> {
+          final ReflectionToStringProperties properties =
+              context.getBean(ReflectionToStringProperties.class);
+          assertThat(properties.isExcludeZeroValues()).isTrue();
+        });
+  }
+
+  @Test
+  void excludeZeroValues_givenPropertyValue() {
+    runner
+        .withPropertyValues(ReflectionToStringProperties.PREFIX + ".exclude-zero-values=false")
+        .run(
+            (context) -> {
+              final ReflectionToStringProperties properties =
+                  context.getBean(ReflectionToStringProperties.class);
+              assertThat(properties.isExcludeZeroValues()).isFalse();
+            });
+  }
+
+  @Test
   void excludeFieldNames_defaultValue() {
     runner.run(
         (context) -> {

@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 ### Change 
 - Upgrade Spring Boot version to 2.6.6
 - Upgrade Jacoco Maven Plugin version to 0.8.7
+- Extend ReflectionToStringStrategy to exclude empty and zero values by default.
 
 
 ## [1.0.7] - 2022-01-26

@@ -16,6 +16,10 @@ public class ReflectionToStringProperties {
 
   private boolean excludeNullValues = true;
 
+  private boolean excludeEmptyValues = true;
+
+  private boolean excludeZeroValues = true;
+
   private String[] excludeFieldNames = new String[] {};
 
   @PostConstruct
@@ -39,6 +43,22 @@ public class ReflectionToStringProperties {
 
   public void setExcludeNullValues(boolean excludeNullValues) {
     this.excludeNullValues = excludeNullValues;
+  }
+
+  public boolean isExcludeEmptyValues() {
+    return excludeEmptyValues;
+  }
+
+  public void setExcludeEmptyValues(boolean excludeEmptyValues) {
+    this.excludeEmptyValues = excludeEmptyValues;
+  }
+
+  public boolean isExcludeZeroValues() {
+    return excludeZeroValues;
+  }
+
+  public void setExcludeZeroValues(boolean excludeZeroValues) {
+    this.excludeZeroValues = excludeZeroValues;
   }
 
   public String[] getExcludeFieldNames() {

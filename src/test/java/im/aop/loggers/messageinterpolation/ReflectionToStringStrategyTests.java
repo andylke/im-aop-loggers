@@ -121,4 +121,150 @@ class ReflectionToStringStrategyTests {
         new ReflectionToStringStrategy(reflectionToStringProperties);
     assertThat(toStringStrategy.toString(new TestObject("foo"))).isEqualTo("[]");
   }
+
+  static class CharSequenceHolder {
+
+    private CharSequence value;
+
+    public CharSequenceHolder(CharSequence value) {
+      this.value = value;
+    }
+
+    public CharSequence getValue() {
+      return value;
+    }
+  }
+
+  @Test
+  void toString_givenEmptyStringTestObject_withDefaultExcludeEmptyValues() {
+    final ReflectionToStringProperties reflectionToStringProperties =
+        new ReflectionToStringProperties();
+    final ReflectionToStringStrategy toStringStrategy =
+        new ReflectionToStringStrategy(reflectionToStringProperties);
+    assertThat(toStringStrategy.toString(new CharSequenceHolder(""))).isEqualTo("[]");
+  }
+
+  @Test
+  void toString_givenEmptyStringTestObject_withExcludeEmptyValuesEqualsFalse() {
+    final ReflectionToStringProperties reflectionToStringProperties =
+        new ReflectionToStringProperties();
+    reflectionToStringProperties.setExcludeEmptyValues(false);
+    final ReflectionToStringStrategy toStringStrategy =
+        new ReflectionToStringStrategy(reflectionToStringProperties);
+    assertThat(toStringStrategy.toString(new CharSequenceHolder(""))).isEqualTo("[value=]");
+  }
+
+  @Test
+  void toString_givenNonEmptyStringTestObject_withDefaultExcludeEmptyValues() {
+    final ReflectionToStringProperties reflectionToStringProperties =
+        new ReflectionToStringProperties();
+    final ReflectionToStringStrategy toStringStrategy =
+        new ReflectionToStringStrategy(reflectionToStringProperties);
+    assertThat(toStringStrategy.toString(new CharSequenceHolder("foo"))).isEqualTo("[value=foo]");
+  }
+
+  @Test
+  void toString_givenNonEmptyStringTestObject_withExcludeEmptyValuesEqualsFalse() {
+    final ReflectionToStringProperties reflectionToStringProperties =
+        new ReflectionToStringProperties();
+    reflectionToStringProperties.setExcludeEmptyValues(false);
+    final ReflectionToStringStrategy toStringStrategy =
+        new ReflectionToStringStrategy(reflectionToStringProperties);
+    assertThat(toStringStrategy.toString(new CharSequenceHolder("foo"))).isEqualTo("[value=foo]");
+  }
+
+  static class NumberHolder {
+
+    private Number value;
+
+    public NumberHolder(Number value) {
+      this.value = value;
+    }
+
+    public Number getValue() {
+      return value;
+    }
+  }
+
+  @Test
+  void toString_givenZeroIntegerTestObject_withDefaultExcludeZeroValues() {
+    final ReflectionToStringProperties reflectionToStringProperties =
+        new ReflectionToStringProperties();
+    final ReflectionToStringStrategy toStringStrategy =
+        new ReflectionToStringStrategy(reflectionToStringProperties);
+    assertThat(toStringStrategy.toString(new NumberHolder(Integer.valueOf(0)))).isEqualTo("[]");
+  }
+
+  @Test
+  void toString_givenZeroIntegerTestObject_withExcludeZeroValuesEqualsFalse() {
+    final ReflectionToStringProperties reflectionToStringProperties =
+        new ReflectionToStringProperties();
+    reflectionToStringProperties.setExcludeZeroValues(false);
+    final ReflectionToStringStrategy toStringStrategy =
+        new ReflectionToStringStrategy(reflectionToStringProperties);
+    assertThat(toStringStrategy.toString(new NumberHolder(Integer.valueOf(0))))
+        .isEqualTo("[value=0]");
+  }
+
+  @Test
+  void toString_givenNonZeroIntegerTestObject_withDefaultExcludeZeroValues() {
+    final ReflectionToStringProperties reflectionToStringProperties =
+        new ReflectionToStringProperties();
+    final ReflectionToStringStrategy toStringStrategy =
+        new ReflectionToStringStrategy(reflectionToStringProperties);
+    assertThat(toStringStrategy.toString(new NumberHolder(Integer.valueOf(1))))
+        .isEqualTo("[value=1]");
+  }
+
+  @Test
+  void toString_givenNonZeroIntegerTestObject_withExcludeZeroValuesEqualsFalse() {
+    final ReflectionToStringProperties reflectionToStringProperties =
+        new ReflectionToStringProperties();
+    reflectionToStringProperties.setExcludeZeroValues(false);
+    final ReflectionToStringStrategy toStringStrategy =
+        new ReflectionToStringStrategy(reflectionToStringProperties);
+    assertThat(toStringStrategy.toString(new NumberHolder(Integer.valueOf(1))))
+        .isEqualTo("[value=1]");
+  }
+
+  @Test
+  void toString_givenZeroDoubleTestObject_withDefaultExcludeZeroValues() {
+    final ReflectionToStringProperties reflectionToStringProperties =
+        new ReflectionToStringProperties();
+    final ReflectionToStringStrategy toStringStrategy =
+        new ReflectionToStringStrategy(reflectionToStringProperties);
+    assertThat(toStringStrategy.toString(new NumberHolder(Double.valueOf(0.0)))).isEqualTo("[]");
+  }
+
+  @Test
+  void toString_givenZeroDoubleTestObject_withExcludeZeroValuesEqualsFalse() {
+    final ReflectionToStringProperties reflectionToStringProperties =
+        new ReflectionToStringProperties();
+    reflectionToStringProperties.setExcludeZeroValues(false);
+    final ReflectionToStringStrategy toStringStrategy =
+        new ReflectionToStringStrategy(reflectionToStringProperties);
+    assertThat(toStringStrategy.toString(new NumberHolder(Double.valueOf(0.0))))
+        .isEqualTo("[value=0.0]");
+  }
+
+  @Test
+  void toString_givenNonZeroDoubleTestObject_withDefaultExcludeZeroValues() {
+    final ReflectionToStringProperties reflectionToStringProperties =
+        new ReflectionToStringProperties();
+    final ReflectionToStringStrategy toStringStrategy =
+        new ReflectionToStringStrategy(reflectionToStringProperties);
+    assertThat(toStringStrategy.toString(new NumberHolder(Double.valueOf(1.1))))
+        .isEqualTo("[value=1.1]");
+  }
+
+  @Test
+  void toString_givenNonZeroDoubleTestObject_withExcludeZeroValuesEqualsFalse() {
+    final ReflectionToStringProperties reflectionToStringProperties =
+        new ReflectionToStringProperties();
+    reflectionToStringProperties.setExcludeZeroValues(false);
+    final ReflectionToStringStrategy toStringStrategy =
+        new ReflectionToStringStrategy(reflectionToStringProperties);
+    assertThat(toStringStrategy.toString(new NumberHolder(Double.valueOf(1.1))))
+        .isEqualTo("[value=1.1]");
+  }
 }
