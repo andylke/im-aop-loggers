@@ -291,6 +291,8 @@ logging.level.im.aop.loggers.advice.LogAroundService=DEBUG
 |--------------------------|---------------|-------------|
 | `im.aop.loggers.reflection-to-string.base-classes` | <EMPTY> | Base classes to use `ReflectionToStringStrategy` |
 | `im.aop.loggers.reflection-to-string.exclude-null-values` | true | Exclude field from supplied String whose values are null |  
+| `im.aop.loggers.reflection-to-string.exclude-empty-values` | true | Exclude field from supplied String whose values are empty |  
+| `im.aop.loggers.reflection-to-string.exclude-zero-values` | true | Exclude field from supplied Number whose values are zero |  
 | `im.aop.loggers.reflection-to-string.exclude-field-names` | username, password, passphrase, secret | Exclude field from supplied String |
 
 
