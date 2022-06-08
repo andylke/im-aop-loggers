@@ -216,6 +216,91 @@ class LogBeforeAdviceTests {
             });
   }
 
+  @LogBefore
+  static class ParentClassContext {
+
+    public void methodWithoutParameter() {}
+
+    public void methodWithParameter(String foo) {}
+
+    public String methodWithResult() {
+      return "foo";
+    }
+
+    @Override
+    public String toString() {
+      return super.toString();
+    }
+  }
+
+  static class ChildClassContext extends ParentClassContext {}
+
+  @Test
+  void methodWithoutParameter_annotatedOnChildClass(final CapturedOutput capturedOutput) {
+    runner
+        .withBean(ChildClassContext.class)
+        .run(
+            context -> {
+              final ChildClassContext classContext = context.getBean(ChildClassContext.class);
+              classContext.methodWithoutParameter();
+
+              assertThat(capturedOutput)
+                  .contains(
+                      "execution(void "
+                          + ParentClassContext.class.getName()
+                          + ".methodWithoutParameter())");
+            });
+  }
+
+  @Test
+  void methodWithParameter_annotatedOnChildClass(final CapturedOutput capturedOutput) {
+    runner
+        .withBean(ChildClassContext.class)
+        .run(
+            context -> {
+              final ChildClassContext classContext = context.getBean(ChildClassContext.class);
+              classContext.methodWithParameter("foo");
+
+              assertThat(capturedOutput)
+                  .contains(
+                      "execution(void "
+                          + ParentClassContext.class.getName()
+                          + ".methodWithParameter(String))");
+            });
+  }
+
+  @Test
+  void methodWithResult_annotatedOnChildClass(final CapturedOutput capturedOutput) {
+    runner
+        .withBean(ChildClassContext.class)
+        .run(
+            context -> {
+              final ChildClassContext classContext = context.getBean(ChildClassContext.class);
+              classContext.methodWithResult();
+
+              assertThat(capturedOutput)
+                  .contains(
+                      "execution(String "
+                          + ParentClassContext.class.getName()
+                          + ".methodWithResult())");
+            });
+  }
+
+  @Test
+  void toString_annotatedOnChildClass(final CapturedOutput capturedOutput) {
+    runner
+        .withBean(ChildClassContext.class)
+        .run(
+            context -> {
+              final ChildClassContext classContext = context.getBean(ChildClassContext.class);
+              classContext.toString();
+
+              assertThat(capturedOutput)
+                  .doesNotContain(
+                      "execution(String " + ParentClassContext.class.getName() + ".toString())");
+            });
+  }
+
   @Test
   void publicMethod_fulfillCoverageRatio() {
     runner.run(

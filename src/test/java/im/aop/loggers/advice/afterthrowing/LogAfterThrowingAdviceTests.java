@@ -236,6 +236,97 @@ class LogAfterThrowingAdviceTests {
             });
   }
 
+  @LogAfterThrowing
+  static class ParentClassContext {
+
+    public void methodWithoutParameter() {
+      throw new RuntimeException();
+    }
+
+    public void methodWithParameter(String foo) {
+      throw new RuntimeException();
+    }
+
+    public String methodWithResult() {
+      throw new RuntimeException();
+    }
+
+    @Override
+    public String toString() {
+      throw new RuntimeException();
+    }
+  }
+
+  static class ChildClassContext extends ParentClassContext {}
+
+  @Test
+  void methodWithoutParameter_annotatedOnChildClass(final CapturedOutput capturedOutput) {
+    runner
+        .withBean(ChildClassContext.class)
+        .run(
+            context -> {
+              final ChildClassContext classContext = context.getBean(ChildClassContext.class);
+              assertThrows(RuntimeException.class, () -> classContext.methodWithoutParameter());
+              assertThat(capturedOutput)
+                  .contains(
+                      "joinPoint=execution(void "
+                          + ParentClassContext.class.getName()
+                          + ".methodWithoutParameter())")
+                  .contains("thrownException=" + RuntimeException.class.getName());
+            });
+  }
+
+  @Test
+  void methodWithParameter_annotatedOnChildClass(final CapturedOutput capturedOutput) {
+    runner
+        .withBean(ChildClassContext.class)
+        .run(
+            context -> {
+              final ChildClassContext classContext = context.getBean(ChildClassContext.class);
+              assertThrows(RuntimeException.class, () -> classContext.methodWithParameter("foo"));
+              assertThat(capturedOutput)
+                  .contains(
+                      "joinPoint=execution(void "
+                          + ParentClassContext.class.getName()
+                          + ".methodWithParameter(String))")
+                  .contains("thrownException=" + RuntimeException.class.getName());
+            });
+  }
+
+  @Test
+  void methodWithResult_annotatedOnChildClass(final CapturedOutput capturedOutput) {
+    runner
+        .withBean(ChildClassContext.class)
+        .run(
+            context -> {
+              final ChildClassContext classContext = context.getBean(ChildClassContext.class);
+              assertThrows(RuntimeException.class, () -> classContext.methodWithResult());
+              assertThat(capturedOutput)
+                  .contains(
+                      "joinPoint=execution(String "
+                          + ParentClassContext.class.getName()
+                          + ".methodWithResult())")
+                  .contains("thrownException=" + RuntimeException.class.getName());
+            });
+  }
+
+  @Test
+  void toString_annotatedOnChildClass(final CapturedOutput capturedOutput) {
+    runner
+        .withBean(ChildClassContext.class)
+        .run(
+            context -> {
+              final ChildClassContext classContext = context.getBean(ChildClassContext.class);
+              assertThrows(RuntimeException.class, () -> classContext.toString());
+              assertThat(capturedOutput)
+                  .doesNotContain(
+                      "joinPoint=execution(String "
+                          + ParentClassContext.class.getName()
+                          + ".toString())")
+                  .doesNotContain("thrownException=" + RuntimeException.class.getName());
+            });
+  }
+
   @Test
   void publicMethod_fulfillCoverageRatio() {
     runner.run(
