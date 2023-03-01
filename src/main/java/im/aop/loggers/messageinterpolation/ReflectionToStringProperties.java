@@ -1,6 +1,6 @@
 package im.aop.loggers.messageinterpolation;
 
-import javax.annotation.PostConstruct;
+import jakarta.annotation.PostConstruct;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.boot.context.properties.ConfigurationProperties;

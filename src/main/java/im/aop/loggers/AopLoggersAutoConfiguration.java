@@ -1,5 +1,6 @@
 package im.aop.loggers;
 
+import org.springframework.boot.autoconfigure.AutoConfiguration;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -10,7 +11,7 @@ import org.springframework.context.annotation.Import;
  *
  * @author Andy Lian
  */
-@Configuration(proxyBeanMethods = false)
+@AutoConfiguration
 @ConditionalOnProperty(
     prefix = AopLoggersProperties.PREFIX,
     name = "enabled",
