@@ -2,6 +2,8 @@ package im.aop.loggers;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.validation.annotation.Validated;
 
@@ -10,6 +12,8 @@ import org.springframework.validation.annotation.Validated;
  *
  * @author Andy Lian
  */
+@Getter
+@Setter
 @Validated
 @ConfigurationProperties(prefix = AopLoggersProperties.PREFIX)
 public class AopLoggersProperties {
@@ -56,100 +60,4 @@ public class AopLoggersProperties {
   @NotBlank
   private String elapsedWarningMessage =
       "[{method}] reached elapsed time limit [{elapsed-time-limit}]";
-
-  public boolean isEnabled() {
-    return enabled;
-  }
-
-  public void setEnabled(boolean enabled) {
-    this.enabled = enabled;
-  }
-
-  public Level getEnteringLevel() {
-    return enteringLevel;
-  }
-
-  public void setEnteringLevel(Level enteringLevel) {
-    this.enteringLevel = enteringLevel;
-  }
-
-  public String getEnteringMessage() {
-    return enteringMessage;
-  }
-
-  public void setEnteringMessage(String enteringMessage) {
-    this.enteringMessage = enteringMessage;
-  }
-
-  public Level getExitedLevel() {
-    return exitedLevel;
-  }
-
-  public void setExitedLevel(Level exitedLevel) {
-    this.exitedLevel = exitedLevel;
-  }
-
-  public String getExitedMessage() {
-    return exitedMessage;
-  }
-
-  public void setExitedMessage(String exitedMessage) {
-    this.exitedMessage = exitedMessage;
-  }
-
-  public Level getExitedAbnormallyLevel() {
-    return exitedAbnormallyLevel;
-  }
-
-  public void setExitedAbnormallyLevel(Level exitedAbnormallyLevel) {
-    this.exitedAbnormallyLevel = exitedAbnormallyLevel;
-  }
-
-  public String getExitedAbnormallyMessage() {
-    return exitedAbnormallyMessage;
-  }
-
-  public void setExitedAbnormallyMessage(String exitedAbnormallyMessage) {
-    this.exitedAbnormallyMessage = exitedAbnormallyMessage;
-  }
-
-  public Class<? extends Throwable>[] getIgnoreExceptions() {
-    return ignoreExceptions;
-  }
-
-  public void setIgnoreExceptions(Class<? extends Throwable>[] ignoreExceptions) {
-    this.ignoreExceptions = ignoreExceptions;
-  }
-
-  public Level getElapsedLevel() {
-    return elapsedLevel;
-  }
-
-  public void setElapsedLevel(Level elapsedLevel) {
-    this.elapsedLevel = elapsedLevel;
-  }
-
-  public String getElapsedMessage() {
-    return elapsedMessage;
-  }
-
-  public void setElapsedMessage(String elapsedMessage) {
-    this.elapsedMessage = elapsedMessage;
-  }
-
-  public Level getElapsedWarningLevel() {
-    return elapsedWarningLevel;
-  }
-
-  public void setElapsedWarningLevel(Level elapsedWarningLevel) {
-    this.elapsedWarningLevel = elapsedWarningLevel;
-  }
-
-  public String getElapsedWarningMessage() {
-    return elapsedWarningMessage;
-  }
-
-  public void setElapsedWarningMessage(String elapsedWarningMessage) {
-    this.elapsedWarningMessage = elapsedWarningMessage;
-  }
 }
