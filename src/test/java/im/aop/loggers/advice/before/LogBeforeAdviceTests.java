@@ -2,6 +2,8 @@ package im.aop.loggers.advice.before;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import im.aop.loggers.AopLoggersProperties;
+import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 import org.aspectj.lang.JoinPoint;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,9 +14,6 @@ import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-
-import im.aop.loggers.AopLoggersProperties;
-import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 
 /**
  * Tests for {@link LogBeforeAdvice}.
@@ -299,41 +298,5 @@ class LogBeforeAdviceTests {
                   .doesNotContain(
                       "execution(String " + ParentClassContext.class.getName() + ".toString())");
             });
-  }
-
-  @Test
-  void publicMethod_fulfillCoverageRatio() {
-    runner.run(
-        (context) -> {
-          final LogBeforeAdvice logBeforeAdvice = context.getBean(LogBeforeAdvice.class);
-          logBeforeAdvice.publicMethod();
-        });
-  }
-
-  @Test
-  void toStringMethod_fulfillCoverageRatio() {
-    runner.run(
-        (context) -> {
-          final LogBeforeAdvice logBeforeAdvice = context.getBean(LogBeforeAdvice.class);
-          logBeforeAdvice.toStringMethod();
-        });
-  }
-
-  @Test
-  void logBeforeMethodContext_fulfillCoverageRatio() {
-    runner.run(
-        (context) -> {
-          final LogBeforeAdvice logBeforeAdvice = context.getBean(LogBeforeAdvice.class);
-          logBeforeAdvice.logBeforeMethodContext(null);
-        });
-  }
-
-  @Test
-  void logBeforeClassContext_fulfillCoverageRatio() {
-    runner.run(
-        (context) -> {
-          final LogBeforeAdvice logBeforeAdvice = context.getBean(LogBeforeAdvice.class);
-          logBeforeAdvice.logBeforeClassContext(null);
-        });
   }
 }

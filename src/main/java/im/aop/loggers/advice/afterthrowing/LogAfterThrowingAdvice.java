@@ -30,8 +30,9 @@ public class LogAfterThrowingAdvice {
       argNames = "joinPoint, logAfterThrowing, exception",
       throwing = "exception")
   void logAfterThrowingMethodContext(
-      final JoinPoint joinPoint, final LogAfterThrowing logAfterThrowing, final Throwable exception)
-      throws Throwable {
+      final JoinPoint joinPoint,
+      final LogAfterThrowing logAfterThrowing,
+      final Throwable exception) {
     logAfterThrowing(joinPoint, logAfterThrowing, exception);
   }
 
@@ -44,14 +45,16 @@ public class LogAfterThrowingAdvice {
       argNames = "joinPoint, logAfterThrowing, exception",
       throwing = "exception")
   void logAfterThrowingClassContext(
-      final JoinPoint joinPoint, final LogAfterThrowing logAfterThrowing, final Throwable exception)
-      throws Throwable {
+      final JoinPoint joinPoint,
+      final LogAfterThrowing logAfterThrowing,
+      final Throwable exception) {
     logAfterThrowing(joinPoint, logAfterThrowing, exception);
   }
 
   protected void logAfterThrowing(
-      final JoinPoint joinPoint, final LogAfterThrowing logAfterThrowing, final Throwable exception)
-      throws Throwable {
+      final JoinPoint joinPoint,
+      final LogAfterThrowing logAfterThrowing,
+      final Throwable exception) {
     logAfterThrowingService.logAfterThrowing(joinPoint, logAfterThrowing, exception);
   }
 }

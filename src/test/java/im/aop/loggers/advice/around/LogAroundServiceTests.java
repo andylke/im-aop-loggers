@@ -5,8 +5,10 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import im.aop.loggers.AopLoggersProperties;
+import im.aop.loggers.Level;
+import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 import java.time.temporal.ChronoUnit;
-
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.assertj.core.util.Arrays;
@@ -20,10 +22,6 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
-
-import im.aop.loggers.AopLoggersProperties;
-import im.aop.loggers.Level;
-import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 
 /**
  * Tests for {@link LogAroundService}.

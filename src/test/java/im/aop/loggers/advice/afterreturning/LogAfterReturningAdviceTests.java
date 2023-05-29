@@ -2,6 +2,8 @@ package im.aop.loggers.advice.afterreturning;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import im.aop.loggers.AopLoggersProperties;
+import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 import org.aspectj.lang.JoinPoint;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,9 +14,6 @@ import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-
-import im.aop.loggers.AopLoggersProperties;
-import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 
 /**
  * Tests for {@link LogAfterReturningAdvice}.
@@ -320,45 +319,5 @@ class LogAfterReturningAdviceTests {
                           + ".toString())")
                   .doesNotContain("returnedValue=" + ChildClassContext.class.getName());
             });
-  }
-
-  @Test
-  void publicMethod_fulfillCoverageRatio() {
-    runner.run(
-        (context) -> {
-          final LogAfterReturningAdvice logAfterReturningAdvice =
-              context.getBean(LogAfterReturningAdvice.class);
-          logAfterReturningAdvice.publicMethod();
-        });
-  }
-
-  @Test
-  void toStringMethod_fulfillCoverageRatio() {
-    runner.run(
-        (context) -> {
-          final LogAfterReturningAdvice logAfterReturningAdvice =
-              context.getBean(LogAfterReturningAdvice.class);
-          logAfterReturningAdvice.toStringMethod();
-        });
-  }
-
-  @Test
-  void logAfterReturningMethodContext_fulfillCoverageRatio() {
-    runner.run(
-        (context) -> {
-          final LogAfterReturningAdvice logAfterReturningAdvice =
-              context.getBean(LogAfterReturningAdvice.class);
-          logAfterReturningAdvice.logAfterReturningMethodContext(null);
-        });
-  }
-
-  @Test
-  void logAfterReturningClassContext_fulfillCoverageRatio() {
-    runner.run(
-        (context) -> {
-          final LogAfterReturningAdvice logAfterReturningAdvice =
-              context.getBean(LogAfterReturningAdvice.class);
-          logAfterReturningAdvice.logAfterReturningClassContext(null);
-        });
   }
 }

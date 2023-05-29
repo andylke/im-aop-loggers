@@ -3,6 +3,8 @@ package im.aop.loggers.advice.afterthrowing;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import im.aop.loggers.AopLoggersProperties;
+import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 import org.aspectj.lang.JoinPoint;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,9 +15,6 @@ import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-
-import im.aop.loggers.AopLoggersProperties;
-import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 
 /**
  * Tests for {@link LogAfterThrowingAdvice}.
@@ -325,45 +324,5 @@ class LogAfterThrowingAdviceTests {
                           + ".toString())")
                   .doesNotContain("thrownException=" + RuntimeException.class.getName());
             });
-  }
-
-  @Test
-  void publicMethod_fulfillCoverageRatio() {
-    runner.run(
-        (context) -> {
-          final LogAfterThrowingAdvice logAfterThrowingAdvice =
-              context.getBean(LogAfterThrowingAdvice.class);
-          logAfterThrowingAdvice.publicMethod();
-        });
-  }
-
-  @Test
-  void toStringMethod_fulfillCoverageRatio() {
-    runner.run(
-        (context) -> {
-          final LogAfterThrowingAdvice logAfterThrowingAdvice =
-              context.getBean(LogAfterThrowingAdvice.class);
-          logAfterThrowingAdvice.toStringMethod();
-        });
-  }
-
-  @Test
-  void logAfterThrowingMethodContext_fulfillCoverageRatio() {
-    runner.run(
-        (context) -> {
-          final LogAfterThrowingAdvice logAfterThrowingAdvice =
-              context.getBean(LogAfterThrowingAdvice.class);
-          logAfterThrowingAdvice.logAfterThrowingMethodContext(null);
-        });
-  }
-
-  @Test
-  void logAfterThrowingClassContext_fulfillCoverageRatio() {
-    runner.run(
-        (context) -> {
-          final LogAfterThrowingAdvice logAfterThrowingAdvice =
-              context.getBean(LogAfterThrowingAdvice.class);
-          logAfterThrowingAdvice.logAfterThrowingClassContext(null);
-        });
   }
 }

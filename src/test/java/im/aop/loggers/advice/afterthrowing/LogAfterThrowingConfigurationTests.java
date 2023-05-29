@@ -2,11 +2,10 @@ package im.aop.loggers.advice.afterthrowing;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.runner.ApplicationContextRunner;
-
 import im.aop.loggers.AopLoggersProperties;
 import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 
 /**
  * Tests for {@link LogAfterThrowingConfiguration}.

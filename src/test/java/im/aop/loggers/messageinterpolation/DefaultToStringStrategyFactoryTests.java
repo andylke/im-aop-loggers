@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 
 /**
@@ -17,8 +16,10 @@ class DefaultToStringStrategyFactoryTests {
 
   @Test
   void instantiate_givenNullObjectToStringStrategy() {
+    List<ToStringStrategy> toStringStrategies = List.of();
     assertThrows(
-        NullPointerException.class, () -> new DefaultToStringStrategyFactory(null, List.of()));
+        NullPointerException.class,
+        () -> new DefaultToStringStrategyFactory(null, toStringStrategies));
   }
 
   @Test

@@ -23,8 +23,7 @@ public class ReflectionToStringProperties {
   @PostConstruct
   void postConstruct() {
     excludeFieldNames =
-        ArrayUtils.insert(
-            0, excludeFieldNames, new String[] {"username", "password", "passphrase", "secret"});
+        ArrayUtils.insert(0, excludeFieldNames, "username", "password", "passphrase", "secret");
   }
 
   public String[] getBaseClasses() {

@@ -1,13 +1,5 @@
 package im.aop.loggers.advice.afterthrowing;
 
-import java.time.Duration;
-import java.util.Objects;
-
-import org.aspectj.lang.JoinPoint;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import im.aop.loggers.AopLoggersProperties;
 import im.aop.loggers.Level;
 import im.aop.loggers.messageinterpolation.ExceptionStringSupplierRegistrar;
@@ -15,6 +7,12 @@ import im.aop.loggers.messageinterpolation.JoinPointStringSupplierRegistrar;
 import im.aop.loggers.messageinterpolation.StringSubstitutor;
 import im.aop.loggers.messageinterpolation.StringSupplierLookup;
 import im.aop.loggers.util.LoggerUtil;
+import java.time.Duration;
+import java.util.Objects;
+import org.aspectj.lang.JoinPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class LogAfterThrowingService {
 
@@ -57,7 +55,7 @@ public class LogAfterThrowingService {
   }
 
   private boolean isLoggerLevelDisabled(final Logger logger, final Level level) {
-    return LoggerUtil.isEnabled(logger, level) == false;
+    return !(LoggerUtil.isEnabled(logger, level));
   }
 
   private boolean isIgnoredException(

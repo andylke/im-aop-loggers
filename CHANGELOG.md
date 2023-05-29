@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 - Upgrade Spring Boot version to 3.1.0.
 - Upgrade Jacoco Maven Plugin version to 0.8.10.
 - Fix failed unit test due to Spring Boot upgrade.
+- Fix SonarLint major and most of the minor non-compliant code.
 
 ## [1.0.8] - 2022-05-10
 

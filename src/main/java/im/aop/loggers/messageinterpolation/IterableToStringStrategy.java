@@ -30,7 +30,7 @@ public class IterableToStringStrategy implements ToStringStrategy {
 
   private String toString(final Iterable<?> iterable) {
     final Iterator<?> iterator = iterable.iterator();
-    if (iterator.hasNext() == false) {
+    if (!iterator.hasNext()) {
       return "[]";
     }
 

@@ -4,6 +4,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import im.aop.loggers.AopLoggersProperties;
+import im.aop.loggers.Level;
+import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,10 +19,6 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
-
-import im.aop.loggers.AopLoggersProperties;
-import im.aop.loggers.Level;
-import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 
 /**
  * Tests for {@link LogAfterReturningService}.

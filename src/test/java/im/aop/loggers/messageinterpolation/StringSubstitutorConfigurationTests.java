@@ -2,10 +2,9 @@ package im.aop.loggers.messageinterpolation;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import im.aop.loggers.AopLoggersProperties;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
-
-import im.aop.loggers.AopLoggersProperties;
 
 /**
  * Tests for {@link StringSubstitutorConfiguration}.

@@ -28,8 +28,7 @@ public class LogBeforeAdvice {
   @Before(
       value = "publicMethod() && logBeforeMethodContext(logBefore)",
       argNames = "joinPoint, logBefore")
-  void logBeforeMethodContext(final JoinPoint joinPoint, final LogBefore logBefore)
-      throws Throwable {
+  void logBeforeMethodContext(final JoinPoint joinPoint, final LogBefore logBefore) {
     logBefore(joinPoint, logBefore);
   }
 
@@ -39,12 +38,11 @@ public class LogBeforeAdvice {
   @Before(
       value = "publicMethod() && !toStringMethod() && logBeforeClassContext(logBefore)",
       argNames = "joinPoint, logBefore")
-  void logBeforeClassContext(final JoinPoint joinPoint, final LogBefore logBefore)
-      throws Throwable {
+  void logBeforeClassContext(final JoinPoint joinPoint, final LogBefore logBefore) {
     logBefore(joinPoint, logBefore);
   }
 
-  protected void logBefore(final JoinPoint joinPoint, final LogBefore logBefore) throws Throwable {
+  protected void logBefore(final JoinPoint joinPoint, final LogBefore logBefore) {
     logBeforeService.logBefore(joinPoint, logBefore);
   }
 }

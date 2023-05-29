@@ -1,8 +1,8 @@
 package im.aop.loggers.advice.afterreturning;
 
+import im.aop.loggers.AopLoggersProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import im.aop.loggers.AopLoggersProperties;
 
 @Configuration(proxyBeanMethods = false)
 public class LogAfterReturningConfiguration {

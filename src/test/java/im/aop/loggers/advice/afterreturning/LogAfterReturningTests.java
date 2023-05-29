@@ -2,10 +2,9 @@ package im.aop.loggers.advice.afterreturning;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-import org.junit.jupiter.api.Test;
-
 import im.aop.loggers.Level;
 import im.aop.loggers.advice.before.LogBefore;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for {@link LogAfterReturning}.

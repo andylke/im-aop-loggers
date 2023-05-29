@@ -64,7 +64,7 @@ class ReflectionToStringStrategyTests {
 
   static class TestObject {
 
-    private String value;
+    private final String value;
 
     public TestObject(String value) {
       this.value = value;
@@ -73,15 +73,6 @@ class ReflectionToStringStrategyTests {
     public String getValue() {
       return value;
     }
-  }
-
-  @Test
-  void toString_givenTestObject() {
-    final ReflectionToStringProperties reflectionToStringProperties =
-        new ReflectionToStringProperties();
-    final ReflectionToStringStrategy toStringStrategy =
-        new ReflectionToStringStrategy(reflectionToStringProperties);
-    assertThat(toStringStrategy.toString(new TestObject("foo"))).isEqualTo("[value=foo]");
   }
 
   @Test

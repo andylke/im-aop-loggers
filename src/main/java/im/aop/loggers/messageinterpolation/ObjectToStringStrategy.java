@@ -21,7 +21,7 @@ public class ObjectToStringStrategy implements ToStringStrategy {
   public String toString(Object object) {
     if (object == null
         || reflectionToStringStrategy == null
-        || reflectionToStringStrategy.supports(object.getClass()) == false) {
+        || !reflectionToStringStrategy.supports(object.getClass())) {
       return String.valueOf(object);
     } else {
       return reflectionToStringStrategy.toString(object);

@@ -1,7 +1,6 @@
 package im.aop.loggers.messageinterpolation;
 
 import java.util.function.Supplier;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;

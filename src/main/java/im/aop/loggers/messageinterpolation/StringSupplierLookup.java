@@ -11,7 +11,7 @@ import java.util.function.Supplier;
  */
 public class StringSupplierLookup implements StringLookup {
 
-  private final Map<String, Supplier<String>> map = new HashMap<String, Supplier<String>>();
+  private final Map<String, Supplier<String>> map = new HashMap<>();
 
   @Override
   public String lookup(final String key) {

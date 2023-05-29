@@ -1,7 +1,6 @@
 package im.aop.loggers.messageinterpolation;
 
 import java.util.List;
-
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;

@@ -3,7 +3,6 @@ package im.aop.loggers.messageinterpolation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -13,7 +12,7 @@ public class ReflectionToStringStrategy implements ToStringStrategy {
 
   private final ReflectionToStringProperties reflectionToStringProperties;
 
-  private final List<Class<?>> supportedBaseClasses = new ArrayList<Class<?>>();
+  private final List<Class<?>> supportedBaseClasses = new ArrayList<>();
 
   public ReflectionToStringStrategy(
       final ReflectionToStringProperties reflectionToStringProperties) {
@@ -44,9 +43,10 @@ public class ReflectionToStringStrategy implements ToStringStrategy {
     final ReflectionToStringBuilder builder =
         new ReflectionToStringBuilder(object, ToStringStyle.NO_CLASS_NAME_STYLE) {
 
+          @Override
           public ToStringBuilder append(
               final String fieldName, final Object obj, final boolean fullDetail) {
-            if (isExcludedValue(obj) == false) {
+            if (!isExcludedValue(obj)) {
               super.append(fieldName, obj, fullDetail);
             }
             return this;
@@ -64,14 +64,14 @@ public class ReflectionToStringStrategy implements ToStringStrategy {
   }
 
   private boolean isExcludedEmptyValue(Object value) {
-    return value instanceof CharSequence
+    return value instanceof CharSequence charSequence
         && reflectionToStringProperties.isExcludeEmptyValues()
-        && ((CharSequence) value).length() == 0;
+        && charSequence.length() == 0;
   }
 
   private boolean isExcludedZeroValue(Object value) {
-    return value instanceof Number
+    return value instanceof Number number
         && reflectionToStringProperties.isExcludeZeroValues()
-        && Double.compare(((Number) value).doubleValue(), 0.0) == 0;
+        && Double.compare(number.doubleValue(), 0.0) == 0;
   }
 }

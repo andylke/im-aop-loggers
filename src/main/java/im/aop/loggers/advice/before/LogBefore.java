@@ -1,12 +1,7 @@
 package im.aop.loggers.advice.before;
 
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
-
 import im.aop.loggers.Level;
+import java.lang.annotation.*;
 
 /**
  * Log before entering the target method.

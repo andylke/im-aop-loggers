@@ -1,13 +1,5 @@
 package im.aop.loggers.advice.around;
 
-import java.time.Duration;
-import java.util.Objects;
-
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-
 import im.aop.loggers.AopLoggersProperties;
 import im.aop.loggers.Level;
 import im.aop.loggers.messageinterpolation.ElapsedStringSupplierRegistrar;
@@ -18,6 +10,12 @@ import im.aop.loggers.messageinterpolation.ReturnValueStringSupplierRegistrar;
 import im.aop.loggers.messageinterpolation.StringSubstitutor;
 import im.aop.loggers.messageinterpolation.StringSupplierLookup;
 import im.aop.loggers.util.LoggerUtil;
+import java.time.Duration;
+import java.util.Objects;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 public class LogAroundService {
 
@@ -58,8 +56,8 @@ public class LogAroundService {
 
       final long proceedElapsedTime = System.nanoTime() - beforeProceedTime;
       logExitedMessage(joinPoint, logAround, logger, stringLookup, returnValue);
-      logElapsedTime(joinPoint, logAround, logger, stringLookup, proceedElapsedTime);
-      logElapsedWarning(joinPoint, logAround, logger, stringLookup, proceedElapsedTime);
+      logElapsedTime(logAround, logger, stringLookup, proceedElapsedTime);
+      logElapsedWarning(logAround, logger, stringLookup, proceedElapsedTime);
 
       logElapsed(enteringTime, proceedElapsedTime);
 
@@ -68,9 +66,9 @@ public class LogAroundService {
     } catch (Throwable e) {
 
       final long proceedElapsedTime = System.nanoTime() - beforeProceedTime;
-      logExitedAbnormallyMessage(joinPoint, logAround, logger, stringLookup, e);
-      logElapsedTime(joinPoint, logAround, logger, stringLookup, proceedElapsedTime);
-      logElapsedWarning(joinPoint, logAround, logger, stringLookup, proceedElapsedTime);
+      logExitedAbnormallyMessage(logAround, logger, stringLookup, e);
+      logElapsedTime(logAround, logger, stringLookup, proceedElapsedTime);
+      logElapsedWarning(logAround, logger, stringLookup, proceedElapsedTime);
 
       logElapsed(enteringTime, proceedElapsedTime);
       throw e;
@@ -84,7 +82,7 @@ public class LogAroundService {
   }
 
   private boolean isLoggerLevelDisabled(final Logger logger, final Level level) {
-    return LoggerUtil.isEnabled(logger, level) == false;
+    return !(LoggerUtil.isEnabled(logger, level));
   }
 
   private boolean isIgnoredException(
@@ -134,7 +132,6 @@ public class LogAroundService {
   }
 
   private void logElapsedTime(
-      final ProceedingJoinPoint joinPoint,
       final LogAround annotation,
       final Logger logger,
       final StringSupplierLookup stringLookup,
@@ -154,7 +151,6 @@ public class LogAroundService {
   }
 
   private void logElapsedWarning(
-      final ProceedingJoinPoint joinPoint,
       final LogAround annotation,
       final Logger logger,
       final StringSupplierLookup stringLookup,
@@ -170,7 +166,7 @@ public class LogAroundService {
     }
     final Duration elapsedTimeLimit =
         Duration.of(annotation.elapsedTimeLimit(), annotation.elapsedTimeUnit());
-    if (elapsedTimeLimit.minusNanos(elapsedTime).isNegative() == false) {
+    if (!elapsedTimeLimit.minusNanos(elapsedTime).isNegative()) {
       return;
     }
 
@@ -207,7 +203,6 @@ public class LogAroundService {
   }
 
   private void logExitedAbnormallyMessage(
-      final ProceedingJoinPoint joinPoint,
       final LogAround annotation,
       final Logger logger,
       final StringSupplierLookup stringLookup,
@@ -215,6 +210,7 @@ public class LogAroundService {
     final Level exitedAbnormallyLevel =
         getLevel(
             annotation.exitedAbnormallyLevel(), aopLoggersProperties.getExitedAbnormallyLevel());
+
     if (isLoggerLevelDisabled(logger, exitedAbnormallyLevel)
         || isIgnoredException(exception, annotation.ignoreExceptions())) {
       return;

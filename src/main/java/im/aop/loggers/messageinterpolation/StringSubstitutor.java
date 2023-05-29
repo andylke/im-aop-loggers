@@ -32,8 +32,7 @@ public class StringSubstitutor {
         break;
       }
 
-      templateCursor =
-          appendToBuilder(resultBuilder, template, templateCursor, variableStartCursor);
+      appendToBuilder(resultBuilder, template, templateCursor, variableStartCursor);
       String tokenValue =
           lookupVariableOrEmpty(template, variableStartCursor, variableEndCursor, stringLookup);
       appendToBuilder(resultBuilder, tokenValue);

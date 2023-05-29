@@ -2,7 +2,6 @@ package im.aop.loggers.messageinterpolation;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * Default {@link ToStringStrategyFactory} implementation.
@@ -22,11 +21,9 @@ public class DefaultToStringStrategyFactory implements ToStringStrategyFactory {
     this.toStringStrategies =
         toStringStrategies == null
             ? null
-            : toStringStrategies
-                .stream()
-                .filter(
-                    toStringStrategy -> toStringStrategy instanceof ObjectToStringStrategy == false)
-                .collect(Collectors.toList());
+            : toStringStrategies.stream()
+                .filter(toStringStrategy -> !(toStringStrategy instanceof ObjectToStringStrategy))
+                .toList();
   }
 
   @Override

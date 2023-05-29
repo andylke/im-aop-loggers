@@ -32,8 +32,7 @@ public class LogAfterReturningAdvice {
   void logAfterReturningMethodContext(
       final JoinPoint joinPoint,
       final LogAfterReturning logAfterReturning,
-      final Object returnValue)
-      throws Throwable {
+      final Object returnValue) {
     logAfterReturning(joinPoint, logAfterReturning, returnValue);
   }
 
@@ -48,16 +47,14 @@ public class LogAfterReturningAdvice {
   void logAfterReturningClassContext(
       final JoinPoint joinPoint,
       final LogAfterReturning logAfterReturning,
-      final Object returnValue)
-      throws Throwable {
+      final Object returnValue) {
     logAfterReturning(joinPoint, logAfterReturning, returnValue);
   }
 
   protected void logAfterReturning(
       final JoinPoint joinPoint,
       final LogAfterReturning logAfterReturning,
-      final Object returnValue)
-      throws Throwable {
+      final Object returnValue) {
     logAfterReturningService.logAfterReturning(joinPoint, logAfterReturning, returnValue);
   }
 }
