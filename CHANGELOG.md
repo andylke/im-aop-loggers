@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.1.0] - 2023-05-29
+
 - Upgrade Java version to 17.
 - Upgrade Spring Boot version to 3.1.0.
 - Upgrade Jacoco Maven Plugin version to 0.8.10.
