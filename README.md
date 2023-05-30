@@ -1,7 +1,7 @@
 # I'm AOP Loggers
 
 [![maven central](https://maven-badges.herokuapp.com/maven-central/com.github.andylke/im-aop-loggers/badge.png)](https://maven-badges.herokuapp.com/maven-central/com.github.andylke/im-aop-loggers)
-[![codecov](https://codecov.io/gh/andylke/im-aop-loggers/branch/master/graph/badge.svg?token=ND15KBP0RI)](https://codecov.io/gh/andylke/im-aop-loggers)
+[![codecov](https://codecov.io/gh/andylke/im-aop-loggers/branch/main/graph/badge.svg?token=ND15KBP0RI)](https://codecov.io/gh/andylke/im-aop-loggers)
 
 `I'm AOP Loggers` is a handy and configurable set of annotation-based loggers
 for [Spring Boot](https://spring.io/projects/spring-boot) that can log every execution of a method when entering or
