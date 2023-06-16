@@ -17,7 +17,7 @@ class ReflectionToStringStrategyTests {
   void instantiate_givenInvalidBaseClassesInProperties() {
     final ReflectionToStringProperties reflectionToStringProperties =
         new ReflectionToStringProperties();
-    reflectionToStringProperties.setBaseClasses(new String[] {"foo"});
+    reflectionToStringProperties.setBaseClasses(new String[]{"foo"});
 
     assertThrows(
         InvalidConfigurationPropertyValueException.class,
@@ -37,7 +37,7 @@ class ReflectionToStringStrategyTests {
   void supports_givenObjectClassAssignableToBaseClasses() {
     final ReflectionToStringProperties reflectionToStringProperties =
         new ReflectionToStringProperties();
-    reflectionToStringProperties.setBaseClasses(new String[] {Object.class.getName()});
+    reflectionToStringProperties.setBaseClasses(new String[]{Object.class.getName()});
     final ReflectionToStringStrategy toStringStrategy =
         new ReflectionToStringStrategy(reflectionToStringProperties);
     assertThat(toStringStrategy.supports(Object.class)).isTrue();
@@ -47,7 +47,7 @@ class ReflectionToStringStrategyTests {
   void supports_givenObjectClassNotAssignableToBaseClasses() {
     final ReflectionToStringProperties reflectionToStringProperties =
         new ReflectionToStringProperties();
-    reflectionToStringProperties.setBaseClasses(new String[] {String.class.getName()});
+    reflectionToStringProperties.setBaseClasses(new String[]{String.class.getName()});
     final ReflectionToStringStrategy toStringStrategy =
         new ReflectionToStringStrategy(reflectionToStringProperties);
     assertThat(toStringStrategy.supports(Object.class)).isFalse();
@@ -107,7 +107,7 @@ class ReflectionToStringStrategyTests {
   void toString_givenTestObject_withExcludeFieldNamesEqualsValue() {
     final ReflectionToStringProperties reflectionToStringProperties =
         new ReflectionToStringProperties();
-    reflectionToStringProperties.setExcludeFieldNames(new String[] {"value"});
+    reflectionToStringProperties.setExcludeFieldNames(new String[]{"value"});
     final ReflectionToStringStrategy toStringStrategy =
         new ReflectionToStringStrategy(reflectionToStringProperties);
     assertThat(toStringStrategy.toString(new TestObject("foo"))).isEqualTo("[]");

@@ -16,7 +16,9 @@ class ReflectionToStringPropertiesTests {
 
   @TestConfiguration(proxyBeanMethods = false)
   @EnableConfigurationProperties({ReflectionToStringProperties.class})
-  static class ReflectionToStringPropertiesTestConfiguration {}
+  static class ReflectionToStringPropertiesTestConfiguration {
+
+  }
 
   private ApplicationContextRunner runner =
       new ApplicationContextRunner()

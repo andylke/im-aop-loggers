@@ -5,7 +5,8 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 /**
- * Default {@link StringLookup} used by {@link StringSubstitutor} to lookup for String value by key.
+ * Default {@link StringLookup} used by {@link StringSubstitutor} to lookup for String value by
+ * key.
  *
  * @author Andy Lian
  */

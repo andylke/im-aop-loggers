@@ -17,9 +17,11 @@ public class LogBeforeService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LogBeforeService.class);
 
-  @Autowired private StringSubstitutor stringSubstitutor;
+  @Autowired
+  private StringSubstitutor stringSubstitutor;
 
-  @Autowired private JoinPointStringSupplierRegistrar joinPointStringSupplierRegistrar;
+  @Autowired
+  private JoinPointStringSupplierRegistrar joinPointStringSupplierRegistrar;
 
   private final AopLoggersProperties aopLoggersProperties;
 

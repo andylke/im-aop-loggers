@@ -4,8 +4,10 @@
 [![codecov](https://codecov.io/gh/andylke/im-aop-loggers/branch/main/graph/badge.svg?token=ND15KBP0RI)](https://codecov.io/gh/andylke/im-aop-loggers)
 
 `I'm AOP Loggers` is a handy and configurable set of annotation-based loggers
-for [Spring Boot](https://spring.io/projects/spring-boot) that can log every execution of a method when entering or
-exiting normally or abnormally, without you writing a single line of code using aspect-oriented programming (AOP).
+for [Spring Boot](https://spring.io/projects/spring-boot) that can log every execution of a method
+when entering or
+exiting normally or abnormally, without you writing a single line of code using aspect-oriented
+programming (AOP).
 
 # Spring Boot Compatibility
 
@@ -63,7 +65,8 @@ This will log an `entering message` before executing the method.
 DEBUG 26356 --- [           main] im.aop.loggers.demo.foo.FooService       : Entering [Foo accept(Foo)] with parameters [Foo[foo=abc]]
 ```
 
-Log level and message template for `entering message` can be configured in `application.properties` using the following
+Log level and message template for `entering message` can be configured in `application.properties`
+using the following
 properties:
 
 | Configuration Properties          | Default Value                                      | Description                    |
@@ -126,7 +129,8 @@ This will log an `exited normally message` after exited the method normally.
 DEBUG 26356 --- [           main] im.aop.loggers.demo.bar.BarService       : [Bar accept(Bar)] exited normally with return value [Bar[bar=abc]]
 ```
 
-Log level and message template for `exited normally message` can be configured in `application.properties` using the
+Log level and message template for `exited normally message` can be configured
+in `application.properties` using the
 following properties:
 
 | Configuration Properties        | Default Value                                                 | Description                           |
@@ -141,7 +145,8 @@ Message template for `exited normally message` supports the following variables:
 | `method`          | Method signature    | void foo(String) |
 | `return-value`    | Method return value | abc              |
 
-The logger can be further customized at `@LogAfterReturning` annotation with the following attributes:
+The logger can be further customized at `@LogAfterReturning` annotation with the following
+attributes:
 
 | Annotation Attribute | Description                               |
 |----------------------|-------------------------------------------|
@@ -205,7 +210,8 @@ Message template for `exited abnormally message` supports the following variable
 | `method`          | Method signature | void foo(String)                           |
 | `exception`       | Thrown exception | type=IllegalArgumentException, message=Baz | `exited-abnormally-message` |
 
-The logger can be further customized at `@LogAfterThrowing` annotation with the following attributes:
+The logger can be further customized at `@LogAfterThrowing` annotation with the following
+attributes:
 
 | Annotation Attribute      | Description                               |
 |---------------------------|-------------------------------------------|
@@ -254,8 +260,10 @@ This will log
 2. an `exited normally message` when exited the method normally
 3. an `exited abnormally message` when exited the method with an exception
 4. an `elapsed message` for the execution
-5. an `elapsed warning message` when execution time exceeded the configured limit. `elapsed time limit` needs to be
-   configured on `@LogAround` annotation individually to enable `elapsed warning message` for that method.
+5. an `elapsed warning message` when execution time exceeded the configured
+   limit. `elapsed time limit` needs to be
+   configured on `@LogAround` annotation individually to enable `elapsed warning message` for that
+   method.
 
 ```text
 INFO 19036 --- [           main] im.aop.loggers.demo.qux.QuxService       : Entering [Qux accept(Qux)] with parameters [Qux[qux=abc]]
@@ -267,7 +275,8 @@ WARN 13248 --- [           main] im.aop.loggers.demo.qux.QuxService       : [Qux
 `@LogAround` shares the same configuration properties defined for `@LogBefore`, `@LogAfterReturning`
 and `@LogAfterThrowing` annotations.
 
-Additionally, log level and message template for `elapsed message` and `elapsed warning message` can be configured
+Additionally, log level and message template for `elapsed message` and `elapsed warning message` can
+be configured
 in `application.properties` using the following properties:
 
 | Configuration Properties                 | Default Value                                                | Description                           |
@@ -330,13 +339,15 @@ logging.level.im.aop.loggers.advice.LogAroundService=DEBUG
 
 # Customization
 
-`I'm AOP Loggers` uses `ToStringStrategy` interface to supply String representation when constructing log message for
+`I'm AOP Loggers` uses `ToStringStrategy` interface to supply String representation when
+constructing log message for
 method arguments and returned value. By default it uses `ObjectToStringStrategy`, that works exactly
 like `String.valueOf(object)`.
 
 `ObjectToStringStrategy` can be configured supply String representation
 using [ReflectionToStringBuilder](https://commons.apache.org/proper/commons-lang/apidocs/org/apache/commons/lang3/builder/ReflectionToStringBuilder.html)
-by configuring property `im.aop.loggers.reflection-to-string.base-classes` with your Object's class name. Additional
+by configuring property `im.aop.loggers.reflection-to-string.base-classes` with your Object's class
+name. Additional
 behavior can be configured in `application.properties` using the following properties:
 
 | Configuration Properties                                   | Default Value                          | Description                                               |
@@ -347,7 +358,8 @@ behavior can be configured in `application.properties` using the following prope
 | `im.aop.loggers.reflection-to-string.exclude-zero-values`  | true                                   | Exclude field from supplied Number whose values are zero  |  
 | `im.aop.loggers.reflection-to-string.exclude-field-names`  | username, password, passphrase, secret | Exclude field from supplied String                        |
 
-Implement `ToStringStrategy` and expose as a Spring `@Component` to supply a custom toString strategy.
+Implement `ToStringStrategy` and expose as a Spring `@Component` to supply a custom toString
+strategy.
 
 Example implementation for `ToStringStrategy`:
 
@@ -370,7 +382,8 @@ public class BarToStringStrategy implements ToStringStrategy {
 
 # Sample
 
-Sample project is available in [andylke/im-aop-loggers-sample](https://github.com/andylke/im-aop-loggers-sample).
+Sample project is available
+in [andylke/im-aop-loggers-sample](https://github.com/andylke/im-aop-loggers-sample).
 
 # Changelog
 

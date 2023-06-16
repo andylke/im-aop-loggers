@@ -36,11 +36,14 @@ class LogAfterReturningServiceTests {
 
   @TestConfiguration(proxyBeanMethods = false)
   @EnableConfigurationProperties({AopLoggersProperties.class})
-  static class AopLoggersPropertiesTestConfiguration {}
+  static class AopLoggersPropertiesTestConfiguration {
+
+  }
 
   static class Foo {
 
-    void foo() {}
+    void foo() {
+    }
   }
 
   private MethodSignature methodSignature;

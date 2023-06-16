@@ -25,11 +25,14 @@ class JoinPointStringSupplierRegistrarTests {
 
   static class TestClass {
 
-    public void methodWithoutParameter() {}
+    public void methodWithoutParameter() {
+    }
 
-    public void methodWithOneParameter(String foo) {}
+    public void methodWithOneParameter(String foo) {
+    }
 
-    public void methodWithTwoParameter(String foo, String bar) {}
+    public void methodWithTwoParameter(String foo, String bar) {
+    }
 
     public String methodWithResult() {
       return "foo";
@@ -165,7 +168,7 @@ class JoinPointStringSupplierRegistrarTests {
                   null);
           final JoinPoint joinPoint = mockJoinPoint(methodSignature, Arrays.array("a", "b"));
 
-          when(methodSignature.getParameterNames()).thenReturn(new String[] {"foo", "bar"});
+          when(methodSignature.getParameterNames()).thenReturn(new String[]{"foo", "bar"});
 
           final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
           registrar.register(stringSupplierLookup, joinPoint);

@@ -4,8 +4,8 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * {@link ToStringStrategy} implementation for {@link Optional}, using {@link
- * ObjectToStringStrategy} to return a String representation of the element.
+ * {@link ToStringStrategy} implementation for {@link Optional}, using
+ * {@link ObjectToStringStrategy} to return a String representation of the element.
  *
  * @author Andy Lian
  */

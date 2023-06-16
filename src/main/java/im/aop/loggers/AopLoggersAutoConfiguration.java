@@ -17,4 +17,6 @@ import org.springframework.context.annotation.Import;
     havingValue = "true",
     matchIfMissing = true)
 @Import(AopLoggersConfiguration.class)
-public class AopLoggersAutoConfiguration {}
+public class AopLoggersAutoConfiguration {
+
+}

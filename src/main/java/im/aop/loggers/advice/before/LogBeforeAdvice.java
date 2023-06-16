@@ -14,16 +14,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Aspect
 public class LogBeforeAdvice {
 
-  @Autowired private LogBeforeService logBeforeService;
+  @Autowired
+  private LogBeforeService logBeforeService;
 
   @Pointcut("execution(public * *(..))")
-  void publicMethod() {}
+  void publicMethod() {
+  }
 
   @Pointcut("execution(String *.toString())")
-  void toStringMethod() {}
+  void toStringMethod() {
+  }
 
   @Pointcut(value = "@annotation(logBefore)", argNames = "logBefore")
-  void logBeforeMethodContext(final LogBefore logBefore) {}
+  void logBeforeMethodContext(final LogBefore logBefore) {
+  }
 
   @Before(
       value = "publicMethod() && logBeforeMethodContext(logBefore)",
@@ -33,7 +37,8 @@ public class LogBeforeAdvice {
   }
 
   @Pointcut(value = "@within(logBefore)", argNames = "logBefore")
-  void logBeforeClassContext(final LogBefore logBefore) {}
+  void logBeforeClassContext(final LogBefore logBefore) {
+  }
 
   @Before(
       value = "publicMethod() && !toStringMethod() && logBeforeClassContext(logBefore)",

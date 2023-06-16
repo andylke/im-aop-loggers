@@ -14,16 +14,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Aspect
 public class LogAroundAdvice {
 
-  @Autowired private LogAroundService logAroundService;
+  @Autowired
+  private LogAroundService logAroundService;
 
   @Pointcut("execution(public * *(..))")
-  void publicMethod() {}
+  void publicMethod() {
+  }
 
   @Pointcut("execution(String *.toString())")
-  void toStringMethod() {}
+  void toStringMethod() {
+  }
 
   @Pointcut(value = "@annotation(logAround)", argNames = "logAround")
-  void logAroundMethodContext(final LogAround logAround) {}
+  void logAroundMethodContext(final LogAround logAround) {
+  }
 
   @Around(
       value = "publicMethod() && logAroundMethodContext(logAround)",
@@ -34,7 +38,8 @@ public class LogAroundAdvice {
   }
 
   @Pointcut(value = "@within(logAround)", argNames = "logAround")
-  void logAroundClassContext(final LogAround logAround) {}
+  void logAroundClassContext(final LogAround logAround) {
+  }
 
   @Around(
       value = "publicMethod() && !toStringMethod() && logAroundClassContext(logAround)",

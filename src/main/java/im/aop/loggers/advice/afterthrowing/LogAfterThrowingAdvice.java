@@ -14,16 +14,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Aspect
 public class LogAfterThrowingAdvice {
 
-  @Autowired private LogAfterThrowingService logAfterThrowingService;
+  @Autowired
+  private LogAfterThrowingService logAfterThrowingService;
 
   @Pointcut("execution(public * *(..))")
-  void publicMethod() {}
+  void publicMethod() {
+  }
 
   @Pointcut("execution(String *.toString())")
-  void toStringMethod() {}
+  void toStringMethod() {
+  }
 
   @Pointcut(value = "@annotation(logAfterThrowing)", argNames = "logAfterThrowing")
-  void logAfterThrowingMethodContext(final LogAfterThrowing logAfterThrowing) {}
+  void logAfterThrowingMethodContext(final LogAfterThrowing logAfterThrowing) {
+  }
 
   @AfterThrowing(
       value = "publicMethod() && logAfterThrowingMethodContext(logAfterThrowing)",
@@ -37,7 +41,8 @@ public class LogAfterThrowingAdvice {
   }
 
   @Pointcut(value = "@within(logAfterThrowing)", argNames = "logAfterThrowing")
-  void logAfterThrowingClassContext(final LogAfterThrowing logAfterThrowing) {}
+  void logAfterThrowingClassContext(final LogAfterThrowing logAfterThrowing) {
+  }
 
   @AfterThrowing(
       value =

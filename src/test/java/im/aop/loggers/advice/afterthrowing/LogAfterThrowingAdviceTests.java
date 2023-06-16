@@ -256,7 +256,9 @@ class LogAfterThrowingAdviceTests {
     }
   }
 
-  static class ChildClassContext extends ParentClassContext {}
+  static class ChildClassContext extends ParentClassContext {
+
+  }
 
   @Test
   void methodWithoutParameter_annotatedOnChildClass(final CapturedOutput capturedOutput) {

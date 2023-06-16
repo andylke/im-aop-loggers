@@ -24,11 +24,15 @@ import org.springframework.boot.test.system.OutputCaptureExtension;
 class LoggerUtilTests {
 
   static class TestFoo {
-    void foo() {}
+
+    void foo() {
+    }
   }
 
   static class TestBar {
-    void bar() {}
+
+    void bar() {
+    }
   }
 
   @Test

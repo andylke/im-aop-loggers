@@ -28,7 +28,9 @@ class DefaultToStringStrategyFactoryTests {
         () -> new DefaultToStringStrategyFactory(new ObjectToStringStrategy(), null));
   }
 
-  static class TestClass {}
+  static class TestClass {
+
+  }
 
   static class TestToStringStrategy implements ToStringStrategy {
 

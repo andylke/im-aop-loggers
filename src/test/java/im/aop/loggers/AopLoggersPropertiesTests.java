@@ -16,7 +16,9 @@ class AopLoggersPropertiesTests {
 
   @TestConfiguration(proxyBeanMethods = false)
   @EnableConfigurationProperties({AopLoggersProperties.class})
-  static class AopLoggersPropertiesTestConfiguration {}
+  static class AopLoggersPropertiesTestConfiguration {
+
+  }
 
   private ApplicationContextRunner runner =
       new ApplicationContextRunner()

@@ -14,16 +14,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Aspect
 public class LogAfterReturningAdvice {
 
-  @Autowired private LogAfterReturningService logAfterReturningService;
+  @Autowired
+  private LogAfterReturningService logAfterReturningService;
 
   @Pointcut("execution(public * *(..))")
-  void publicMethod() {}
+  void publicMethod() {
+  }
 
   @Pointcut("execution(String *.toString())")
-  void toStringMethod() {}
+  void toStringMethod() {
+  }
 
   @Pointcut(value = "@annotation(logAfterReturning)", argNames = "logAfterReturning")
-  void logAfterReturningMethodContext(final LogAfterReturning logAfterReturning) {}
+  void logAfterReturningMethodContext(final LogAfterReturning logAfterReturning) {
+  }
 
   @AfterReturning(
       value = "publicMethod() && logAfterReturningMethodContext(logAfterReturning)",
@@ -37,7 +41,8 @@ public class LogAfterReturningAdvice {
   }
 
   @Pointcut(value = "@within(logAfterReturning)", argNames = "logAfterReturning")
-  void logAfterReturningClassContext(final LogAfterReturning logAfterReturning) {}
+  void logAfterReturningClassContext(final LogAfterReturning logAfterReturning) {
+  }
 
   @AfterReturning(
       value =

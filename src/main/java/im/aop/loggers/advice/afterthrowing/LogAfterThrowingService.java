@@ -18,11 +18,14 @@ public class LogAfterThrowingService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LogAfterThrowingService.class);
 
-  @Autowired private StringSubstitutor stringSubstitutor;
+  @Autowired
+  private StringSubstitutor stringSubstitutor;
 
-  @Autowired private JoinPointStringSupplierRegistrar joinPointStringSupplierRegistrar;
+  @Autowired
+  private JoinPointStringSupplierRegistrar joinPointStringSupplierRegistrar;
 
-  @Autowired private ExceptionStringSupplierRegistrar exceptionStringSupplierRegistrar;
+  @Autowired
+  private ExceptionStringSupplierRegistrar exceptionStringSupplierRegistrar;
 
   private final AopLoggersProperties aopLoggersProperties;
 

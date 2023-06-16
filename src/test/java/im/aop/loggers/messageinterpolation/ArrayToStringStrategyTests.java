@@ -46,20 +46,20 @@ class ArrayToStringStrategyTests {
   void toString_givenStringArray() {
     final ArrayToStringStrategy toStringStrategy =
         new ArrayToStringStrategy(new ObjectToStringStrategy());
-    assertThat(toStringStrategy.toString(new String[] {"foo", "bar"})).isEqualTo("[foo, bar]");
+    assertThat(toStringStrategy.toString(new String[]{"foo", "bar"})).isEqualTo("[foo, bar]");
   }
 
   @Test
   void toString_givenEmptyStringArray() {
     final ArrayToStringStrategy toStringStrategy =
         new ArrayToStringStrategy(new ObjectToStringStrategy());
-    assertThat(toStringStrategy.toString(new String[] {})).isEqualTo("[]");
+    assertThat(toStringStrategy.toString(new String[]{})).isEqualTo("[]");
   }
 
   @Test
   void toString_givenStringArray_withNullElement() {
     final ArrayToStringStrategy toStringStrategy =
         new ArrayToStringStrategy(new ObjectToStringStrategy());
-    assertThat(toStringStrategy.toString(new String[] {"foo", null})).isEqualTo("[foo, null]");
+    assertThat(toStringStrategy.toString(new String[]{"foo", null})).isEqualTo("[foo, null]");
   }
 }

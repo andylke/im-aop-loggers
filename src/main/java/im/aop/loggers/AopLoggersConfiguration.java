@@ -10,10 +10,12 @@ import org.springframework.context.annotation.Import;
 
 @EnableConfigurationProperties({AopLoggersProperties.class})
 @Import({
-  StringSubstitutorConfiguration.class,
-  LogAfterReturningConfiguration.class,
-  LogAfterThrowingConfiguration.class,
-  LogAroundConfiguration.class,
-  LogBeforeConfiguration.class
+    StringSubstitutorConfiguration.class,
+    LogAfterReturningConfiguration.class,
+    LogAfterThrowingConfiguration.class,
+    LogAroundConfiguration.class,
+    LogBeforeConfiguration.class
 })
-public class AopLoggersConfiguration {}
+public class AopLoggersConfiguration {
+
+}

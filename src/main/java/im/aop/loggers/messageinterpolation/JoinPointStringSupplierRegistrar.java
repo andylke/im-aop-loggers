@@ -7,7 +7,8 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * Register String {@link Supplier} to {@link StringSupplierLookup} for {@link JoinPoint} variables.
+ * Register String {@link Supplier} to {@link StringSupplierLookup} for {@link JoinPoint}
+ * variables.
  *
  * @author Andy Lian
  */
@@ -19,7 +20,8 @@ public class JoinPointStringSupplierRegistrar implements StringSupplierRegistrar
 
   private static final String NO_PARAMETERS_STRING = "none";
 
-  @Autowired private ToStringStrategyFactory toStringStrategyFactory;
+  @Autowired
+  private ToStringStrategyFactory toStringStrategyFactory;
 
   @Override
   public void register(StringSupplierLookup stringSupplierLookup, JoinPoint source) {

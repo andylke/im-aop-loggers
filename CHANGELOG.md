@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+- Reformat code with Google Java style.
+
 ## [1.1.0] - 2023-05-29
 
 - Upgrade Java version to 17.

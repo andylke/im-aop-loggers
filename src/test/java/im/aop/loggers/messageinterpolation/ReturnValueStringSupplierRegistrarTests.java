@@ -76,7 +76,7 @@ class ReturnValueStringSupplierRegistrarTests {
           final JoinPoint joinPoint = mockJoinPoint(mockMethodSignature(String[].class));
 
           final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
-          registrar.register(stringSupplierLookup, joinPoint, new String[] {"foo", "bar"});
+          registrar.register(stringSupplierLookup, joinPoint, new String[]{"foo", "bar"});
           assertThat(stringSupplierLookup.lookup("return-value")).isEqualTo("[foo, bar]");
         });
   }

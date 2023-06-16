@@ -7,7 +7,8 @@ import org.slf4j.LoggerFactory;
 
 public final class LoggerUtil {
 
-  private LoggerUtil() {}
+  private LoggerUtil() {
+  }
 
   public static Logger getLogger(final Class<?> declaringClass, final JoinPoint joinPoint) {
     return LoggerFactory.getLogger(

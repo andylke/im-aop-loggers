@@ -16,7 +16,10 @@ class LogAfterReturningThrowingTests {
   @Test
   void declaringClass_defaultValue() {
     @LogBefore
-    class Local {};
+    class Local {
+
+    }
+    ;
 
     final LogBefore annotation = Local.class.getAnnotation(LogBefore.class);
     assertThat(annotation.declaringClass()).isEqualTo(void.class);
@@ -25,7 +28,10 @@ class LogAfterReturningThrowingTests {
   @Test
   void declaringClass_givenAttributeValue() {
     @LogBefore(declaringClass = Local.class)
-    class Local {};
+    class Local {
+
+    }
+    ;
 
     final LogBefore annotation = Local.class.getAnnotation(LogBefore.class);
     assertThat(annotation.declaringClass()).isEqualTo(Local.class);
@@ -34,7 +40,10 @@ class LogAfterReturningThrowingTests {
   @Test
   void level_defaultValue() {
     @LogAfterReturning
-    class Local {};
+    class Local {
+
+    }
+    ;
 
     final LogAfterReturning annotation = Local.class.getAnnotation(LogAfterReturning.class);
     assertThat(annotation.level()).isEqualTo(Level.DEFAULT);
@@ -43,7 +52,10 @@ class LogAfterReturningThrowingTests {
   @Test
   void level_givenAttributeValue() {
     @LogAfterReturning(level = Level.DEBUG)
-    class Local {};
+    class Local {
+
+    }
+    ;
 
     final LogAfterReturning annotation = Local.class.getAnnotation(LogAfterReturning.class);
     assertThat(annotation.level()).isEqualTo(Level.DEBUG);
@@ -52,7 +64,10 @@ class LogAfterReturningThrowingTests {
   @Test
   void exitedMessage_defaultValue() {
     @LogAfterReturning
-    class Local {};
+    class Local {
+
+    }
+    ;
 
     final LogAfterReturning annotation = Local.class.getAnnotation(LogAfterReturning.class);
     assertThat(annotation.exitedMessage()).isEmpty();
@@ -61,7 +76,10 @@ class LogAfterReturningThrowingTests {
   @Test
   void exitedMessage_givenAttributeValue() {
     @LogAfterReturning(exitedMessage = "foo")
-    class Local {};
+    class Local {
+
+    }
+    ;
 
     final LogAfterReturning annotation = Local.class.getAnnotation(LogAfterReturning.class);
     assertThat(annotation.exitedMessage()).isEqualTo("foo");

@@ -53,10 +53,12 @@ class LogAroundAdviceTests {
   static class TestMethodContext {
 
     @LogAround
-    public void methodWithoutParameter() {}
+    public void methodWithoutParameter() {
+    }
 
     @LogAround
-    public void methodWithParameter(String foo) {}
+    public void methodWithParameter(String foo) {
+    }
 
     @LogAround
     public String methodWithResult() {
@@ -150,9 +152,11 @@ class LogAroundAdviceTests {
   @LogAround
   static class TestClassContext {
 
-    public void methodWithoutParameter() {}
+    public void methodWithoutParameter() {
+    }
 
-    public void methodWithParameter(String foo) {}
+    public void methodWithParameter(String foo) {
+    }
 
     public String methodWithResult() {
       return "foo";
@@ -244,9 +248,11 @@ class LogAroundAdviceTests {
   @LogAround
   static class ParentClassContext {
 
-    public void methodWithoutParameter() {}
+    public void methodWithoutParameter() {
+    }
 
-    public void methodWithParameter(String foo) {}
+    public void methodWithParameter(String foo) {
+    }
 
     public String methodWithResult() {
       return "foo";
@@ -258,7 +264,9 @@ class LogAroundAdviceTests {
     }
   }
 
-  static class ChildClassContext extends ParentClassContext {}
+  static class ChildClassContext extends ParentClassContext {
+
+  }
 
   @Test
   void methodWithoutParameter_annotatedOnChildClass(final CapturedOutput capturedOutput) {

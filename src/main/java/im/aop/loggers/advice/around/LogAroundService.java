@@ -21,15 +21,20 @@ public class LogAroundService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LogAroundService.class);
 
-  @Autowired private StringSubstitutor stringSubstitutor;
+  @Autowired
+  private StringSubstitutor stringSubstitutor;
 
-  @Autowired private JoinPointStringSupplierRegistrar joinPointStringSupplierRegistrar;
+  @Autowired
+  private JoinPointStringSupplierRegistrar joinPointStringSupplierRegistrar;
 
-  @Autowired private ReturnValueStringSupplierRegistrar returnValueStringSupplierRegistrar;
+  @Autowired
+  private ReturnValueStringSupplierRegistrar returnValueStringSupplierRegistrar;
 
-  @Autowired private ExceptionStringSupplierRegistrar exceptionStringSupplierRegistrar;
+  @Autowired
+  private ExceptionStringSupplierRegistrar exceptionStringSupplierRegistrar;
 
-  @Autowired private ElapsedStringSupplierRegistrar elapsedStringSupplierRegistrar;
+  @Autowired
+  private ElapsedStringSupplierRegistrar elapsedStringSupplierRegistrar;
 
   @Autowired
   private ElapsedTimeLimitStringSupplierRegistrar elapsedTimeLimitStringSupplierRegistrar;

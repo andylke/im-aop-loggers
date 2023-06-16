@@ -16,7 +16,8 @@ public class ReturnValueStringSupplierRegistrar {
 
   private static final String NO_RETURN_VALUE_STRING = "none";
 
-  @Autowired private ToStringStrategyFactory toStringStrategyFactory;
+  @Autowired
+  private ToStringStrategyFactory toStringStrategyFactory;
 
   public void register(
       StringSupplierLookup stringSupplierLookup, JoinPoint joinPoint, Object source) {

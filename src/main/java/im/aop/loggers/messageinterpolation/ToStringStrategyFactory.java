@@ -1,8 +1,8 @@
 package im.aop.loggers.messageinterpolation;
 
 /**
- * Factory returning a {@link ToStringStrategy} candidate for the Object or {@link
- * ObjectToStringStrategy}.
+ * Factory returning a {@link ToStringStrategy} candidate for the Object or
+ * {@link ObjectToStringStrategy}.
  *
  * @author Andy Lian
  */

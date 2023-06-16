@@ -49,10 +49,12 @@ class LogBeforeAdviceTests {
   static class TestMethodContext {
 
     @LogBefore
-    public void methodWithoutParameter() {}
+    public void methodWithoutParameter() {
+    }
 
     @LogBefore
-    public void methodWithParameter(String foo) {}
+    public void methodWithParameter(String foo) {
+    }
 
     @LogBefore
     public String methodWithResult() {
@@ -135,9 +137,11 @@ class LogBeforeAdviceTests {
   @LogBefore
   static class TestClassContext {
 
-    public void methodWithoutParameter() {}
+    public void methodWithoutParameter() {
+    }
 
-    public void methodWithParameter(String foo) {}
+    public void methodWithParameter(String foo) {
+    }
 
     public String methodWithResult() {
       return "foo";
@@ -218,9 +222,11 @@ class LogBeforeAdviceTests {
   @LogBefore
   static class ParentClassContext {
 
-    public void methodWithoutParameter() {}
+    public void methodWithoutParameter() {
+    }
 
-    public void methodWithParameter(String foo) {}
+    public void methodWithParameter(String foo) {
+    }
 
     public String methodWithResult() {
       return "foo";
@@ -232,7 +238,9 @@ class LogBeforeAdviceTests {
     }
   }
 
-  static class ChildClassContext extends ParentClassContext {}
+  static class ChildClassContext extends ParentClassContext {
+
+  }
 
   @Test
   void methodWithoutParameter_annotatedOnChildClass(final CapturedOutput capturedOutput) {

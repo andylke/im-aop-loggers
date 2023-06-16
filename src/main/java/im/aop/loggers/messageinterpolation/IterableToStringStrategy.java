@@ -4,9 +4,9 @@ import java.util.Iterator;
 import java.util.Objects;
 
 /**
- * {@link ToStringStrategy} implementation for {@link Iterable}, using {@link
- * ObjectToStringStrategy} to return a String representation of the element. Encloses element within
- * square brackets "[]".
+ * {@link ToStringStrategy} implementation for {@link Iterable}, using
+ * {@link ObjectToStringStrategy} to return a String representation of the element. Encloses element
+ * within square brackets "[]".
  *
  * @author Andy Lian
  */

@@ -14,7 +14,7 @@ public class ReflectionToStringProperties {
 
   public static final String PREFIX = AopLoggersProperties.PREFIX + ".reflection-to-string";
 
-  private String[] baseClasses = new String[] {};
+  private String[] baseClasses = new String[]{};
 
   private boolean excludeNullValues = true;
 
@@ -22,7 +22,7 @@ public class ReflectionToStringProperties {
 
   private boolean excludeZeroValues = true;
 
-  private String[] excludeFieldNames = new String[] {};
+  private String[] excludeFieldNames = new String[]{};
 
   @PostConstruct
   void postConstruct() {
