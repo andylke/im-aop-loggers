@@ -3,6 +3,11 @@ package im.aop.loggers.messageinterpolation;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.lang.reflect.InaccessibleObjectException;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.context.properties.source.InvalidConfigurationPropertyValueException;
 
@@ -25,7 +30,7 @@ class ReflectionToStringStrategyTests {
   }
 
   @Test
-  void supports_givenObjectClass() {
+  void supports_givenObjectClass_returnFalse() {
     final ReflectionToStringProperties reflectionToStringProperties =
         new ReflectionToStringProperties();
     final ReflectionToStringStrategy toStringStrategy =
@@ -34,7 +39,7 @@ class ReflectionToStringStrategyTests {
   }
 
   @Test
-  void supports_givenObjectClassAssignableToBaseClasses() {
+  void supports_givenObjectClassAssignableToBaseClasses_returnTrue() {
     final ReflectionToStringProperties reflectionToStringProperties =
         new ReflectionToStringProperties();
     reflectionToStringProperties.setBaseClasses(new String[]{Object.class.getName()});
@@ -44,7 +49,7 @@ class ReflectionToStringStrategyTests {
   }
 
   @Test
-  void supports_givenObjectClassNotAssignableToBaseClasses() {
+  void supports_givenObjectClassNotAssignableToBaseClasses_returnFalse() {
     final ReflectionToStringProperties reflectionToStringProperties =
         new ReflectionToStringProperties();
     reflectionToStringProperties.setBaseClasses(new String[]{String.class.getName()});
@@ -257,5 +262,60 @@ class ReflectionToStringStrategyTests {
         new ReflectionToStringStrategy(reflectionToStringProperties);
     assertThat(toStringStrategy.toString(new NumberHolder(Double.valueOf(1.1))))
         .isEqualTo("[value=1.1]");
+  }
+
+  public interface TestInterface {
+
+    String getValue();
+  }
+
+  @Test
+  void supports_givenJavaProxy_returnFalse() {
+    TestInterface proxy =
+        (TestInterface)
+            Proxy.newProxyInstance(
+                ClassLoader.getSystemClassLoader(),
+                new Class<?>[] {TestInterface.class},
+                new InvocationHandler() {
+
+                  @Override
+                  public Object invoke(Object proxy, Method method, Object[] args)
+                      throws Throwable {
+                    return "foo";
+                  }
+                });
+
+    final ReflectionToStringProperties reflectionToStringProperties =
+        new ReflectionToStringProperties();
+    final ReflectionToStringStrategy toStringStrategy =
+        new ReflectionToStringStrategy(reflectionToStringProperties);
+    assertThat(toStringStrategy.supports(proxy.getClass())).isFalse();
+  }
+
+  @Test
+  void toString_givenJavaProxy_willThrow() {
+    TestInterface proxy =
+        (TestInterface)
+            Proxy.newProxyInstance(
+                ClassLoader.getSystemClassLoader(),
+                new Class<?>[] {TestInterface.class},
+                new InvocationHandler() {
+
+                  @Override
+                  public Object invoke(Object proxy, Method method, Object[] args)
+                      throws Throwable {
+                    return "foo";
+                  }
+                });
+
+    final ReflectionToStringProperties reflectionToStringProperties =
+        new ReflectionToStringProperties();
+    final ReflectionToStringStrategy toStringStrategy =
+        new ReflectionToStringStrategy(reflectionToStringProperties);
+    assertThrows(
+        InaccessibleObjectException.class,
+        () -> {
+          toStringStrategy.toString(proxy);
+        });
   }
 }

@@ -1,5 +1,6 @@
 package im.aop.loggers.messageinterpolation;
 
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -30,6 +31,10 @@ public class ReflectionToStringStrategy implements ToStringStrategy {
 
   @Override
   public boolean supports(Class<?> type) {
+    if (Proxy.isProxyClass(type)) {
+      return false;
+    }
+
     for (Class<?> supportedBaseClass : supportedBaseClasses) {
       if (supportedBaseClass.isAssignableFrom(type)) {
         return true;
