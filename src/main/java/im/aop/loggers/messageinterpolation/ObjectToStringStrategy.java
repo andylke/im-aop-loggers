@@ -13,7 +13,7 @@ public class ObjectToStringStrategy implements ToStringStrategy {
   private ReflectionToStringStrategy reflectionToStringStrategy;
 
   @Override
-  public boolean supports(Class<?> type) {
+  public boolean supports(Object object) {
     return true;
   }
 

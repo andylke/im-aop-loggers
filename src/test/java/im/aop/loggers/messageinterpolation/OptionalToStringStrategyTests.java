@@ -10,24 +10,24 @@ import org.junit.jupiter.api.Test;
 class OptionalToStringStrategyTests {
 
   @Test
-  void supports_givenNull() {
+  void supports_givenNull_returnFalse() {
     final OptionalToStringStrategy toStringStrategy =
         new OptionalToStringStrategy(new ObjectToStringStrategy());
-    assertThrows(NullPointerException.class, () -> toStringStrategy.supports(null));
+    assertThat(toStringStrategy.supports(null)).isFalse();
   }
 
   @Test
-  void supports_givenObjectClass() {
+  void supports_givenObjectClass_returnFalse() {
     final OptionalToStringStrategy toStringStrategy =
         new OptionalToStringStrategy(new ObjectToStringStrategy());
-    assertThat(toStringStrategy.supports(Object.class)).isFalse();
+    assertThat(toStringStrategy.supports(new Object())).isFalse();
   }
 
   @Test
-  void supports_givenOptionalClass() {
+  void supports_givenOptionalClass_returnTrue() {
     final OptionalToStringStrategy toStringStrategy =
         new OptionalToStringStrategy(new ObjectToStringStrategy());
-    assertThat(toStringStrategy.supports(Optional.class)).isTrue();
+    assertThat(toStringStrategy.supports(Optional.empty())).isTrue();
   }
 
   @Test

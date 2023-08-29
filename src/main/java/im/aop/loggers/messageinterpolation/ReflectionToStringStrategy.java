@@ -31,13 +31,13 @@ public class ReflectionToStringStrategy implements ToStringStrategy {
   }
 
   @Override
-  public boolean supports(Class<?> type) {
-    if (Proxy.isProxyClass(type)) {
+  public boolean supports(Object object) {
+    if (Proxy.isProxyClass(object.getClass())) {
       return false;
     }
 
     for (Class<?> supportedBaseClass : supportedBaseClasses) {
-      if (supportedBaseClass.isAssignableFrom(type)) {
+      if (supportedBaseClass.isAssignableFrom(object.getClass())) {
         return true;
       }
     }

@@ -18,8 +18,8 @@ public class OptionalToStringStrategy implements ToStringStrategy {
   }
 
   @Override
-  public boolean supports(Class<?> type) {
-    return Optional.class.isAssignableFrom(type);
+  public boolean supports(Object object) {
+    return object instanceof Optional<?>;
   }
 
   @Override

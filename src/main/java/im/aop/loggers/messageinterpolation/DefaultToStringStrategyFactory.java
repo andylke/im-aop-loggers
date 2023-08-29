@@ -22,8 +22,7 @@ public class DefaultToStringStrategyFactory implements ToStringStrategyFactory {
     this.toStringStrategies =
         toStringStrategies == null
             ? null
-            : toStringStrategies
-                .stream()
+            : toStringStrategies.stream()
                 .filter(
                     toStringStrategy -> toStringStrategy instanceof ObjectToStringStrategy == false)
                 .collect(Collectors.toList());
@@ -35,9 +34,8 @@ public class DefaultToStringStrategyFactory implements ToStringStrategyFactory {
       return objectToStringStrategy;
     }
 
-    return toStringStrategies
-        .parallelStream()
-        .filter(toStringStrategy -> toStringStrategy.supports(object.getClass()))
+    return toStringStrategies.parallelStream()
+        .filter(toStringStrategy -> toStringStrategy.supports(object))
         .findFirst()
         .orElse(objectToStringStrategy);
   }

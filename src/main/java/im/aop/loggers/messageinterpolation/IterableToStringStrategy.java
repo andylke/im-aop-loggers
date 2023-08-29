@@ -19,8 +19,8 @@ public class IterableToStringStrategy implements ToStringStrategy {
   }
 
   @Override
-  public boolean supports(Class<?> type) {
-    return Iterable.class.isAssignableFrom(type);
+  public boolean supports(Object object) {
+    return object instanceof Iterable<?>;
   }
 
   @Override

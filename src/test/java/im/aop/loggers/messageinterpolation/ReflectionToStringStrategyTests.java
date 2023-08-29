@@ -35,7 +35,7 @@ class ReflectionToStringStrategyTests {
         new ReflectionToStringProperties();
     final ReflectionToStringStrategy toStringStrategy =
         new ReflectionToStringStrategy(reflectionToStringProperties);
-    assertThat(toStringStrategy.supports(Object.class)).isFalse();
+    assertThat(toStringStrategy.supports(new Object())).isFalse();
   }
 
   @Test
@@ -45,7 +45,7 @@ class ReflectionToStringStrategyTests {
     reflectionToStringProperties.setBaseClasses(new String[] {Object.class.getName()});
     final ReflectionToStringStrategy toStringStrategy =
         new ReflectionToStringStrategy(reflectionToStringProperties);
-    assertThat(toStringStrategy.supports(Object.class)).isTrue();
+    assertThat(toStringStrategy.supports(new Object())).isTrue();
   }
 
   @Test
@@ -55,7 +55,7 @@ class ReflectionToStringStrategyTests {
     reflectionToStringProperties.setBaseClasses(new String[] {String.class.getName()});
     final ReflectionToStringStrategy toStringStrategy =
         new ReflectionToStringStrategy(reflectionToStringProperties);
-    assertThat(toStringStrategy.supports(Object.class)).isFalse();
+    assertThat(toStringStrategy.supports(new Object())).isFalse();
   }
 
   @Test

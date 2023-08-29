@@ -3,39 +3,32 @@ package im.aop.loggers.messageinterpolation;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
 class IterableToStringStrategyTests {
 
   @Test
-  void supports_givenNull() {
+  void supports_givenNull_returnFalse() {
     final IterableToStringStrategy toStringStrategy =
         new IterableToStringStrategy(new ObjectToStringStrategy());
-    assertThrows(NullPointerException.class, () -> toStringStrategy.supports(null));
+    assertThat(toStringStrategy.supports(null)).isFalse();
   }
 
   @Test
-  void supports_givenObjectClass() {
+  void supports_givenObjectClass_returnFalse() {
     final IterableToStringStrategy toStringStrategy =
         new IterableToStringStrategy(new ObjectToStringStrategy());
-    assertThat(toStringStrategy.supports(Object.class)).isFalse();
+    assertThat(toStringStrategy.supports(new Object())).isFalse();
   }
 
   @Test
-  void supports_givenIterableClass() {
+  void supports_givenListClass_returnTrue() {
     final IterableToStringStrategy toStringStrategy =
         new IterableToStringStrategy(new ObjectToStringStrategy());
-    assertThat(toStringStrategy.supports(Iterable.class)).isTrue();
-  }
-
-  @Test
-  void supports_givenListClass() {
-    final IterableToStringStrategy toStringStrategy =
-        new IterableToStringStrategy(new ObjectToStringStrategy());
-    assertThat(toStringStrategy.supports(List.class)).isTrue();
+    assertThat(toStringStrategy.supports(new ArrayList<Object>())).isTrue();
   }
 
   @Test

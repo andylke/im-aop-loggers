@@ -23,7 +23,7 @@ class ObjectToStringStrategyTests {
   @Test
   void supports_givenObjectClass() {
     final ObjectToStringStrategy toStringStrategy = new ObjectToStringStrategy();
-    assertThat(toStringStrategy.supports(Object.class)).isTrue();
+    assertThat(toStringStrategy.supports(new Object())).isTrue();
   }
 
   @Test

@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+- Refactor ToStringStrategy.supports to accept target object instead of Class<?>, to support JDK proxy instance.
+
 ## [1.0.9] - 2023-08-26
 
 ### Fixed
@@ -10,7 +13,7 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0.8] - 2022-05-10
 
-### Change 
+### Changed
 - Upgrade Spring Boot version to 2.6.6
 - Upgrade Jacoco Maven Plugin version to 0.8.7
 - Extend ReflectionToStringStrategy to exclude empty and zero values by default.
@@ -18,13 +21,13 @@ All notable changes to this project will be documented in this file.
 
 ## [1.0.7] - 2022-01-26
 
-### Change 
+### Changed
 - Change ReflectionToStringStrategy.supports() to filter by baseClasses instead of basePackages.
 
 
 ## [1.0.6] - 2022-01-25
 
-### Change
+### Changed
 - Rename canSupport() method to supports() in ToStringStrategy.
 
 ### Added
