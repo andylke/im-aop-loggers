@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 ## [1.1.1] - 2023-08-26
 
 ### Fixed
+
 - Fix ReflectionToStringStrategy getting inaccessible exception when given JDK proxy instance.
 
 ### Changed
