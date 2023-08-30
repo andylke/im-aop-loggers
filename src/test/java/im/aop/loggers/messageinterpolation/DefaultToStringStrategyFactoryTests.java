@@ -1,45 +1,41 @@
 package im.aop.loggers.messageinterpolation;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.List;
+import java.util.stream.Stream;
+
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.ObjectProvider;
 
 /**
  * Tests for {@link DefaultToStringStrategyFactory}.
  *
  * @author Andy Lian
  */
+@ExtendWith(MockitoExtension.class)
 class DefaultToStringStrategyFactoryTests {
 
-  @Test
-  void instantiate_givenNullObjectToStringStrategy() {
-    List<ToStringStrategy> toStringStrategies = List.of();
-    assertThrows(
-        NullPointerException.class,
-        () -> new DefaultToStringStrategyFactory(null, toStringStrategies));
-  }
+  @Mock private ObjectToStringStrategy objectToStringStrategy;
 
-  @Test
-  void instantiate_givenNullToStringStrategies() {
-    assertDoesNotThrow(
-        () -> new DefaultToStringStrategyFactory(new ObjectToStringStrategy(), null));
-  }
+  @Mock private ObjectProvider<ToStringStrategy> toStringStrategiesProvider;
 
-  static class TestClass {
+  @InjectMocks private DefaultToStringStrategyFactory factory;
 
-  }
+  static class TestClass {}
 
   static class TestToStringStrategy implements ToStringStrategy {
 
     @Override
-    public boolean supports(Class<?> type) {
-      return type == TestClass.class;
+    public boolean supports(Object object) {
+      return object instanceof TestClass;
     }
 
     @Override
@@ -51,60 +47,35 @@ class DefaultToStringStrategyFactoryTests {
   static interface TestInterface {}
 
   @Test
-  void findOrDefault_givenNull_withNullToStringStrategies() {
-    final DefaultToStringStrategyFactory factory =
-        new DefaultToStringStrategyFactory(new ObjectToStringStrategy(), null);
-    assertThat(factory.findOrDefault(null)).isExactlyInstanceOf(ObjectToStringStrategy.class);
-  }
+  void findOrDefault_givenNull_withEmptyToStringStrategies() {
+    when(toStringStrategiesProvider.stream()).thenReturn(Stream.empty());
+    factory.postConstruct();
 
-  @Test
-  void findOrDefault_givenTestClass_withNullToStringStrategies() {
-    final DefaultToStringStrategyFactory factory =
-        new DefaultToStringStrategyFactory(new ObjectToStringStrategy(), null);
-    assertThat(factory.findOrDefault(new TestClass()))
-        .isExactlyInstanceOf(ObjectToStringStrategy.class);
+    assertThat(factory.findOrDefault(null)).isInstanceOf(ObjectToStringStrategy.class);
   }
 
   @Test
   void findOrDefault_givenTestClass_withEmptyToStringStrategies() {
-    final DefaultToStringStrategyFactory factory =
-        new DefaultToStringStrategyFactory(new ObjectToStringStrategy(), List.of());
-    assertThat(factory.findOrDefault(new TestClass()))
-        .isExactlyInstanceOf(ObjectToStringStrategy.class);
+    when(toStringStrategiesProvider.stream()).thenReturn(Stream.empty());
+    factory.postConstruct();
+
+    assertThat(factory.findOrDefault(new TestClass())).isInstanceOf(ObjectToStringStrategy.class);
   }
 
   @Test
   void findOrDefault_givenTestClass_WithTestToStringStrategy() {
-    final DefaultToStringStrategyFactory factory =
-        new DefaultToStringStrategyFactory(
-            new ObjectToStringStrategy(), List.of(new TestToStringStrategy()));
+    when(toStringStrategiesProvider.stream()).thenReturn(Stream.of(new TestToStringStrategy()));
+    factory.postConstruct();
+
     assertThat(factory.findOrDefault(new TestClass()))
         .isExactlyInstanceOf(TestToStringStrategy.class);
   }
 
   @Test
-  void findOrDefault_givenTestInterfaceProxy_withNullToStringStrategies() {
-    TestInterface proxy =
-        (TestInterface)
-            Proxy.newProxyInstance(
-                ClassLoader.getSystemClassLoader(),
-                new Class<?>[] {TestInterface.class},
-                new InvocationHandler() {
-
-                  @Override
-                  public Object invoke(Object proxy, Method method, Object[] args)
-                      throws Throwable {
-                    return null;
-                  }
-                });
-
-    final DefaultToStringStrategyFactory factory =
-        new DefaultToStringStrategyFactory(new ObjectToStringStrategy(), null);
-    assertThat(factory.findOrDefault(proxy)).isExactlyInstanceOf(ObjectToStringStrategy.class);
-  }
-
-  @Test
   void findOrDefault_givenTestInterfaceProxy_withEmptyToStringStrategies() {
+    when(toStringStrategiesProvider.stream()).thenReturn(Stream.empty());
+    factory.postConstruct();
+
     TestInterface proxy =
         (TestInterface)
             Proxy.newProxyInstance(
@@ -119,8 +90,6 @@ class DefaultToStringStrategyFactoryTests {
                   }
                 });
 
-    final DefaultToStringStrategyFactory factory =
-        new DefaultToStringStrategyFactory(new ObjectToStringStrategy(), List.of());
-    assertThat(factory.findOrDefault(proxy)).isExactlyInstanceOf(ObjectToStringStrategy.class);
+    assertThat(factory.findOrDefault(proxy)).isInstanceOf(ObjectToStringStrategy.class);
   }
 }

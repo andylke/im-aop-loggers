@@ -27,6 +27,12 @@ The table below outlines the version that is compatible with Spring Boot.
 | `@LogAfterThrowing`  | Log after leaving the target method by throwing an exception                                                     |
 | `@LogAround`         | Log before entering and after leaving the target method, regardless of leaving normally or throwing an exception |
 
+# Changelog
+
+Changelog is available in [CHANGELOG.md](CHANGELOG.md).
+
+---
+
 ## @LogBefore
 
 Typical usage of `@LogBefore` annotation looks like the following code.
@@ -384,10 +390,6 @@ public class BarToStringStrategy implements ToStringStrategy {
 
 Sample project is available
 in [andylke/im-aop-loggers-sample](https://github.com/andylke/im-aop-loggers-sample).
-
-# Changelog
-
-Changelog is available in [CHANGELOG.md](CHANGELOG.md).
 
 # License
 

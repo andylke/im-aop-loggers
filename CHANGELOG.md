@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+- Refactor ToStringStrategy.supports to accept target object instead of Class<?>, to support JDK proxy instance.
+- Change all ToStringStrategy to use @Autowired variables, instead of constructor arguments. 
+- Support ToStringStrategy for Pageable, Slice and Page.
 
 ## [1.1.0] - 2023-08-26
 
@@ -26,6 +30,12 @@ All notable changes to this project will be documented in this file.
 ## [1.0.8] - 2022-05-10
 
 ### Changed
+<<<<<<< HEAD
+=======
+- Upgrade Spring Boot version to 2.6.6
+- Upgrade Jacoco Maven Plugin version to 0.8.7
+- Extend ReflectionToStringStrategy to exclude empty and zero values by default.
+>>>>>>> refs/heads/support_data_domain_tostringstrategy
 
 - Upgrade Spring Boot version to 2.6.6.
 - Upgrade Jacoco Maven Plugin version to 0.8.7.
@@ -34,13 +44,20 @@ All notable changes to this project will be documented in this file.
 ## [1.0.7] - 2022-01-26
 
 ### Changed
+<<<<<<< HEAD
+=======
+- Change ReflectionToStringStrategy.supports() to filter by baseClasses instead of basePackages.
+>>>>>>> refs/heads/support_data_domain_tostringstrategy
 
 - Change ReflectionToStringStrategy.supports() to filter by baseClasses instead of basePackages.
 
 ## [1.0.6] - 2022-01-25
 
 ### Changed
+<<<<<<< HEAD
 
+=======
+>>>>>>> refs/heads/support_data_domain_tostringstrategy
 - Rename canSupport() method to supports() in ToStringStrategy.
 
 ### Added

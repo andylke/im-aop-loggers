@@ -3,22 +3,23 @@ package im.aop.loggers.messageinterpolation;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.source.InvalidConfigurationPropertyValueException;
+
+import jakarta.annotation.PostConstruct;
 
 public class ReflectionToStringStrategy implements ToStringStrategy {
 
-  private final ReflectionToStringProperties reflectionToStringProperties;
+  @Autowired private ReflectionToStringProperties reflectionToStringProperties;
 
   private final List<Class<?>> supportedBaseClasses = new ArrayList<>();
 
-  public ReflectionToStringStrategy(
-      final ReflectionToStringProperties reflectionToStringProperties) {
-    this.reflectionToStringProperties = Objects.requireNonNull(reflectionToStringProperties);
-
+  @PostConstruct
+  void postConstruct() {
     for (String baseClass : reflectionToStringProperties.getBaseClasses()) {
       try {
         supportedBaseClasses.add(Class.forName(baseClass));
@@ -30,13 +31,13 @@ public class ReflectionToStringStrategy implements ToStringStrategy {
   }
 
   @Override
-  public boolean supports(Class<?> type) {
-    if (Proxy.isProxyClass(type)) {
+  public boolean supports(Object object) {
+    if (Proxy.isProxyClass(object.getClass())) {
       return false;
     }
 
     for (Class<?> supportedBaseClass : supportedBaseClasses) {
-      if (supportedBaseClass.isAssignableFrom(type)) {
+      if (supportedBaseClass.isAssignableFrom(object.getClass())) {
         return true;
       }
     }

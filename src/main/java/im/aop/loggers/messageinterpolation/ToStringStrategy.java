@@ -8,7 +8,13 @@ package im.aop.loggers.messageinterpolation;
  */
 public interface ToStringStrategy {
 
-  boolean supports(Class<?> type);
+  /**
+   * Does not check for null instance.
+   *
+   * @param object
+   * @return
+   */
+  boolean supports(Object object);
 
   String toString(Object object);
 }

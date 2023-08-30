@@ -1,6 +1,5 @@
 package im.aop.loggers.messageinterpolation;
 
-import java.util.List;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -16,9 +15,8 @@ import org.springframework.context.annotation.Configuration;
 class ToStringStrategyConfiguration {
 
   @Bean
-  public ReflectionToStringStrategy reflectionToStringStrategy(
-      final ReflectionToStringProperties reflectionToStringProperties) {
-    return new ReflectionToStringStrategy(reflectionToStringProperties);
+  public ReflectionToStringStrategy reflectionToStringStrategy() {
+    return new ReflectionToStringStrategy();
   }
 
   @Bean
@@ -27,28 +25,23 @@ class ToStringStrategyConfiguration {
   }
 
   @Bean
-  public OptionalToStringStrategy optionalToStringStrategy(
-      final ObjectToStringStrategy objectToStringStrategy) {
-    return new OptionalToStringStrategy(objectToStringStrategy);
+  public OptionalToStringStrategy optionalToStringStrategy() {
+    return new OptionalToStringStrategy();
   }
 
   @Bean
-  public ArrayToStringStrategy arrayToStringStrategy(
-      final ObjectToStringStrategy objectToStringStrategy) {
-    return new ArrayToStringStrategy(objectToStringStrategy);
+  public ArrayToStringStrategy arrayToStringStrategy() {
+    return new ArrayToStringStrategy();
   }
 
   @Bean
-  public IterableToStringStrategy iterableToStringStrategy(
-      final ObjectToStringStrategy objectToStringStrategy) {
-    return new IterableToStringStrategy(objectToStringStrategy);
+  public IterableToStringStrategy iterableToStringStrategy() {
+    return new IterableToStringStrategy();
   }
 
   @Bean
   @ConditionalOnMissingBean({ToStringStrategyFactory.class})
-  public ToStringStrategyFactory toStringStrategyFactory(
-      final ObjectToStringStrategy objectToStringStrategy,
-      final List<ToStringStrategy> toStringStrategies) {
-    return new DefaultToStringStrategyFactory(objectToStringStrategy, toStringStrategies);
+  public ToStringStrategyFactory toStringStrategyFactory() {
+    return new DefaultToStringStrategyFactory();
   }
 }

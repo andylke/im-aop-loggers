@@ -1,7 +1,8 @@
 package im.aop.loggers.messageinterpolation;
 
 import java.util.Iterator;
-import java.util.Objects;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * {@link ToStringStrategy} implementation for {@link Iterable}, using
@@ -12,15 +13,11 @@ import java.util.Objects;
  */
 public class IterableToStringStrategy implements ToStringStrategy {
 
-  private final ObjectToStringStrategy objectToStringStrategy;
-
-  public IterableToStringStrategy(final ObjectToStringStrategy objectToStringStrategy) {
-    this.objectToStringStrategy = Objects.requireNonNull(objectToStringStrategy);
-  }
+  @Autowired private ObjectToStringStrategy objectToStringStrategy;
 
   @Override
-  public boolean supports(Class<?> type) {
-    return Iterable.class.isAssignableFrom(type);
+  public boolean supports(Object object) {
+    return object instanceof Iterable<?>;
   }
 
   @Override
