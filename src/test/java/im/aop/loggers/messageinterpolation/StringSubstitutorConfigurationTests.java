@@ -19,6 +19,22 @@ class StringSubstitutorConfigurationTests {
           .withBean(AopLoggersProperties.class);
 
   @Test
+  void dataDomainToStringStrategyConfigurationNotNull() {
+    runner.run(
+        (context) -> {
+          assertThat(context.getBean(DataDomainToStringStrategyConfiguration.class)).isNotNull();
+        });
+  }
+
+  @Test
+  void toStringStrategyConfigurationNotNull() {
+    runner.run(
+        (context) -> {
+          assertThat(context.getBean(ToStringStrategyConfiguration.class)).isNotNull();
+        });
+  }
+
+  @Test
   void toStringStrategyFactoryNotNull() {
     runner.run(
         (context) -> {

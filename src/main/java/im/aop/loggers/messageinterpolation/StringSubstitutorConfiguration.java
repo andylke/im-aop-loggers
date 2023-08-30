@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Import;
  * @author Andy Lian
  */
 @Configuration(proxyBeanMethods = false)
-@Import({ToStringStrategyConfiguration.class})
+@Import({DataDomainToStringStrategyConfiguration.class, ToStringStrategyConfiguration.class})
 public class StringSubstitutorConfiguration {
 
   @Bean
