@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Refactor ToStringStrategy.supports to accept target object instead of Class<?>, to support JDK proxy instance.
 - Change all ToStringStrategy to use @Autowired variables, instead of constructor arguments. 
+- Support ToStringStrategy for Pageable, Slice and Page.
 
 ## [1.0.9] - 2023-08-26
 

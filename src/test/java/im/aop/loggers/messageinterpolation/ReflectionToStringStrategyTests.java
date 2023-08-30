@@ -262,7 +262,7 @@ class ReflectionToStringStrategyTests {
                   }
                 });
 
-    assertThat(toStringStrategy.supports(proxy.getClass())).isFalse();
+    assertThat(toStringStrategy.supports(proxy)).isFalse();
   }
 
   @Test
