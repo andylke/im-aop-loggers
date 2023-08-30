@@ -1,6 +1,6 @@
 package im.aop.loggers.messageinterpolation;
 
-import java.util.Objects;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * {@link ToStringStrategy} implementation for array, using {@link ObjectToStringStrategy} to return
@@ -10,11 +10,7 @@ import java.util.Objects;
  */
 public class ArrayToStringStrategy implements ToStringStrategy {
 
-  private final ObjectToStringStrategy objectToStringStrategy;
-
-  public ArrayToStringStrategy(final ObjectToStringStrategy objectToStringStrategy) {
-    this.objectToStringStrategy = Objects.requireNonNull(objectToStringStrategy);
-  }
+  @Autowired private ObjectToStringStrategy objectToStringStrategy;
 
   @Override
   public boolean supports(Object object) {

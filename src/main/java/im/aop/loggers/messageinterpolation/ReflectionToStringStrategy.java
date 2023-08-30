@@ -3,23 +3,23 @@ package im.aop.loggers.messageinterpolation;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
+import javax.annotation.PostConstruct;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.source.InvalidConfigurationPropertyValueException;
 
 public class ReflectionToStringStrategy implements ToStringStrategy {
 
-  private final ReflectionToStringProperties reflectionToStringProperties;
+  @Autowired private ReflectionToStringProperties reflectionToStringProperties;
 
   private final List<Class<?>> supportedBaseClasses = new ArrayList<Class<?>>();
 
-  public ReflectionToStringStrategy(
-      final ReflectionToStringProperties reflectionToStringProperties) {
-    this.reflectionToStringProperties = Objects.requireNonNull(reflectionToStringProperties);
-
+  @PostConstruct
+  void postConstruct() {
     for (String baseClass : reflectionToStringProperties.getBaseClasses()) {
       try {
         supportedBaseClasses.add(Class.forName(baseClass));

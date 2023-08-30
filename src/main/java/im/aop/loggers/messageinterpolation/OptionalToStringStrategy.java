@@ -1,7 +1,8 @@
 package im.aop.loggers.messageinterpolation;
 
-import java.util.Objects;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * {@link ToStringStrategy} implementation for {@link Optional}, using {@link
@@ -11,11 +12,7 @@ import java.util.Optional;
  */
 public class OptionalToStringStrategy implements ToStringStrategy {
 
-  private final ObjectToStringStrategy objectToStringStrategy;
-
-  public OptionalToStringStrategy(final ObjectToStringStrategy objectToStringStrategy) {
-    this.objectToStringStrategy = Objects.requireNonNull(objectToStringStrategy);
-  }
+  @Autowired private ObjectToStringStrategy objectToStringStrategy;
 
   @Override
   public boolean supports(Object object) {

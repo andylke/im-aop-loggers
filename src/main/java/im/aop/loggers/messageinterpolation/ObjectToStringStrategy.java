@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class ObjectToStringStrategy implements ToStringStrategy {
 
-  private ReflectionToStringStrategy reflectionToStringStrategy;
+  @Autowired private ReflectionToStringStrategy reflectionToStringStrategy;
 
   @Override
   public boolean supports(Object object) {
@@ -19,17 +19,10 @@ public class ObjectToStringStrategy implements ToStringStrategy {
 
   @Override
   public String toString(Object object) {
-    if (object == null
-        || reflectionToStringStrategy == null
-        || reflectionToStringStrategy.supports(object.getClass()) == false) {
+    if (object == null || reflectionToStringStrategy.supports(object) == false) {
       return String.valueOf(object);
     } else {
       return reflectionToStringStrategy.toString(object);
     }
-  }
-
-  @Autowired
-  public void setReflectionToStringStrategy(ReflectionToStringStrategy reflectionToStringStrategy) {
-    this.reflectionToStringStrategy = reflectionToStringStrategy;
   }
 }

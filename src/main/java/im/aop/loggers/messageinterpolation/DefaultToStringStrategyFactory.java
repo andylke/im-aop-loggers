@@ -1,8 +1,13 @@
 package im.aop.loggers.messageinterpolation;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
+
+import javax.annotation.PostConstruct;
+
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * Default {@link ToStringStrategyFactory} implementation.
@@ -11,21 +16,18 @@ import java.util.stream.Collectors;
  */
 public class DefaultToStringStrategyFactory implements ToStringStrategyFactory {
 
-  private final ObjectToStringStrategy objectToStringStrategy;
+  @Autowired private ObjectToStringStrategy objectToStringStrategy;
 
-  private final List<ToStringStrategy> toStringStrategies;
+  @Autowired private ObjectProvider<ToStringStrategy> toStringStrategiesProvider;
 
-  public DefaultToStringStrategyFactory(
-      final ObjectToStringStrategy objectToStringStrategy,
-      final List<ToStringStrategy> toStringStrategies) {
-    this.objectToStringStrategy = Objects.requireNonNull(objectToStringStrategy);
-    this.toStringStrategies =
-        toStringStrategies == null
-            ? null
-            : toStringStrategies.stream()
-                .filter(
-                    toStringStrategy -> toStringStrategy instanceof ObjectToStringStrategy == false)
-                .collect(Collectors.toList());
+  private List<ToStringStrategy> toStringStrategies = new ArrayList<>();
+
+  @PostConstruct
+  void postConstruct() {
+    toStringStrategies =
+        toStringStrategiesProvider.stream()
+            .filter(toStringStrategy -> toStringStrategy instanceof ObjectToStringStrategy == false)
+            .collect(Collectors.toList());
   }
 
   @Override
