@@ -12,6 +12,10 @@
 | `@LogAfterThrowing`  | Log after leaving the target method by throwing an exception |
 | `@LogAround`         | Log before entering and after leaving the target method, regardless of leaving normally or throwing an exception |
 
+# Changelog
+
+Changelog is available in [CHANGELOG.md](CHANGELOG.md).
+
 ---
 
 ## @LogBefore
@@ -321,10 +325,6 @@ public class BarToStringStrategy implements ToStringStrategy {
 # Sample
 
 Sample project is available in [andylke/im-aop-loggers-sample](https://github.com/andylke/im-aop-loggers-sample).
-
-# Changelog
-
-Changelog is available in [CHANGELOG.md](CHANGELOG.md).
 
 # License
 
