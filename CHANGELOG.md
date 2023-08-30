@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.1.3] - 2023-08-30
+
 ### Fixed
 - DataDomainToStringStrategyConfiguration not imported via AutoConfiguration.
 
