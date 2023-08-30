@@ -3,6 +3,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.0.10] - 2023-08-30
+
 ### Changed
 - Refactor ToStringStrategy.supports to accept target object instead of Class<?>, to support JDK proxy instance.
 - Change all ToStringStrategy to use @Autowired variables, instead of constructor arguments. 
