@@ -38,14 +38,11 @@ class LogAfterThrowingServiceTests {
 
   @TestConfiguration(proxyBeanMethods = false)
   @EnableConfigurationProperties({AopLoggersProperties.class})
-  static class AopLoggersPropertiesTestConfiguration {
-
-  }
+  static class AopLoggersPropertiesTestConfiguration {}
 
   static class Foo {
 
-    void foo() {
-    }
+    void foo() {}
   }
 
   private MethodSignature methodSignature;
@@ -59,11 +56,11 @@ class LogAfterThrowingServiceTests {
   }
 
   @Test
-  void logExitedAbnormallyMessage_defaultLevel(final CapturedOutput capturedOutput) {
+  void logMessage_defaultLevel(final CapturedOutput capturedOutput) {
     runner
         .withPropertyValues(AopLoggersProperties.PREFIX + ".exited-abnormally-level=WARN")
         .run(
-            (context) -> {
+            context -> {
               final LogAfterThrowing annotation = mockLogAfterThrowing(Level.DEFAULT, "foo", null);
               LoggingSystem.get(ClassLoader.getSystemClassLoader())
                   .setLogLevel(Foo.class.getName(), LogLevel.INFO);
@@ -77,11 +74,11 @@ class LogAfterThrowingServiceTests {
   }
 
   @Test
-  void logExitedAbnormallyMessage_customLevel(final CapturedOutput capturedOutput) {
+  void logMessage_customLevel(final CapturedOutput capturedOutput) {
     runner
         .withPropertyValues(AopLoggersProperties.PREFIX + ".exited-abnormally-level=WARN")
         .run(
-            (context) -> {
+            context -> {
               final LogAfterThrowing annotation = mockLogAfterThrowing(Level.ERROR, "foo", null);
               LoggingSystem.get(ClassLoader.getSystemClassLoader())
                   .setLogLevel(Foo.class.getName(), LogLevel.INFO);
@@ -95,11 +92,11 @@ class LogAfterThrowingServiceTests {
   }
 
   @Test
-  void logExitedAbnormallyMessage_defaultMessage(final CapturedOutput capturedOutput) {
+  void logMessage_defaultMessage(final CapturedOutput capturedOutput) {
     runner
         .withPropertyValues(AopLoggersProperties.PREFIX + ".exited-abnormally-message=foo")
         .run(
-            (context) -> {
+            context -> {
               final LogAfterThrowing annotation = mockLogAfterThrowing(Level.INFO, "", null);
               LoggingSystem.get(ClassLoader.getSystemClassLoader())
                   .setLogLevel(Foo.class.getName(), LogLevel.INFO);
@@ -113,9 +110,9 @@ class LogAfterThrowingServiceTests {
   }
 
   @Test
-  void logExitedAbnormallyMessage_customMessage(final CapturedOutput capturedOutput) {
+  void logMessage_customMessage(final CapturedOutput capturedOutput) {
     runner.run(
-        (context) -> {
+        context -> {
           final LogAfterThrowing annotation = mockLogAfterThrowing(Level.INFO, "foo", null);
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
               .setLogLevel(Foo.class.getName(), LogLevel.INFO);
@@ -128,10 +125,9 @@ class LogAfterThrowingServiceTests {
   }
 
   @Test
-  void doesNotLogExitedAbnormallyMessage_whenLoggerLevelDisabled(
-      final CapturedOutput capturedOutput) {
+  void doesNotLogMessage_whenLoggerLevelDisabled(final CapturedOutput capturedOutput) {
     runner.run(
-        (context) -> {
+        context -> {
           final LogAfterThrowing annotation = mockLogAfterThrowing(Level.DEBUG, "foo", null);
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
               .setLogLevel(Foo.class.getName(), LogLevel.INFO);
@@ -144,13 +140,12 @@ class LogAfterThrowingServiceTests {
   }
 
   @Test
-  void doesNotLogExitedAbnormallyMessage_whenMatchPropertyIgnoreExceptions(
-      final CapturedOutput capturedOutput) {
+  void doesNotLogMessage_whenMatchPropertyIgnoreExceptions(final CapturedOutput capturedOutput) {
     runner
         .withPropertyValues(
             AopLoggersProperties.PREFIX + ".ignore-exceptions=java.lang.RuntimeException")
         .run(
-            (context) -> {
+            context -> {
               final LogAfterThrowing annotation = mockLogAfterThrowing(Level.ERROR, "foo", null);
               LoggingSystem.get(ClassLoader.getSystemClassLoader())
                   .setLogLevel(Foo.class.getName(), LogLevel.ERROR);
@@ -164,10 +159,9 @@ class LogAfterThrowingServiceTests {
   }
 
   @Test
-  void doesNotLogExitedAbnormallyMessage_whenMatchAttributeIgnoreExceptions(
-      final CapturedOutput capturedOutput) {
+  void doesNotLogMessage_whenMatchAttributeIgnoreExceptions(final CapturedOutput capturedOutput) {
     runner.run(
-        (context) -> {
+        context -> {
           final LogAfterThrowing annotation =
               mockLogAfterThrowing(Level.ERROR, "foo", Arrays.array(RuntimeException.class));
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
@@ -181,9 +175,9 @@ class LogAfterThrowingServiceTests {
   }
 
   @Test
-  void logExitedAbnormallyMessage_whenNotMatchIgnoreException(final CapturedOutput capturedOutput) {
+  void logMessage_whenNotMatchIgnoreException(final CapturedOutput capturedOutput) {
     runner.run(
-        (context) -> {
+        context -> {
           final LogAfterThrowing annotation =
               mockLogAfterThrowing(Level.ERROR, "foo", Arrays.array(ClassNotFoundException.class));
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
@@ -197,9 +191,9 @@ class LogAfterThrowingServiceTests {
   }
 
   @Test
-  void doesNotLogExitedAbnormallyMessage_givenNullException(final CapturedOutput capturedOutput) {
+  void doesNotLogMessage_givenNullException(final CapturedOutput capturedOutput) {
     runner.run(
-        (context) -> {
+        context -> {
           final LogAfterThrowing annotation = mockLogAfterThrowing(Level.ERROR, "foo", null);
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
               .setLogLevel(Foo.class.getName(), LogLevel.ERROR);
@@ -212,9 +206,9 @@ class LogAfterThrowingServiceTests {
   }
 
   @Test
-  void logExitedAbnormallyMessage_givenEmptyIgnoreExceptions(final CapturedOutput capturedOutput) {
+  void logMessage_givenEmptyIgnoreExceptions(final CapturedOutput capturedOutput) {
     runner.run(
-        (context) -> {
+        context -> {
           final LogAfterThrowing annotation =
               mockLogAfterThrowing(Level.ERROR, "foo", Arrays.array());
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
@@ -228,10 +222,9 @@ class LogAfterThrowingServiceTests {
   }
 
   @Test
-  void logExitedAbnormallyMessage_whenExceptionInIgnoreExceptionsIsNull(
-      final CapturedOutput capturedOutput) {
+  void logMessage_whenExceptionInIgnoreExceptionsIsNull(final CapturedOutput capturedOutput) {
     runner.run(
-        (context) -> {
+        context -> {
           final LogAfterThrowing annotation =
               mockLogAfterThrowing(Level.ERROR, "foo", Arrays.array((Class<Exception>) null));
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
@@ -247,7 +240,7 @@ class LogAfterThrowingServiceTests {
   @Test
   void logElapsed_whenLoggerLevelDisabled(final CapturedOutput capturedOutput) {
     runner.run(
-        (context) -> {
+        context -> {
           final LogAfterThrowing annotation = mockLogAfterThrowing(Level.ERROR, "foo", null);
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
               .setLogLevel(Foo.class.getName(), LogLevel.ERROR);
@@ -267,7 +260,7 @@ class LogAfterThrowingServiceTests {
         .withPropertyValues(
             AopLoggersProperties.PREFIX + ".ignore-exceptions=java.lang.RuntimeException")
         .run(
-            (context) -> {
+            context -> {
               final LogAfterThrowing annotation = mockLogAfterThrowing(Level.ERROR, "foo", null);
               LoggingSystem.get(ClassLoader.getSystemClassLoader())
                   .setLogLevel(Foo.class.getName(), LogLevel.ERROR);
@@ -285,7 +278,7 @@ class LogAfterThrowingServiceTests {
   @Test
   void logElapsed_whenMatchAttributeIgnoreExceptions(final CapturedOutput capturedOutput) {
     runner.run(
-        (context) -> {
+        context -> {
           final LogAfterThrowing annotation =
               mockLogAfterThrowing(Level.ERROR, "foo", Arrays.array(RuntimeException.class));
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
@@ -303,7 +296,7 @@ class LogAfterThrowingServiceTests {
   @Test
   void logElapsed_whenEnabled(final CapturedOutput capturedOutput) {
     runner.run(
-        (context) -> {
+        context -> {
           final LogAfterThrowing annotation = mockLogAfterThrowing(Level.ERROR, "foo", null);
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
               .setLogLevel(Foo.class.getName(), LogLevel.ERROR);
@@ -334,7 +327,7 @@ class LogAfterThrowingServiceTests {
   @Test
   void logExceptionStackTrace_whenEnablePrintStackTrace(final CapturedOutput capturedOutput) {
     runner.run(
-        (context) -> {
+        context -> {
           final LogAfterThrowing annotation = mockLogAfterThrowing(Level.INFO, "foo", true);
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
               .setLogLevel(Foo.class.getName(), LogLevel.INFO);
@@ -352,7 +345,7 @@ class LogAfterThrowingServiceTests {
   void doesNotLogExceptionStackTrace_whenDisablePrintStackTrace(
       final CapturedOutput capturedOutput) {
     runner.run(
-        (context) -> {
+        context -> {
           final LogAfterThrowing annotation = mockLogAfterThrowing(Level.INFO, "foo", false);
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
               .setLogLevel(Foo.class.getName(), LogLevel.INFO);

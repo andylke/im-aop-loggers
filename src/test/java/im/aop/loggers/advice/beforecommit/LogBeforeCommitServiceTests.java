@@ -1,4 +1,4 @@
-package im.aop.loggers.advice.before;
+package im.aop.loggers.advice.beforecommit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
@@ -21,18 +21,18 @@ import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 
 /**
- * Tests for {@link LogBeforeService}.
+ * Tests for {@link LogBeforeCommitService}.
  *
  * @author Andy Lian
  */
 @ExtendWith(OutputCaptureExtension.class)
-class LogBeforeServiceTests {
+class LogBeforeCommitServiceTests {
 
   private final ApplicationContextRunner runner =
       new ApplicationContextRunner()
           .withUserConfiguration(
               AopLoggersPropertiesTestConfiguration.class, StringSubstitutorConfiguration.class)
-          .withBean(LogBeforeService.class);
+          .withBean(LogBeforeCommitService.class);
 
   @TestConfiguration(proxyBeanMethods = false)
   @EnableConfigurationProperties({AopLoggersProperties.class})
@@ -54,100 +54,101 @@ class LogBeforeServiceTests {
   }
 
   @Test
-  void logMessage_defaultLevel(final CapturedOutput capturedOutput) {
+  void logEnteringMessage_defaultLoggingLevel(final CapturedOutput capturedOutput) {
     runner
         .withPropertyValues(AopLoggersProperties.PREFIX + ".entering-level=DEBUG")
         .run(
             context -> {
-              final LogBefore annotation = mockLogBefore(Level.DEFAULT, "foo");
+              final LogBeforeCommit annotation = mockLogBeforeCommit(Level.DEFAULT, "foo");
               LoggingSystem.get(ClassLoader.getSystemClassLoader())
                   .setLogLevel(Foo.class.getName(), LogLevel.DEBUG);
 
-              final LogBeforeService service = context.getBean(LogBeforeService.class);
-              service.logBefore(joinPoint, annotation);
+              final LogBeforeCommitService service = context.getBean(LogBeforeCommitService.class);
+              service.logBeforeCommit(joinPoint, annotation);
 
               assertThat(capturedOutput).contains("DEBUG " + Foo.class.getName() + " - foo");
             });
   }
 
   @Test
-  void logMessage_customLevel(final CapturedOutput capturedOutput) {
+  void logEnteringMessage_customLoggingLevel(final CapturedOutput capturedOutput) {
     runner
         .withPropertyValues(AopLoggersProperties.PREFIX + ".entering-level=DEBUG")
         .run(
             context -> {
-              final LogBefore annotation = mockLogBefore(Level.INFO, "foo");
+              final LogBeforeCommit annotation = mockLogBeforeCommit(Level.INFO, "foo");
               LoggingSystem.get(ClassLoader.getSystemClassLoader())
                   .setLogLevel(Foo.class.getName(), LogLevel.DEBUG);
 
-              final LogBeforeService service = context.getBean(LogBeforeService.class);
-              service.logBefore(joinPoint, annotation);
+              final LogBeforeCommitService service = context.getBean(LogBeforeCommitService.class);
+              service.logBeforeCommit(joinPoint, annotation);
 
               assertThat(capturedOutput).contains("INFO " + Foo.class.getName() + " - foo");
             });
   }
 
   @Test
-  void logMessage_defaultMessage(final CapturedOutput capturedOutput) {
+  void logEnteringMessage_defaultMessage(final CapturedOutput capturedOutput) {
     runner
-        .withPropertyValues(AopLoggersProperties.PREFIX + ".entering-message=foo")
+        .withPropertyValues(AopLoggersProperties.PREFIX + ".committing-transaction-message=foo")
         .run(
             context -> {
-              final LogBefore annotation = mockLogBefore(Level.INFO, "");
+              final LogBeforeCommit annotation = mockLogBeforeCommit(Level.INFO, "");
               LoggingSystem.get(ClassLoader.getSystemClassLoader())
                   .setLogLevel(Foo.class.getName(), LogLevel.INFO);
 
-              final LogBeforeService service = context.getBean(LogBeforeService.class);
-              service.logBefore(joinPoint, annotation);
+              final LogBeforeCommitService service = context.getBean(LogBeforeCommitService.class);
+              service.logBeforeCommit(joinPoint, annotation);
 
               assertThat(capturedOutput).contains("INFO " + Foo.class.getName() + " - foo");
             });
   }
 
   @Test
-  void logMessage_customMessage(final CapturedOutput capturedOutput) {
+  void logEnteringMessage_customMessage(final CapturedOutput capturedOutput) {
     runner.run(
         context -> {
-          final LogBefore annotation = mockLogBefore(Level.INFO, "foo");
+          final LogBeforeCommit annotation = mockLogBeforeCommit(Level.INFO, "foo");
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
               .setLogLevel(Foo.class.getName(), LogLevel.INFO);
 
-          final LogBeforeService service = context.getBean(LogBeforeService.class);
-          service.logBefore(joinPoint, annotation);
+          final LogBeforeCommitService service = context.getBean(LogBeforeCommitService.class);
+          service.logBeforeCommit(joinPoint, annotation);
 
           assertThat(capturedOutput).contains("INFO " + Foo.class.getName() + " - foo");
         });
   }
 
   @Test
-  void doesNotLogMessage_whenLoggerLevelDisabled(final CapturedOutput capturedOutput) {
+  void doesNotLogEnteringMessage_whenLoggerLoggingLevelDisabled(
+      final CapturedOutput capturedOutput) {
     runner.run(
         context -> {
-          final LogBefore annotation = mockLogBefore(Level.DEBUG, "foo");
+          final LogBeforeCommit annotation = mockLogBeforeCommit(Level.DEBUG, "foo");
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
               .setLogLevel(Foo.class.getName(), LogLevel.INFO);
 
-          final LogBeforeService service = context.getBean(LogBeforeService.class);
-          service.logBefore(joinPoint, annotation);
+          final LogBeforeCommitService service = context.getBean(LogBeforeCommitService.class);
+          service.logBeforeCommit(joinPoint, annotation);
 
           assertThat(capturedOutput).doesNotContain("INFO " + Foo.class.getName() + " - foo");
         });
   }
 
   @Test
-  void logElapsed_whenLoggerLevelDisabled(final CapturedOutput capturedOutput) {
+  void logElapsed_whenLoggerLoggingLevelDisabled(final CapturedOutput capturedOutput) {
     runner.run(
         context -> {
-          final LogBefore annotation = mockLogBefore(Level.DEBUG, "foo");
+          final LogBeforeCommit annotation = mockLogBeforeCommit(Level.DEBUG, "foo");
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
               .setLogLevel(Foo.class.getName(), LogLevel.INFO);
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
-              .setLogLevel(LogBeforeService.class.getName(), LogLevel.DEBUG);
+              .setLogLevel(LogBeforeCommitService.class.getName(), LogLevel.DEBUG);
 
-          final LogBeforeService service = context.getBean(LogBeforeService.class);
-          service.logBefore(joinPoint, annotation);
+          final LogBeforeCommitService service = context.getBean(LogBeforeCommitService.class);
+          service.logBeforeCommit(joinPoint, annotation);
 
-          assertThat(capturedOutput).contains("[logBefore] elapsed [");
+          assertThat(capturedOutput).contains("[logBeforeCommit] elapsed [");
         });
   }
 
@@ -155,16 +156,16 @@ class LogBeforeServiceTests {
   void logElapsed_whenEnabled(final CapturedOutput capturedOutput) {
     runner.run(
         context -> {
-          final LogBefore annotation = mockLogBefore(Level.INFO, "foo");
+          final LogBeforeCommit annotation = mockLogBeforeCommit(Level.INFO, "foo");
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
               .setLogLevel(Foo.class.getName(), LogLevel.INFO);
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
-              .setLogLevel(LogBeforeService.class.getName(), LogLevel.DEBUG);
+              .setLogLevel(LogBeforeCommitService.class.getName(), LogLevel.DEBUG);
 
-          final LogBeforeService service = context.getBean(LogBeforeService.class);
-          service.logBefore(joinPoint, annotation);
+          final LogBeforeCommitService service = context.getBean(LogBeforeCommitService.class);
+          service.logBeforeCommit(joinPoint, annotation);
 
-          assertThat(capturedOutput).contains("[logBefore] elapsed [");
+          assertThat(capturedOutput).contains("[logBeforeCommit] elapsed [");
         });
   }
 
@@ -188,11 +189,11 @@ class LogBeforeServiceTests {
     return joinPoint;
   }
 
-  private LogBefore mockLogBefore(final Level level, final String message) {
-    final LogBefore annotation = mock(LogBefore.class);
+  private LogBeforeCommit mockLogBeforeCommit(final Level level, final String message) {
+    final LogBeforeCommit annotation = mock(LogBeforeCommit.class);
 
-    when(annotation.level()).thenReturn(level);
-    when(annotation.enteringMessage()).thenReturn(message);
+    when(annotation.loggingLevel()).thenReturn(level);
+    when(annotation.messageTemplate()).thenReturn(message);
 
     return annotation;
   }

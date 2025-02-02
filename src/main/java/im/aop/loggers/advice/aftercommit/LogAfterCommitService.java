@@ -1,9 +1,8 @@
-package im.aop.loggers.advice.afterreturning;
+package im.aop.loggers.advice.aftercommit;
 
 import im.aop.loggers.AopLoggersProperties;
 import im.aop.loggers.Level;
 import im.aop.loggers.messageinterpolation.JoinPointStringSupplierRegistrar;
-import im.aop.loggers.messageinterpolation.ReturnValueStringSupplierRegistrar;
 import im.aop.loggers.messageinterpolation.StringSubstitutor;
 import im.aop.loggers.messageinterpolation.StringSupplierLookup;
 import im.aop.loggers.util.LoggerUtil;
@@ -14,28 +13,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-public class LogAfterReturningService {
+public class LogAfterCommitService {
 
-  private static final Logger LOGGER = LoggerFactory.getLogger(LogAfterReturningService.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(LogAfterCommitService.class);
 
   @Autowired private StringSubstitutor stringSubstitutor;
 
   @Autowired private JoinPointStringSupplierRegistrar joinPointStringSupplierRegistrar;
 
-  @Autowired private ReturnValueStringSupplierRegistrar returnValueStringSupplierRegistrar;
-
   private final AopLoggersProperties aopLoggersProperties;
 
-  public LogAfterReturningService(final AopLoggersProperties aopLoggersProperties) {
+  public LogAfterCommitService(final AopLoggersProperties aopLoggersProperties) {
     this.aopLoggersProperties = Objects.requireNonNull(aopLoggersProperties);
   }
 
-  public void logAfterReturning(
-      final JoinPoint joinPoint, final LogAfterReturning annotation, final Object returnValue) {
+  public void logAfterCommit(final JoinPoint joinPoint, final LogAfterCommit annotation) {
     final long startTime = System.nanoTime();
 
     final Logger logger = LoggerUtil.getLogger(annotation.declaringClass(), joinPoint);
-    final Level loggingLevel = getLoggingLevel(annotation.level());
+    final Level loggingLevel = getLoggingLevel(annotation.loggingLevel());
     if (isLoggingLevelDisabled(logger, loggingLevel)) {
       logElapsed(startTime);
       return;
@@ -43,18 +39,16 @@ public class LogAfterReturningService {
 
     final StringSupplierLookup stringLookup = new StringSupplierLookup();
 
-    logMessage(
-        joinPoint, loggingLevel, annotation.exitedMessage(), logger, stringLookup, returnValue);
+    logMessage(joinPoint, loggingLevel, annotation.messageTemplate(), logger, stringLookup);
     logElapsed(startTime);
   }
 
   private void logElapsed(long startTime) {
-    LOGGER.debug(
-        "[logAfterReturning] elapsed [{}]", Duration.ofNanos(System.nanoTime() - startTime));
+    LOGGER.debug("[logAfterCommit] elapsed [{}]", Duration.ofNanos(System.nanoTime() - startTime));
   }
 
   private boolean isLoggingLevelDisabled(final Logger logger, final Level loggingLevel) {
-    return !(LoggerUtil.isEnabled(logger, loggingLevel));
+    return !LoggerUtil.isEnabled(logger, loggingLevel);
   }
 
   private void logMessage(
@@ -62,21 +56,24 @@ public class LogAfterReturningService {
       final Level loggingLevel,
       final String messageTemplate,
       final Logger logger,
-      final StringSupplierLookup stringLookup,
-      final Object returnValue) {
+      final StringSupplierLookup stringLookup) {
     joinPointStringSupplierRegistrar.register(stringLookup, joinPoint);
-    returnValueStringSupplierRegistrar.register(stringLookup, joinPoint, returnValue);
 
     final String message =
         stringSubstitutor.substitute(getMessageTemplate(messageTemplate), stringLookup);
+
     LoggerUtil.log(logger, loggingLevel, message);
   }
 
   private Level getLoggingLevel(final Level loggingLevel) {
-    return loggingLevel == Level.DEFAULT ? aopLoggersProperties.getExitedLevel() : loggingLevel;
+    return loggingLevel == Level.DEFAULT
+        ? aopLoggersProperties.getTransactionCommittedLevel()
+        : loggingLevel;
   }
 
   private String getMessageTemplate(final String messageTemplate) {
-    return messageTemplate.isEmpty() ? aopLoggersProperties.getExitedMessage() : messageTemplate;
+    return messageTemplate.isEmpty()
+        ? aopLoggersProperties.getTransactionCommittedMessage()
+        : messageTemplate;
   }
 }

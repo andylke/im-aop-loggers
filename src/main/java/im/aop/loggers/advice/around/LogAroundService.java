@@ -21,20 +21,15 @@ public class LogAroundService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LogAroundService.class);
 
-  @Autowired
-  private StringSubstitutor stringSubstitutor;
+  @Autowired private StringSubstitutor stringSubstitutor;
 
-  @Autowired
-  private JoinPointStringSupplierRegistrar joinPointStringSupplierRegistrar;
+  @Autowired private JoinPointStringSupplierRegistrar joinPointStringSupplierRegistrar;
 
-  @Autowired
-  private ReturnValueStringSupplierRegistrar returnValueStringSupplierRegistrar;
+  @Autowired private ReturnValueStringSupplierRegistrar returnValueStringSupplierRegistrar;
 
-  @Autowired
-  private ExceptionStringSupplierRegistrar exceptionStringSupplierRegistrar;
+  @Autowired private ExceptionStringSupplierRegistrar exceptionStringSupplierRegistrar;
 
-  @Autowired
-  private ElapsedStringSupplierRegistrar elapsedStringSupplierRegistrar;
+  @Autowired private ElapsedStringSupplierRegistrar elapsedStringSupplierRegistrar;
 
   @Autowired
   private ElapsedTimeLimitStringSupplierRegistrar elapsedTimeLimitStringSupplierRegistrar;
@@ -47,47 +42,47 @@ public class LogAroundService {
 
   public Object logAround(final ProceedingJoinPoint joinPoint, final LogAround logAround)
       throws Throwable {
-    final long enteringTime = System.nanoTime();
+    final long startTime = System.nanoTime();
 
     final Logger logger = LoggerUtil.getLogger(logAround.declaringClass(), joinPoint);
     final StringSupplierLookup stringLookup = new StringSupplierLookup();
 
     logEnteringMessage(joinPoint, logAround, logger, stringLookup);
-    final long beforeProceedTime = System.nanoTime();
+    final long proceedStartTime = System.nanoTime();
 
     try {
 
       final Object returnValue = joinPoint.proceed();
 
-      final long proceedElapsedTime = System.nanoTime() - beforeProceedTime;
+      final long proceedElapsedTime = System.nanoTime() - proceedStartTime;
       logExitedMessage(joinPoint, logAround, logger, stringLookup, returnValue);
       logElapsedTime(logAround, logger, stringLookup, proceedElapsedTime);
       logElapsedWarning(logAround, logger, stringLookup, proceedElapsedTime);
 
-      logElapsed(enteringTime, proceedElapsedTime);
+      logElapsed(startTime, proceedElapsedTime);
 
       return returnValue;
 
     } catch (Throwable e) {
 
-      final long proceedElapsedTime = System.nanoTime() - beforeProceedTime;
+      final long proceedElapsedTime = System.nanoTime() - proceedStartTime;
       logExitedAbnormallyMessage(logAround, logger, stringLookup, e);
       logElapsedTime(logAround, logger, stringLookup, proceedElapsedTime);
       logElapsedWarning(logAround, logger, stringLookup, proceedElapsedTime);
 
-      logElapsed(enteringTime, proceedElapsedTime);
+      logElapsed(startTime, proceedElapsedTime);
       throw e;
     }
   }
 
-  private void logElapsed(final long enteringTime, final long proceedElapsedTime) {
+  private void logElapsed(final long startTime, final long proceedElapsedTime) {
     LOGGER.debug(
         "[logAround] elapsed [{}]",
-        Duration.ofNanos(System.nanoTime() - enteringTime - proceedElapsedTime));
+        Duration.ofNanos(System.nanoTime() - startTime - proceedElapsedTime));
   }
 
-  private boolean isLoggerLevelDisabled(final Logger logger, final Level level) {
-    return !(LoggerUtil.isEnabled(logger, level));
+  private boolean isLoggingLevelDisabled(final Logger logger, final Level loggingLevel) {
+    return !(LoggerUtil.isEnabled(logger, loggingLevel));
   }
 
   private boolean isIgnoredException(
@@ -122,8 +117,8 @@ public class LogAroundService {
       final Logger logger,
       final StringSupplierLookup stringLookup) {
     final Level enteringLevel =
-        getLevel(annotation.level(), aopLoggersProperties.getEnteringLevel());
-    if (isLoggerLevelDisabled(logger, enteringLevel)) {
+        getLoggingLevel(annotation.level(), aopLoggersProperties.getEnteringLevel());
+    if (isLoggingLevelDisabled(logger, enteringLevel)) {
       return;
     }
 
@@ -131,7 +126,8 @@ public class LogAroundService {
 
     final String enteringMessage =
         stringSubstitutor.substitute(
-            getMessage(annotation.enteringMessage(), aopLoggersProperties.getEnteringMessage()),
+            getMessageTemplate(
+                annotation.enteringMessage(), aopLoggersProperties.getEnteringMessage()),
             stringLookup);
     LoggerUtil.log(logger, enteringLevel, enteringMessage);
   }
@@ -141,8 +137,9 @@ public class LogAroundService {
       final Logger logger,
       final StringSupplierLookup stringLookup,
       final long elapsedTime) {
-    final Level elapsedLevel = getLevel(annotation.level(), aopLoggersProperties.getElapsedLevel());
-    if (isLoggerLevelDisabled(logger, elapsedLevel)) {
+    final Level elapsedLevel =
+        getLoggingLevel(annotation.level(), aopLoggersProperties.getElapsedLevel());
+    if (isLoggingLevelDisabled(logger, elapsedLevel)) {
       return;
     }
 
@@ -150,7 +147,8 @@ public class LogAroundService {
 
     final String elapsedMessage =
         stringSubstitutor.substitute(
-            getMessage(annotation.elapsedMessage(), aopLoggersProperties.getElapsedMessage()),
+            getMessageTemplate(
+                annotation.elapsedMessage(), aopLoggersProperties.getElapsedMessage()),
             stringLookup);
     LoggerUtil.log(logger, elapsedLevel, elapsedMessage);
   }
@@ -161,8 +159,9 @@ public class LogAroundService {
       final StringSupplierLookup stringLookup,
       final long elapsedTime) {
     final Level elapsedWarningLevel =
-        getLevel(annotation.elapsedWarningLevel(), aopLoggersProperties.getElapsedWarningLevel());
-    if (isLoggerLevelDisabled(logger, elapsedWarningLevel)) {
+        getLoggingLevel(
+            annotation.elapsedWarningLevel(), aopLoggersProperties.getElapsedWarningLevel());
+    if (isLoggingLevelDisabled(logger, elapsedWarningLevel)) {
       return;
     }
 
@@ -180,7 +179,7 @@ public class LogAroundService {
 
     final String elapsedWarningMessage =
         stringSubstitutor.substitute(
-            getMessage(
+            getMessageTemplate(
                 annotation.elapsedWarningMessage(),
                 aopLoggersProperties.getElapsedWarningMessage()),
             stringLookup);
@@ -193,8 +192,9 @@ public class LogAroundService {
       final Logger logger,
       final StringSupplierLookup stringLookup,
       final Object returnValue) {
-    final Level exitedLevel = getLevel(annotation.level(), aopLoggersProperties.getExitedLevel());
-    if (isLoggerLevelDisabled(logger, exitedLevel)) {
+    final Level exitedLevel =
+        getLoggingLevel(annotation.level(), aopLoggersProperties.getExitedLevel());
+    if (isLoggingLevelDisabled(logger, exitedLevel)) {
       return;
     }
 
@@ -202,7 +202,7 @@ public class LogAroundService {
 
     final String exitedMessage =
         stringSubstitutor.substitute(
-            getMessage(annotation.exitedMessage(), aopLoggersProperties.getExitedMessage()),
+            getMessageTemplate(annotation.exitedMessage(), aopLoggersProperties.getExitedMessage()),
             stringLookup);
     LoggerUtil.log(logger, exitedLevel, exitedMessage);
   }
@@ -213,10 +213,10 @@ public class LogAroundService {
       final StringSupplierLookup stringLookup,
       final Throwable exception) {
     final Level exitedAbnormallyLevel =
-        getLevel(
+        getLoggingLevel(
             annotation.exitedAbnormallyLevel(), aopLoggersProperties.getExitedAbnormallyLevel());
 
-    if (isLoggerLevelDisabled(logger, exitedAbnormallyLevel)
+    if (isLoggingLevelDisabled(logger, exitedAbnormallyLevel)
         || isIgnoredException(exception, annotation.ignoreExceptions())) {
       return;
     }
@@ -225,7 +225,7 @@ public class LogAroundService {
 
     final String exitedAbnormallyMessage =
         stringSubstitutor.substitute(
-            getMessage(
+            getMessageTemplate(
                 annotation.exitedAbnormallyMessage(),
                 aopLoggersProperties.getExitedAbnormallyMessage()),
             stringLookup);
@@ -237,11 +237,12 @@ public class LogAroundService {
     }
   }
 
-  private Level getLevel(final Level level, final Level defaultLevel) {
-    return level == Level.DEFAULT ? defaultLevel : level;
+  private Level getLoggingLevel(final Level loggingLevel, final Level defaultLoggingLevel) {
+    return loggingLevel == Level.DEFAULT ? defaultLoggingLevel : loggingLevel;
   }
 
-  private String getMessage(final String message, final String defaultMessage) {
-    return message.length() > 0 ? message : defaultMessage;
+  private String getMessageTemplate(
+      final String messageTemplate, final String defaultMessageTemplate) {
+    return !messageTemplate.isEmpty() ? messageTemplate : defaultMessageTemplate;
   }
 }

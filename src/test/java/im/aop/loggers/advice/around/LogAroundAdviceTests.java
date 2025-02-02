@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import im.aop.loggers.AopLoggersProperties;
 import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.slf4j.LoggerFactory;
@@ -53,12 +54,10 @@ class LogAroundAdviceTests {
   static class TestMethodContext {
 
     @LogAround
-    public void methodWithoutParameter() {
-    }
+    public void methodWithoutParameter() {}
 
     @LogAround
-    public void methodWithParameter(String foo) {
-    }
+    public void methodWithParameter(String foo) {}
 
     @LogAround
     public String methodWithResult() {
@@ -72,91 +71,93 @@ class LogAroundAdviceTests {
     }
   }
 
-  @Test
-  void methodWithoutParameter_annotatedOnMethod(final CapturedOutput capturedOutput) {
-    runner
-        .withBean(TestMethodContext.class)
-        .run(
-            context -> {
-              final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
-              methodContext.methodWithoutParameter();
+  @Nested
+  class MethodContextTests {
 
-              assertThat(capturedOutput)
-                  .contains(
-                      "execution(void "
-                          + TestMethodContext.class.getName()
-                          + ".methodWithoutParameter())");
-            });
-  }
+    @Test
+    void methodWithoutParameter_annotatedOnMethod(final CapturedOutput capturedOutput) {
+      runner
+          .withBean(TestMethodContext.class)
+          .run(
+              context -> {
+                final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
+                methodContext.methodWithoutParameter();
 
-  @Test
-  void methodWithParameter_annotatedOnMethod(final CapturedOutput capturedOutput) {
-    runner
-        .withBean(TestMethodContext.class)
-        .run(
-            context -> {
-              final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
-              methodContext.methodWithParameter("foo");
+                assertThat(capturedOutput)
+                    .contains(
+                        "execution(void "
+                            + TestMethodContext.class.getName()
+                            + ".methodWithoutParameter())");
+              });
+    }
 
-              assertThat(capturedOutput)
-                  .contains(
-                      "execution(void "
-                          + TestMethodContext.class.getName()
-                          + ".methodWithParameter(String))");
-            });
-  }
+    @Test
+    void methodWithParameter_annotatedOnMethod(final CapturedOutput capturedOutput) {
+      runner
+          .withBean(TestMethodContext.class)
+          .run(
+              context -> {
+                final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
+                methodContext.methodWithParameter("foo");
 
-  @Test
-  void methodWithResult_annotatedOnMethod(final CapturedOutput capturedOutput) {
-    runner
-        .withBean(TestMethodContext.class)
-        .run(
-            context -> {
-              final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
-              methodContext.methodWithResult();
+                assertThat(capturedOutput)
+                    .contains(
+                        "execution(void "
+                            + TestMethodContext.class.getName()
+                            + ".methodWithParameter(String))");
+              });
+    }
 
-              assertThat(capturedOutput)
-                  .contains(
-                      "execution(String "
-                          + TestMethodContext.class.getName()
-                          + ".methodWithResult())");
-            });
-  }
+    @Test
+    void methodWithResult_annotatedOnMethod(final CapturedOutput capturedOutput) {
+      runner
+          .withBean(TestMethodContext.class)
+          .run(
+              context -> {
+                final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
+                methodContext.methodWithResult();
 
-  @Test
-  void methodWithResult_annotatedOnMethod_willReturnValue(final CapturedOutput capturedOutput) {
-    runner
-        .withBean(TestMethodContext.class)
-        .run(
-            context -> {
-              final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
-              assertThat(methodContext.methodWithResult()).isEqualTo("foo");
-            });
-  }
+                assertThat(capturedOutput)
+                    .contains(
+                        "execution(String "
+                            + TestMethodContext.class.getName()
+                            + ".methodWithResult())");
+              });
+    }
 
-  @Test
-  void toString_annotatedOnMethod(final CapturedOutput capturedOutput) {
-    runner
-        .withBean(TestMethodContext.class)
-        .run(
-            context -> {
-              final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
-              methodContext.toString();
+    @Test
+    void methodWithResult_annotatedOnMethod_willReturnValue(final CapturedOutput capturedOutput) {
+      runner
+          .withBean(TestMethodContext.class)
+          .run(
+              context -> {
+                final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
+                assertThat(methodContext.methodWithResult()).isEqualTo("foo");
+              });
+    }
 
-              assertThat(capturedOutput)
-                  .contains(
-                      "execution(String " + TestMethodContext.class.getName() + ".toString())");
-            });
+    @Test
+    void toString_annotatedOnMethod(final CapturedOutput capturedOutput) {
+      runner
+          .withBean(TestMethodContext.class)
+          .run(
+              context -> {
+                final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
+                methodContext.toString();
+
+                assertThat(capturedOutput)
+                    .contains(
+                        "execution(String " + TestMethodContext.class.getName() + ".toString())");
+              });
+    }
   }
 
   @LogAround
   static class TestClassContext {
 
-    public void methodWithoutParameter() {
-    }
+    public void methodWithoutParameter() {}
 
-    public void methodWithParameter(String foo) {
-    }
+    public void methodWithParameter(String foo) {}
 
     public String methodWithResult() {
       return "foo";
@@ -168,91 +169,93 @@ class LogAroundAdviceTests {
     }
   }
 
-  @Test
-  void methodWithoutParameter_annotatedOnClass(final CapturedOutput capturedOutput) {
-    runner
-        .withBean(TestClassContext.class)
-        .run(
-            context -> {
-              final TestClassContext classContext = context.getBean(TestClassContext.class);
-              classContext.methodWithoutParameter();
+  @Nested
+  class ClassContextTests {
 
-              assertThat(capturedOutput)
-                  .contains(
-                      "execution(void "
-                          + TestClassContext.class.getName()
-                          + ".methodWithoutParameter())");
-            });
-  }
+    @Test
+    void methodWithoutParameter_annotatedOnClass(final CapturedOutput capturedOutput) {
+      runner
+          .withBean(TestClassContext.class)
+          .run(
+              context -> {
+                final TestClassContext classContext = context.getBean(TestClassContext.class);
+                classContext.methodWithoutParameter();
 
-  @Test
-  void methodWithParameter_annotatedOnClass(final CapturedOutput capturedOutput) {
-    runner
-        .withBean(TestClassContext.class)
-        .run(
-            context -> {
-              final TestClassContext classContext = context.getBean(TestClassContext.class);
-              classContext.methodWithParameter("foo");
+                assertThat(capturedOutput)
+                    .contains(
+                        "execution(void "
+                            + TestClassContext.class.getName()
+                            + ".methodWithoutParameter())");
+              });
+    }
 
-              assertThat(capturedOutput)
-                  .contains(
-                      "execution(void "
-                          + TestClassContext.class.getName()
-                          + ".methodWithParameter(String))");
-            });
-  }
+    @Test
+    void methodWithParameter_annotatedOnClass(final CapturedOutput capturedOutput) {
+      runner
+          .withBean(TestClassContext.class)
+          .run(
+              context -> {
+                final TestClassContext classContext = context.getBean(TestClassContext.class);
+                classContext.methodWithParameter("foo");
 
-  @Test
-  void methodWithResult_annotatedOnClass(final CapturedOutput capturedOutput) {
-    runner
-        .withBean(TestClassContext.class)
-        .run(
-            context -> {
-              final TestClassContext classContext = context.getBean(TestClassContext.class);
-              classContext.methodWithResult();
+                assertThat(capturedOutput)
+                    .contains(
+                        "execution(void "
+                            + TestClassContext.class.getName()
+                            + ".methodWithParameter(String))");
+              });
+    }
 
-              assertThat(capturedOutput)
-                  .contains(
-                      "execution(String "
-                          + TestClassContext.class.getName()
-                          + ".methodWithResult())");
-            });
-  }
+    @Test
+    void methodWithResult_annotatedOnClass(final CapturedOutput capturedOutput) {
+      runner
+          .withBean(TestClassContext.class)
+          .run(
+              context -> {
+                final TestClassContext classContext = context.getBean(TestClassContext.class);
+                classContext.methodWithResult();
 
-  @Test
-  void methodWithResult_annotatedOnClass_willReturnValue(final CapturedOutput capturedOutput) {
-    runner
-        .withBean(TestClassContext.class)
-        .run(
-            context -> {
-              final TestClassContext classContext = context.getBean(TestClassContext.class);
-              assertThat(classContext.methodWithResult()).isEqualTo("foo");
-            });
-  }
+                assertThat(capturedOutput)
+                    .contains(
+                        "execution(String "
+                            + TestClassContext.class.getName()
+                            + ".methodWithResult())");
+              });
+    }
 
-  @Test
-  void toString_annotatedOnClass(final CapturedOutput capturedOutput) {
-    runner
-        .withBean(TestClassContext.class)
-        .run(
-            context -> {
-              final TestClassContext classContext = context.getBean(TestClassContext.class);
-              classContext.toString();
+    @Test
+    void methodWithResult_annotatedOnClass_willReturnValue(final CapturedOutput capturedOutput) {
+      runner
+          .withBean(TestClassContext.class)
+          .run(
+              context -> {
+                final TestClassContext classContext = context.getBean(TestClassContext.class);
+                assertThat(classContext.methodWithResult()).isEqualTo("foo");
+              });
+    }
 
-              assertThat(capturedOutput)
-                  .doesNotContain(
-                      "execution(String " + TestClassContext.class.getName() + ".toString())");
-            });
+    @Test
+    void toString_annotatedOnClass(final CapturedOutput capturedOutput) {
+      runner
+          .withBean(TestClassContext.class)
+          .run(
+              context -> {
+                final TestClassContext classContext = context.getBean(TestClassContext.class);
+                classContext.toString();
+
+                assertThat(capturedOutput)
+                    .doesNotContain(
+                        "execution(String " + TestClassContext.class.getName() + ".toString())");
+              });
+    }
   }
 
   @LogAround
   static class ParentClassContext {
 
-    public void methodWithoutParameter() {
-    }
+    public void methodWithoutParameter() {}
 
-    public void methodWithParameter(String foo) {
-    }
+    public void methodWithParameter(String foo) {}
 
     public String methodWithResult() {
       return "foo";
@@ -264,84 +267,87 @@ class LogAroundAdviceTests {
     }
   }
 
-  static class ChildClassContext extends ParentClassContext {
+  static class ChildClassContext extends ParentClassContext {}
 
-  }
+  @Nested
+  class ChildClassContextTests {
 
-  @Test
-  void methodWithoutParameter_annotatedOnChildClass(final CapturedOutput capturedOutput) {
-    runner
-        .withBean(ChildClassContext.class)
-        .run(
-            context -> {
-              final ChildClassContext classContext = context.getBean(ChildClassContext.class);
-              classContext.methodWithoutParameter();
+    @Test
+    void methodWithoutParameter_annotatedOnChildClass(final CapturedOutput capturedOutput) {
+      runner
+          .withBean(ChildClassContext.class)
+          .run(
+              context -> {
+                final ChildClassContext classContext = context.getBean(ChildClassContext.class);
+                classContext.methodWithoutParameter();
 
-              assertThat(capturedOutput)
-                  .contains(
-                      "execution(void "
-                          + ParentClassContext.class.getName()
-                          + ".methodWithoutParameter())");
-            });
-  }
+                assertThat(capturedOutput)
+                    .contains(
+                        "execution(void "
+                            + ParentClassContext.class.getName()
+                            + ".methodWithoutParameter())");
+              });
+    }
 
-  @Test
-  void methodWithParameter_annotatedOnChildClass(final CapturedOutput capturedOutput) {
-    runner
-        .withBean(ChildClassContext.class)
-        .run(
-            context -> {
-              final ChildClassContext classContext = context.getBean(ChildClassContext.class);
-              classContext.methodWithParameter("foo");
+    @Test
+    void methodWithParameter_annotatedOnChildClass(final CapturedOutput capturedOutput) {
+      runner
+          .withBean(ChildClassContext.class)
+          .run(
+              context -> {
+                final ChildClassContext classContext = context.getBean(ChildClassContext.class);
+                classContext.methodWithParameter("foo");
 
-              assertThat(capturedOutput)
-                  .contains(
-                      "execution(void "
-                          + ParentClassContext.class.getName()
-                          + ".methodWithParameter(String))");
-            });
-  }
+                assertThat(capturedOutput)
+                    .contains(
+                        "execution(void "
+                            + ParentClassContext.class.getName()
+                            + ".methodWithParameter(String))");
+              });
+    }
 
-  @Test
-  void methodWithResult_annotatedOnChildClass(final CapturedOutput capturedOutput) {
-    runner
-        .withBean(ChildClassContext.class)
-        .run(
-            context -> {
-              final ChildClassContext classContext = context.getBean(ChildClassContext.class);
-              classContext.methodWithResult();
+    @Test
+    void methodWithResult_annotatedOnChildClass(final CapturedOutput capturedOutput) {
+      runner
+          .withBean(ChildClassContext.class)
+          .run(
+              context -> {
+                final ChildClassContext classContext = context.getBean(ChildClassContext.class);
+                classContext.methodWithResult();
 
-              assertThat(capturedOutput)
-                  .contains(
-                      "execution(String "
-                          + ParentClassContext.class.getName()
-                          + ".methodWithResult())");
-            });
-  }
+                assertThat(capturedOutput)
+                    .contains(
+                        "execution(String "
+                            + ParentClassContext.class.getName()
+                            + ".methodWithResult())");
+              });
+    }
 
-  @Test
-  void methodWithResult_annotatedOnChildClass_willReturnValue(final CapturedOutput capturedOutput) {
-    runner
-        .withBean(ChildClassContext.class)
-        .run(
-            context -> {
-              final ChildClassContext classContext = context.getBean(ChildClassContext.class);
-              assertThat(classContext.methodWithResult()).isEqualTo("foo");
-            });
-  }
+    @Test
+    void methodWithResult_annotatedOnChildClass_willReturnValue(
+        final CapturedOutput capturedOutput) {
+      runner
+          .withBean(ChildClassContext.class)
+          .run(
+              context -> {
+                final ChildClassContext classContext = context.getBean(ChildClassContext.class);
+                assertThat(classContext.methodWithResult()).isEqualTo("foo");
+              });
+    }
 
-  @Test
-  void toString_annotatedOnChildClass(final CapturedOutput capturedOutput) {
-    runner
-        .withBean(ChildClassContext.class)
-        .run(
-            context -> {
-              final ChildClassContext classContext = context.getBean(ChildClassContext.class);
-              classContext.toString();
+    @Test
+    void toString_annotatedOnChildClass(final CapturedOutput capturedOutput) {
+      runner
+          .withBean(ChildClassContext.class)
+          .run(
+              context -> {
+                final ChildClassContext classContext = context.getBean(ChildClassContext.class);
+                classContext.toString();
 
-              assertThat(capturedOutput)
-                  .doesNotContain(
-                      "execution(String " + ParentClassContext.class.getName() + ".toString())");
-            });
+                assertThat(capturedOutput)
+                    .doesNotContain(
+                        "execution(String " + ParentClassContext.class.getName() + ".toString())");
+              });
+    }
   }
 }

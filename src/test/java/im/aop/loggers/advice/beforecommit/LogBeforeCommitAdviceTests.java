@@ -1,10 +1,12 @@
-package im.aop.loggers.advice.afterreturning;
+package im.aop.loggers.advice.beforecommit;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import im.aop.loggers.AopLoggersProperties;
 import im.aop.loggers.messageinterpolation.StringSubstitutorConfiguration;
 import org.aspectj.lang.JoinPoint;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,36 +17,35 @@ import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 
 /**
- * Tests for {@link LogAfterReturningAdvice}.
+ * Tests for {@link LogBeforeCommitAdvice}.
  *
  * @author Andy Lian
  */
 @ExtendWith(OutputCaptureExtension.class)
-class LogAfterReturningAdviceTests {
+class LogBeforeCommitAdviceTests {
 
   private ApplicationContextRunner runner =
       new ApplicationContextRunner()
           .withUserConfiguration(
-              StringSubstitutorConfiguration.class, LogAfterReturningAdviceTestConfiguration.class)
-          .withBean(LogAfterReturningAdvice.class)
+              StringSubstitutorConfiguration.class, LogBeforeCommitAdviceTestConfiguration.class)
+          .withBean(LogBeforeCommitAdvice.class)
           .withBean(AopLoggersProperties.class);
 
   @EnableAspectJAutoProxy
   @TestConfiguration(proxyBeanMethods = false)
-  static class LogAfterReturningAdviceTestConfiguration {
+  static class LogBeforeCommitAdviceTestConfiguration {
 
     @Bean
-    public LogAfterReturningService logAfterReturningService(
+    public LogBeforeCommitService logBeforeCommitService(
         final AopLoggersProperties aopLoggersProperties) {
-      return new LogAfterReturningService(aopLoggersProperties) {
-
+      return new LogBeforeCommitService(aopLoggersProperties) {
         @Override
-        public void logAfterReturning(
-            JoinPoint joinPoint, LogAfterReturning logAfterReturning, Object returnedValue) {
+        public void logBeforeCommit(JoinPoint joinPoint, LogBeforeCommit logBeforeCommit) {
           LoggerFactory.getLogger(joinPoint.getSignature().getDeclaringType())
-              .info("joinPoint={}, returnedValue={}", joinPoint, returnedValue);
+              .info("{}", joinPoint);
         }
       };
     }
@@ -52,18 +53,18 @@ class LogAfterReturningAdviceTests {
 
   static class TestMethodContext {
 
-    @LogAfterReturning
+    @LogBeforeCommit
     public void methodWithoutParameter() {}
 
-    @LogAfterReturning
+    @LogBeforeCommit
     public void methodWithParameter(String foo) {}
 
-    @LogAfterReturning
+    @LogBeforeCommit
     public String methodWithResult() {
       return "foo";
     }
 
-    @LogAfterReturning
+    @LogBeforeCommit
     @Override
     public String toString() {
       return super.toString();
@@ -71,7 +72,7 @@ class LogAfterReturningAdviceTests {
   }
 
   @Nested
-  class MethodContextTests {
+  class MethodContextWithoutTransactionSynchronizationTests {
 
     @Test
     void methodWithoutParameter_annotatedOnMethod(final CapturedOutput capturedOutput) {
@@ -83,11 +84,44 @@ class LogAfterReturningAdviceTests {
                 methodContext.methodWithoutParameter();
 
                 assertThat(capturedOutput)
-                    .contains(
-                        "joinPoint=execution(void "
+                    .doesNotContain(
+                        "execution(void "
                             + TestMethodContext.class.getName()
-                            + ".methodWithoutParameter())")
-                    .contains("returnedValue=null");
+                            + ".methodWithoutParameter())");
+              });
+    }
+  }
+
+  @Nested
+  class MethodContextTests {
+
+    @BeforeEach
+    void beforeEach() {
+      TransactionSynchronizationManager.initSynchronization();
+    }
+
+    @AfterEach
+    void afterEach() {
+      TransactionSynchronizationManager.clearSynchronization();
+    }
+
+    @Test
+    void methodWithoutParameter_annotatedOnMethod(final CapturedOutput capturedOutput) {
+      runner
+          .withBean(TestMethodContext.class)
+          .run(
+              context -> {
+                final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
+                methodContext.methodWithoutParameter();
+
+                TransactionSynchronizationManager.getSynchronizations()
+                    .forEach(synchronization -> synchronization.beforeCommit(false));
+
+                assertThat(capturedOutput)
+                    .contains(
+                        "execution(void "
+                            + TestMethodContext.class.getName()
+                            + ".methodWithoutParameter())");
               });
     }
 
@@ -100,12 +134,14 @@ class LogAfterReturningAdviceTests {
                 final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
                 methodContext.methodWithParameter("foo");
 
+                TransactionSynchronizationManager.getSynchronizations()
+                    .forEach(synchronization -> synchronization.beforeCommit(false));
+
                 assertThat(capturedOutput)
                     .contains(
-                        "joinPoint=execution(void "
+                        "execution(void "
                             + TestMethodContext.class.getName()
-                            + ".methodWithParameter(String))")
-                    .contains("returnedValue=null");
+                            + ".methodWithParameter(String))");
               });
     }
 
@@ -118,12 +154,14 @@ class LogAfterReturningAdviceTests {
                 final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
                 methodContext.methodWithResult();
 
+                TransactionSynchronizationManager.getSynchronizations()
+                    .forEach(synchronization -> synchronization.beforeCommit(false));
+
                 assertThat(capturedOutput)
                     .contains(
-                        "joinPoint=execution(String "
+                        "execution(String "
                             + TestMethodContext.class.getName()
-                            + ".methodWithResult())")
-                    .contains("returnedValue=foo");
+                            + ".methodWithResult())");
               });
     }
 
@@ -136,17 +174,17 @@ class LogAfterReturningAdviceTests {
                 final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
                 methodContext.toString();
 
+                TransactionSynchronizationManager.getSynchronizations()
+                    .forEach(synchronization -> synchronization.beforeCommit(false));
+
                 assertThat(capturedOutput)
                     .contains(
-                        "joinPoint=execution(String "
-                            + TestMethodContext.class.getName()
-                            + ".toString())")
-                    .contains("returnedValue=" + TestMethodContext.class.getName());
+                        "execution(String " + TestMethodContext.class.getName() + ".toString())");
               });
     }
   }
 
-  @LogAfterReturning
+  @LogBeforeCommit
   static class TestClassContext {
 
     public void methodWithoutParameter() {}
@@ -166,6 +204,16 @@ class LogAfterReturningAdviceTests {
   @Nested
   class ClassContextTests {
 
+    @BeforeEach
+    void beforeEach() {
+      TransactionSynchronizationManager.initSynchronization();
+    }
+
+    @AfterEach
+    void afterEach() {
+      TransactionSynchronizationManager.clearSynchronization();
+    }
+
     @Test
     void methodWithoutParameter_annotatedOnClass(final CapturedOutput capturedOutput) {
       runner
@@ -175,12 +223,14 @@ class LogAfterReturningAdviceTests {
                 final TestClassContext classContext = context.getBean(TestClassContext.class);
                 classContext.methodWithoutParameter();
 
+                TransactionSynchronizationManager.getSynchronizations()
+                    .forEach(synchronization -> synchronization.beforeCommit(false));
+
                 assertThat(capturedOutput)
                     .contains(
-                        "joinPoint=execution(void "
+                        "execution(void "
                             + TestClassContext.class.getName()
-                            + ".methodWithoutParameter())")
-                    .contains("returnedValue=null");
+                            + ".methodWithoutParameter())");
               });
     }
 
@@ -193,12 +243,14 @@ class LogAfterReturningAdviceTests {
                 final TestClassContext classContext = context.getBean(TestClassContext.class);
                 classContext.methodWithParameter("foo");
 
+                TransactionSynchronizationManager.getSynchronizations()
+                    .forEach(synchronization -> synchronization.beforeCommit(false));
+
                 assertThat(capturedOutput)
                     .contains(
-                        "joinPoint=execution(void "
+                        "execution(void "
                             + TestClassContext.class.getName()
-                            + ".methodWithParameter(String))")
-                    .contains("returnedValue=null");
+                            + ".methodWithParameter(String))");
               });
     }
 
@@ -211,12 +263,14 @@ class LogAfterReturningAdviceTests {
                 final TestClassContext classContext = context.getBean(TestClassContext.class);
                 classContext.methodWithResult();
 
+                TransactionSynchronizationManager.getSynchronizations()
+                    .forEach(synchronization -> synchronization.beforeCommit(false));
+
                 assertThat(capturedOutput)
                     .contains(
-                        "joinPoint=execution(String "
+                        "execution(String "
                             + TestClassContext.class.getName()
-                            + ".methodWithResult())")
-                    .contains("returnedValue=foo");
+                            + ".methodWithResult())");
               });
     }
 
@@ -229,17 +283,17 @@ class LogAfterReturningAdviceTests {
                 final TestClassContext classContext = context.getBean(TestClassContext.class);
                 classContext.toString();
 
+                TransactionSynchronizationManager.getSynchronizations()
+                    .forEach(synchronization -> synchronization.beforeCommit(false));
+
                 assertThat(capturedOutput)
                     .doesNotContain(
-                        "joinPoint=execution(String "
-                            + TestClassContext.class.getName()
-                            + ".toString())")
-                    .doesNotContain("returnedValue=" + TestClassContext.class.getName());
+                        "execution(String " + TestClassContext.class.getName() + ".toString())");
               });
     }
   }
 
-  @LogAfterReturning
+  @LogBeforeCommit
   static class ParentClassContext {
 
     public void methodWithoutParameter() {}
@@ -259,7 +313,17 @@ class LogAfterReturningAdviceTests {
   static class ChildClassContext extends ParentClassContext {}
 
   @Nested
-  class ChildClassContextTests {
+  class ChildContextTests {
+
+    @BeforeEach
+    void beforeEach() {
+      TransactionSynchronizationManager.initSynchronization();
+    }
+
+    @AfterEach
+    void afterEach() {
+      TransactionSynchronizationManager.clearSynchronization();
+    }
 
     @Test
     void methodWithoutParameter_annotatedOnChildClass(final CapturedOutput capturedOutput) {
@@ -270,12 +334,14 @@ class LogAfterReturningAdviceTests {
                 final ChildClassContext classContext = context.getBean(ChildClassContext.class);
                 classContext.methodWithoutParameter();
 
+                TransactionSynchronizationManager.getSynchronizations()
+                    .forEach(synchronization -> synchronization.beforeCommit(false));
+
                 assertThat(capturedOutput)
                     .contains(
-                        "joinPoint=execution(void "
+                        "execution(void "
                             + ParentClassContext.class.getName()
-                            + ".methodWithoutParameter())")
-                    .contains("returnedValue=null");
+                            + ".methodWithoutParameter())");
               });
     }
 
@@ -288,12 +354,14 @@ class LogAfterReturningAdviceTests {
                 final ChildClassContext classContext = context.getBean(ChildClassContext.class);
                 classContext.methodWithParameter("foo");
 
+                TransactionSynchronizationManager.getSynchronizations()
+                    .forEach(synchronization -> synchronization.beforeCommit(false));
+
                 assertThat(capturedOutput)
                     .contains(
-                        "joinPoint=execution(void "
+                        "execution(void "
                             + ParentClassContext.class.getName()
-                            + ".methodWithParameter(String))")
-                    .contains("returnedValue=null");
+                            + ".methodWithParameter(String))");
               });
     }
 
@@ -306,12 +374,14 @@ class LogAfterReturningAdviceTests {
                 final ChildClassContext classContext = context.getBean(ChildClassContext.class);
                 classContext.methodWithResult();
 
+                TransactionSynchronizationManager.getSynchronizations()
+                    .forEach(synchronization -> synchronization.beforeCommit(false));
+
                 assertThat(capturedOutput)
                     .contains(
-                        "joinPoint=execution(String "
+                        "execution(String "
                             + ParentClassContext.class.getName()
-                            + ".methodWithResult())")
-                    .contains("returnedValue=foo");
+                            + ".methodWithResult())");
               });
     }
 
@@ -324,12 +394,12 @@ class LogAfterReturningAdviceTests {
                 final ChildClassContext classContext = context.getBean(ChildClassContext.class);
                 classContext.toString();
 
+                TransactionSynchronizationManager.getSynchronizations()
+                    .forEach(synchronization -> synchronization.beforeCommit(false));
+
                 assertThat(capturedOutput)
                     .doesNotContain(
-                        "joinPoint=execution(String "
-                            + ParentClassContext.class.getName()
-                            + ".toString())")
-                    .doesNotContain("returnedValue=" + ChildClassContext.class.getName());
+                        "execution(String " + ParentClassContext.class.getName() + ".toString())");
               });
     }
   }

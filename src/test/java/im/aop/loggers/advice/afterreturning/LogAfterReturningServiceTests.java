@@ -36,14 +36,11 @@ class LogAfterReturningServiceTests {
 
   @TestConfiguration(proxyBeanMethods = false)
   @EnableConfigurationProperties({AopLoggersProperties.class})
-  static class AopLoggersPropertiesTestConfiguration {
-
-  }
+  static class AopLoggersPropertiesTestConfiguration {}
 
   static class Foo {
 
-    void foo() {
-    }
+    void foo() {}
   }
 
   private MethodSignature methodSignature;
@@ -57,11 +54,11 @@ class LogAfterReturningServiceTests {
   }
 
   @Test
-  void logExitedMessage_defaultMessage(final CapturedOutput capturedOutput) {
+  void logMessage_defaultMessage(final CapturedOutput capturedOutput) {
     runner
         .withPropertyValues(AopLoggersProperties.PREFIX + ".exited-message=foo")
         .run(
-            (context) -> {
+            context -> {
               final LogAfterReturning annotation = mockLogAfterReturning(Level.INFO, "");
               LoggingSystem.get(ClassLoader.getSystemClassLoader())
                   .setLogLevel(Foo.class.getName(), LogLevel.INFO);
@@ -75,9 +72,9 @@ class LogAfterReturningServiceTests {
   }
 
   @Test
-  void logExitedMessage_customMessage(final CapturedOutput capturedOutput) {
+  void logMessage_customMessage(final CapturedOutput capturedOutput) {
     runner.run(
-        (context) -> {
+        context -> {
           final LogAfterReturning annotation = mockLogAfterReturning(Level.INFO, "foo");
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
               .setLogLevel(Foo.class.getName(), LogLevel.INFO);
@@ -90,11 +87,11 @@ class LogAfterReturningServiceTests {
   }
 
   @Test
-  void logExitedMessage_defaultLevel(final CapturedOutput capturedOutput) {
+  void logMessage_defaultLevel(final CapturedOutput capturedOutput) {
     runner
         .withPropertyValues(AopLoggersProperties.PREFIX + ".exited-level=DEBUG")
         .run(
-            (context) -> {
+            context -> {
               final LogAfterReturning annotation = mockLogAfterReturning(Level.DEFAULT, "foo");
               LoggingSystem.get(ClassLoader.getSystemClassLoader())
                   .setLogLevel(Foo.class.getName(), LogLevel.DEBUG);
@@ -108,11 +105,11 @@ class LogAfterReturningServiceTests {
   }
 
   @Test
-  void logExitedMessage_customLevel(final CapturedOutput capturedOutput) {
+  void logMessage_customLevel(final CapturedOutput capturedOutput) {
     runner
         .withPropertyValues(AopLoggersProperties.PREFIX + ".exited-level=DEBUG")
         .run(
-            (context) -> {
+            context -> {
               final LogAfterReturning annotation = mockLogAfterReturning(Level.INFO, "foo");
               LoggingSystem.get(ClassLoader.getSystemClassLoader())
                   .setLogLevel(Foo.class.getName(), LogLevel.DEBUG);
@@ -126,9 +123,9 @@ class LogAfterReturningServiceTests {
   }
 
   @Test
-  void doesNotLogExitedMessage_whenLoggerLevelDisabled(final CapturedOutput capturedOutput) {
+  void doesNotLogMessage_whenLoggerLevelDisabled(final CapturedOutput capturedOutput) {
     runner.run(
-        (context) -> {
+        context -> {
           final LogAfterReturning annotation = mockLogAfterReturning(Level.DEBUG, "foo");
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
               .setLogLevel(Foo.class.getName(), LogLevel.INFO);
@@ -143,7 +140,7 @@ class LogAfterReturningServiceTests {
   @Test
   void logElapsed_whenLoggerLevelDisabled(final CapturedOutput capturedOutput) {
     runner.run(
-        (context) -> {
+        context -> {
           final LogAfterReturning annotation = mockLogAfterReturning(Level.DEBUG, "foo");
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
               .setLogLevel(Foo.class.getName(), LogLevel.INFO);
@@ -160,7 +157,7 @@ class LogAfterReturningServiceTests {
   @Test
   void logElapsed_whenEnabled(final CapturedOutput capturedOutput) {
     runner.run(
-        (context) -> {
+        context -> {
           final LogAfterReturning annotation = mockLogAfterReturning(Level.INFO, "foo");
           LoggingSystem.get(ClassLoader.getSystemClassLoader())
               .setLogLevel(Foo.class.getName(), LogLevel.INFO);

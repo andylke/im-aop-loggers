@@ -18,14 +18,11 @@ public class LogAfterThrowingService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LogAfterThrowingService.class);
 
-  @Autowired
-  private StringSubstitutor stringSubstitutor;
+  @Autowired private StringSubstitutor stringSubstitutor;
 
-  @Autowired
-  private JoinPointStringSupplierRegistrar joinPointStringSupplierRegistrar;
+  @Autowired private JoinPointStringSupplierRegistrar joinPointStringSupplierRegistrar;
 
-  @Autowired
-  private ExceptionStringSupplierRegistrar exceptionStringSupplierRegistrar;
+  @Autowired private ExceptionStringSupplierRegistrar exceptionStringSupplierRegistrar;
 
   private final AopLoggersProperties aopLoggersProperties;
 
@@ -35,30 +32,29 @@ public class LogAfterThrowingService {
 
   public void logAfterThrowing(
       final JoinPoint joinPoint, final LogAfterThrowing annotation, final Throwable exception) {
-    final long enteringTime = System.nanoTime();
+    final long startTime = System.nanoTime();
 
     final Logger logger = LoggerUtil.getLogger(annotation.declaringClass(), joinPoint);
-    final Level exitedAbnormallyLevel = getExitedAbnormallyLevel(annotation.level());
-    if (isLoggerLevelDisabled(logger, exitedAbnormallyLevel)
+    final Level loggingLevel = getLoggingLevel(annotation.level());
+    if (isLoggingLevelDisabled(logger, loggingLevel)
         || isIgnoredException(exception, annotation.ignoreExceptions())) {
-      logElapsed(enteringTime);
+      logElapsed(startTime);
       return;
     }
 
     final StringSupplierLookup stringLookup = new StringSupplierLookup();
 
-    logExitedAbnormallyMessage(
-        joinPoint, exitedAbnormallyLevel, annotation, logger, stringLookup, exception);
-    logElapsed(enteringTime);
+    logMessage(joinPoint, loggingLevel, annotation, logger, stringLookup, exception);
+    logElapsed(startTime);
   }
 
-  private void logElapsed(long enteringTime) {
+  private void logElapsed(long startTime) {
     LOGGER.debug(
-        "[logAfterThrowing] elapsed [{}]", Duration.ofNanos(System.nanoTime() - enteringTime));
+        "[logAfterThrowing] elapsed [{}]", Duration.ofNanos(System.nanoTime() - startTime));
   }
 
-  private boolean isLoggerLevelDisabled(final Logger logger, final Level level) {
-    return !(LoggerUtil.isEnabled(logger, level));
+  private boolean isLoggingLevelDisabled(final Logger logger, final Level loggingLevel) {
+    return !(LoggerUtil.isEnabled(logger, loggingLevel));
   }
 
   private boolean isIgnoredException(
@@ -87,9 +83,9 @@ public class LogAfterThrowingService {
     return false;
   }
 
-  private void logExitedAbnormallyMessage(
+  private void logMessage(
       final JoinPoint joinPoint,
-      final Level exitedAbnormallyLevel,
+      final Level loggingLevel,
       final LogAfterThrowing annotation,
       final Logger logger,
       final StringSupplierLookup stringLookup,
@@ -99,24 +95,24 @@ public class LogAfterThrowingService {
 
     final String message =
         stringSubstitutor.substitute(
-            getExitedAbnormallyMessage(annotation.exitedAbnormallyMessage()), stringLookup);
+            getMessageTemplate(annotation.exitedAbnormallyMessage()), stringLookup);
 
     if (annotation.printStackTrace()) {
-      LoggerUtil.logException(logger, exitedAbnormallyLevel, message, exception);
+      LoggerUtil.logException(logger, loggingLevel, message, exception);
     } else {
-      LoggerUtil.log(logger, exitedAbnormallyLevel, message);
+      LoggerUtil.log(logger, loggingLevel, message);
     }
   }
 
-  private Level getExitedAbnormallyLevel(final Level exitedAbnormallyLevel) {
-    return exitedAbnormallyLevel == Level.DEFAULT
+  private Level getLoggingLevel(final Level loggingLevel) {
+    return loggingLevel == Level.DEFAULT
         ? aopLoggersProperties.getExitedAbnormallyLevel()
-        : exitedAbnormallyLevel;
+        : loggingLevel;
   }
 
-  private String getExitedAbnormallyMessage(final String exitedAbnormallyMessage) {
-    return exitedAbnormallyMessage.length() == 0
+  private String getMessageTemplate(final String messageTemplate) {
+    return messageTemplate.isEmpty()
         ? aopLoggersProperties.getExitedAbnormallyMessage()
-        : exitedAbnormallyMessage;
+        : messageTemplate;
   }
 }

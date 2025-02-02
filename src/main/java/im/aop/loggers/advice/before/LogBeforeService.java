@@ -17,11 +17,9 @@ public class LogBeforeService {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(LogBeforeService.class);
 
-  @Autowired
-  private StringSubstitutor stringSubstitutor;
+  @Autowired private StringSubstitutor stringSubstitutor;
 
-  @Autowired
-  private JoinPointStringSupplierRegistrar joinPointStringSupplierRegistrar;
+  @Autowired private JoinPointStringSupplierRegistrar joinPointStringSupplierRegistrar;
 
   private final AopLoggersProperties aopLoggersProperties;
 
@@ -30,51 +28,48 @@ public class LogBeforeService {
   }
 
   public void logBefore(final JoinPoint joinPoint, final LogBefore annotation) {
-    final long enteringTime = System.nanoTime();
+    final long startTime = System.nanoTime();
 
     final Logger logger = LoggerUtil.getLogger(annotation.declaringClass(), joinPoint);
-    final Level enteringLevel = getEnteringLevel(annotation.level());
-    if (isLoggerLevelDisabled(logger, enteringLevel)) {
-      logElapsed(enteringTime);
+    final Level loggingLevel = getLoggingLevel(annotation.level());
+    if (isLoggingLevelDisabled(logger, loggingLevel)) {
+      logElapsed(startTime);
       return;
     }
 
     final StringSupplierLookup stringLookup = new StringSupplierLookup();
 
-    logEnteringMessage(
-        joinPoint, enteringLevel, annotation.enteringMessage(), logger, stringLookup);
-    logElapsed(enteringTime);
+    logMessage(joinPoint, loggingLevel, annotation.enteringMessage(), logger, stringLookup);
+    logElapsed(startTime);
   }
 
-  private void logElapsed(long enteringTime) {
-    LOGGER.debug("[logBefore] elapsed [{}]", Duration.ofNanos(System.nanoTime() - enteringTime));
+  private void logElapsed(long startTime) {
+    LOGGER.debug("[logBefore] elapsed [{}]", Duration.ofNanos(System.nanoTime() - startTime));
   }
 
-  private boolean isLoggerLevelDisabled(final Logger logger, final Level level) {
-    return !LoggerUtil.isEnabled(logger, level);
+  private boolean isLoggingLevelDisabled(final Logger logger, final Level loggingLevel) {
+    return !LoggerUtil.isEnabled(logger, loggingLevel);
   }
 
-  private void logEnteringMessage(
+  private void logMessage(
       final JoinPoint joinPoint,
-      final Level enteringLevel,
-      final String enteringMessage,
+      final Level loggingLevel,
+      final String messageTemplate,
       final Logger logger,
       final StringSupplierLookup stringLookup) {
     joinPointStringSupplierRegistrar.register(stringLookup, joinPoint);
 
     final String message =
-        stringSubstitutor.substitute(getEnteringMesage(enteringMessage), stringLookup);
+        stringSubstitutor.substitute(getMessageTemplate(messageTemplate), stringLookup);
 
-    LoggerUtil.log(logger, enteringLevel, message);
+    LoggerUtil.log(logger, loggingLevel, message);
   }
 
-  private Level getEnteringLevel(final Level enteringLevel) {
-    return enteringLevel == Level.DEFAULT ? aopLoggersProperties.getEnteringLevel() : enteringLevel;
+  private Level getLoggingLevel(final Level loggingLevel) {
+    return loggingLevel == Level.DEFAULT ? aopLoggersProperties.getEnteringLevel() : loggingLevel;
   }
 
-  private String getEnteringMesage(final String enteringMessage) {
-    return enteringMessage.length() == 0
-        ? aopLoggersProperties.getEnteringMessage()
-        : enteringMessage;
+  private String getMessageTemplate(final String messageTemplate) {
+    return messageTemplate.isEmpty() ? aopLoggersProperties.getEnteringMessage() : messageTemplate;
   }
 }
