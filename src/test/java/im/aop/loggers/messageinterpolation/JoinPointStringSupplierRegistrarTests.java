@@ -25,14 +25,11 @@ class JoinPointStringSupplierRegistrarTests {
 
   static class TestClass {
 
-    public void methodWithoutParameter() {
-    }
+    public void methodWithoutParameter() {}
 
-    public void methodWithOneParameter(String foo) {
-    }
+    public void methodWithOneParameter(String foo) {}
 
-    public void methodWithTwoParameter(String foo, String bar) {
-    }
+    public void methodWithTwoParameter(String foo, String bar) {}
 
     public String methodWithResult() {
       return "foo";
@@ -40,7 +37,7 @@ class JoinPointStringSupplierRegistrarTests {
   }
 
   @Test
-  void method_methodWithoutParameter() throws NoSuchMethodException, SecurityException {
+  void method_methodWithoutParameter() throws SecurityException {
     runner.run(
         context -> {
           final JoinPointStringSupplierRegistrar registrar =
@@ -58,7 +55,7 @@ class JoinPointStringSupplierRegistrarTests {
   }
 
   @Test
-  void method_methodWithOneParameter() throws NoSuchMethodException, SecurityException {
+  void method_methodWithOneParameter() throws SecurityException {
     runner.run(
         context -> {
           final JoinPointStringSupplierRegistrar registrar =
@@ -77,7 +74,7 @@ class JoinPointStringSupplierRegistrarTests {
   }
 
   @Test
-  void method_methodWithTwoParameter() throws NoSuchMethodException, SecurityException {
+  void method_methodWithTwoParameter() throws SecurityException {
     runner.run(
         context -> {
           final JoinPointStringSupplierRegistrar registrar =
@@ -99,7 +96,7 @@ class JoinPointStringSupplierRegistrarTests {
   }
 
   @Test
-  void method_methodWithResult() throws NoSuchMethodException, SecurityException {
+  void method_methodWithResult() throws SecurityException {
     runner.run(
         context -> {
           final JoinPointStringSupplierRegistrar registrar =
@@ -116,7 +113,7 @@ class JoinPointStringSupplierRegistrarTests {
   }
 
   @Test
-  void methodParameters_withoutParameter() throws NoSuchMethodException, SecurityException {
+  void methodParameters_withoutParameter() throws SecurityException {
     runner.run(
         context -> {
           final JoinPointStringSupplierRegistrar registrar =
@@ -133,7 +130,7 @@ class JoinPointStringSupplierRegistrarTests {
   }
 
   @Test
-  void methodParameters_methodWithOneParameter() throws NoSuchMethodException, SecurityException {
+  void methodParameters_methodWithOneParameter() throws SecurityException {
     runner.run(
         context -> {
           final JoinPointStringSupplierRegistrar registrar =
@@ -154,7 +151,7 @@ class JoinPointStringSupplierRegistrarTests {
   }
 
   @Test
-  void methodParameters_methodWithTwoParameter() throws NoSuchMethodException, SecurityException {
+  void methodParameters_methodWithTwoParameter() throws SecurityException {
     runner.run(
         context -> {
           final JoinPointStringSupplierRegistrar registrar =
@@ -168,7 +165,7 @@ class JoinPointStringSupplierRegistrarTests {
                   null);
           final JoinPoint joinPoint = mockJoinPoint(methodSignature, Arrays.array("a", "b"));
 
-          when(methodSignature.getParameterNames()).thenReturn(new String[]{"foo", "bar"});
+          when(methodSignature.getParameterNames()).thenReturn(new String[] {"foo", "bar"});
 
           final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
           registrar.register(stringSupplierLookup, joinPoint);

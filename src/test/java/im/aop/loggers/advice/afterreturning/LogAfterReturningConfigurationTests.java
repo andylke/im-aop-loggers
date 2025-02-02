@@ -23,7 +23,7 @@ class LogAfterReturningConfigurationTests {
   @Test
   void logAfterReturningAdviceNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(LogAfterReturningAdvice.class))
               .isNotNull()
               .isExactlyInstanceOf(LogAfterReturningAdvice.class);
@@ -33,7 +33,7 @@ class LogAfterReturningConfigurationTests {
   @Test
   void logAfterReturningServiceNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(LogAfterReturningService.class))
               .isNotNull()
               .isExactlyInstanceOf(LogAfterReturningService.class);

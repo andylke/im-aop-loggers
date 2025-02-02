@@ -17,7 +17,7 @@ class ElapsedTimeLimitStringSupplierRegistrarTests {
       new ApplicationContextRunner().withBean(ElapsedTimeLimitStringSupplierRegistrar.class);
 
   @Test
-  void elapsedTimeLimit() throws NoSuchMethodException, SecurityException {
+  void elapsedTimeLimit() throws SecurityException {
     runner.run(
         context -> {
           final ElapsedTimeLimitStringSupplierRegistrar registrar =

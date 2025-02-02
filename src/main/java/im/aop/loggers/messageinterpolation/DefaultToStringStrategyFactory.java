@@ -1,13 +1,10 @@
 package im.aop.loggers.messageinterpolation;
 
+import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import jakarta.annotation.PostConstruct;
 
 /**
  * Default {@link ToStringStrategyFactory} implementation.
@@ -26,8 +23,8 @@ public class DefaultToStringStrategyFactory implements ToStringStrategyFactory {
   void postConstruct() {
     toStringStrategies =
         toStringStrategiesProvider.stream()
-            .filter(toStringStrategy -> toStringStrategy instanceof ObjectToStringStrategy == false)
-            .collect(Collectors.toList());
+            .filter(toStringStrategy -> !(toStringStrategy instanceof ObjectToStringStrategy))
+            .toList();
   }
 
   @Override

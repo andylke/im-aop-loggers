@@ -19,7 +19,7 @@ public class ObjectToStringStrategy implements ToStringStrategy {
 
   @Override
   public String toString(Object object) {
-    if (object == null || reflectionToStringStrategy.supports(object) == false) {
+    if (object == null || !reflectionToStringStrategy.supports(object)) {
       return String.valueOf(object);
     } else {
       return reflectionToStringStrategy.toString(object);

@@ -174,22 +174,22 @@ class LogAfterReturningServiceTests {
   private MethodSignature mockMethodSignature(
       final Class<?> declaringClass, final String methodName, Class<?>... methodParameterTypes)
       throws NoSuchMethodException {
-    final MethodSignature methodSignature = mock(MethodSignature.class);
+    final MethodSignature mock = mock(MethodSignature.class);
 
-    when(methodSignature.getDeclaringType()).thenReturn(declaringClass);
-    when(methodSignature.getMethod())
+    when(mock.getDeclaringType()).thenReturn(declaringClass);
+    when(mock.getMethod())
         .thenReturn(declaringClass.getDeclaredMethod(methodName, methodParameterTypes));
-    when(methodSignature.getReturnType()).thenReturn(String.class);
+    when(mock.getReturnType()).thenReturn(String.class);
 
-    return methodSignature;
+    return mock;
   }
 
   private JoinPoint mockJoinPoint(final MethodSignature methodSignature) {
-    final JoinPoint joinPoint = mock(JoinPoint.class);
+    final JoinPoint mock = mock(JoinPoint.class);
 
-    when(joinPoint.getSignature()).thenReturn(methodSignature);
+    when(mock.getSignature()).thenReturn(methodSignature);
 
-    return joinPoint;
+    return mock;
   }
 
   private LogAfterReturning mockLogAfterReturning(final Level level, final String message) {

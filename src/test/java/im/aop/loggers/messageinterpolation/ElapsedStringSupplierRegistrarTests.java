@@ -17,7 +17,7 @@ class ElapsedStringSupplierRegistrarTests {
       new ApplicationContextRunner().withBean(ElapsedStringSupplierRegistrar.class);
 
   @Test
-  void elapsed() throws NoSuchMethodException, SecurityException {
+  void elapsed() throws SecurityException {
     runner.run(
         context -> {
           final ElapsedStringSupplierRegistrar registrar =

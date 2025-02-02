@@ -22,7 +22,7 @@ class ReturnValueStringSupplierRegistrarTests {
           .withBean(ReturnValueStringSupplierRegistrar.class);
 
   @Test
-  void returnValue_nonNull() throws NoSuchMethodException, SecurityException {
+  void returnValue_nonNull() throws SecurityException {
     runner.run(
         context -> {
           final ReturnValueStringSupplierRegistrar registrar =
@@ -37,7 +37,7 @@ class ReturnValueStringSupplierRegistrarTests {
   }
 
   @Test
-  void returnValue_null() throws NoSuchMethodException, SecurityException {
+  void returnValue_null() throws SecurityException {
     runner.run(
         context -> {
           final ReturnValueStringSupplierRegistrar registrar =
@@ -52,7 +52,7 @@ class ReturnValueStringSupplierRegistrarTests {
   }
 
   @Test
-  void returnValue_none() throws NoSuchMethodException, SecurityException {
+  void returnValue_none() throws SecurityException {
     runner.run(
         context -> {
           final ReturnValueStringSupplierRegistrar registrar =
@@ -67,7 +67,7 @@ class ReturnValueStringSupplierRegistrarTests {
   }
 
   @Test
-  void returnValue_stringArray() throws NoSuchMethodException, SecurityException {
+  void returnValue_stringArray() throws SecurityException {
     runner.run(
         context -> {
           final ReturnValueStringSupplierRegistrar registrar =
@@ -76,13 +76,12 @@ class ReturnValueStringSupplierRegistrarTests {
           final JoinPoint joinPoint = mockJoinPoint(mockMethodSignature(String[].class));
 
           final StringSupplierLookup stringSupplierLookup = new StringSupplierLookup();
-          registrar.register(stringSupplierLookup, joinPoint, new String[]{"foo", "bar"});
+          registrar.register(stringSupplierLookup, joinPoint, new String[] {"foo", "bar"});
           assertThat(stringSupplierLookup.lookup("return-value")).isEqualTo("[foo, bar]");
         });
   }
 
-  private MethodSignature mockMethodSignature(final Class<?> returnType)
-      throws NoSuchMethodException {
+  private MethodSignature mockMethodSignature(final Class<?> returnType) {
     final MethodSignature methodSignature = mock(MethodSignature.class);
 
     when(methodSignature.getReturnType()).thenReturn(returnType);

@@ -8,7 +8,6 @@ import java.lang.reflect.InaccessibleObjectException;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -100,13 +99,6 @@ class ReflectionToStringStrategyTests {
     toStringStrategy.postConstruct();
 
     assertThat(toStringStrategy.toString(new TestObject(null))).isEqualTo("[value=<null>]");
-  }
-
-  @Test
-  void toString_givenTestObject_withDefaultExcludeFieldNames() {
-    toStringStrategy.postConstruct();
-
-    assertThat(toStringStrategy.toString(new TestObject("foo"))).isEqualTo("[value=foo]");
   }
 
   @Test

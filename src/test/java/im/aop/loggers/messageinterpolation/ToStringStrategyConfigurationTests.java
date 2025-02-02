@@ -18,7 +18,7 @@ class ToStringStrategyConfigurationTests {
   @Test
   void objectToStringStrategyNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(ObjectToStringStrategy.class))
               .isNotNull()
               .isExactlyInstanceOf(ObjectToStringStrategy.class);
@@ -28,7 +28,7 @@ class ToStringStrategyConfigurationTests {
   @Test
   void optionalToStringStrategyNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(OptionalToStringStrategy.class))
               .isNotNull()
               .isExactlyInstanceOf(OptionalToStringStrategy.class);
@@ -38,7 +38,7 @@ class ToStringStrategyConfigurationTests {
   @Test
   void arrayToStringStrategyNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(ArrayToStringStrategy.class))
               .isNotNull()
               .isExactlyInstanceOf(ArrayToStringStrategy.class);
@@ -48,7 +48,7 @@ class ToStringStrategyConfigurationTests {
   @Test
   void iterableToStringStrategyNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(IterableToStringStrategy.class))
               .isNotNull()
               .isExactlyInstanceOf(IterableToStringStrategy.class);
@@ -58,7 +58,7 @@ class ToStringStrategyConfigurationTests {
   @Test
   void defaultToStringStrategyFactoryNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(ToStringStrategyFactory.class))
               .isNotNull()
               .isExactlyInstanceOf(DefaultToStringStrategyFactory.class);

@@ -16,10 +16,7 @@ class LogAfterThrowingThrowingTests {
   @Test
   void declaringClass_defaultValue() {
     @LogBefore
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogBefore annotation = Local.class.getAnnotation(LogBefore.class);
     assertThat(annotation.declaringClass()).isEqualTo(void.class);
@@ -28,10 +25,7 @@ class LogAfterThrowingThrowingTests {
   @Test
   void declaringClass_givenAttributeValue() {
     @LogBefore(declaringClass = Local.class)
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogBefore annotation = Local.class.getAnnotation(LogBefore.class);
     assertThat(annotation.declaringClass()).isEqualTo(Local.class);
@@ -40,10 +34,7 @@ class LogAfterThrowingThrowingTests {
   @Test
   void level_defaultValue() {
     @LogAfterThrowing
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAfterThrowing annotation = Local.class.getAnnotation(LogAfterThrowing.class);
     assertThat(annotation.level()).isEqualTo(Level.DEFAULT);
@@ -52,10 +43,7 @@ class LogAfterThrowingThrowingTests {
   @Test
   void level_givenAttributeValue() {
     @LogAfterThrowing(level = Level.DEBUG)
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAfterThrowing annotation = Local.class.getAnnotation(LogAfterThrowing.class);
     assertThat(annotation.level()).isEqualTo(Level.DEBUG);
@@ -64,10 +52,7 @@ class LogAfterThrowingThrowingTests {
   @Test
   void exitedAbnormallyMessage_defaultValue() {
     @LogAfterThrowing
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAfterThrowing annotation = Local.class.getAnnotation(LogAfterThrowing.class);
     assertThat(annotation.exitedAbnormallyMessage()).isEmpty();
@@ -76,10 +61,7 @@ class LogAfterThrowingThrowingTests {
   @Test
   void exitedAbnormallyMessage_givenAttributeValue() {
     @LogAfterThrowing(exitedAbnormallyMessage = "foo")
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAfterThrowing annotation = Local.class.getAnnotation(LogAfterThrowing.class);
     assertThat(annotation.exitedAbnormallyMessage()).isEqualTo("foo");
@@ -88,10 +70,7 @@ class LogAfterThrowingThrowingTests {
   @Test
   void ignoreExceptions_defaultValue() {
     @LogAfterThrowing
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAfterThrowing annotation = Local.class.getAnnotation(LogAfterThrowing.class);
     assertThat(annotation.ignoreExceptions()).isEmpty();
@@ -100,10 +79,7 @@ class LogAfterThrowingThrowingTests {
   @Test
   void ignoreExceptions_givenAttributeValue() {
     @LogAfterThrowing(ignoreExceptions = {RuntimeException.class})
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAfterThrowing annotation = Local.class.getAnnotation(LogAfterThrowing.class);
     assertThat(annotation.ignoreExceptions()).containsExactly(RuntimeException.class);
@@ -112,10 +88,7 @@ class LogAfterThrowingThrowingTests {
   @Test
   void printStackTrace_defaultValue() {
     @LogAfterThrowing
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAfterThrowing annotation = Local.class.getAnnotation(LogAfterThrowing.class);
     assertThat(annotation.printStackTrace()).isTrue();
@@ -124,10 +97,7 @@ class LogAfterThrowingThrowingTests {
   @Test
   void printStackTrace_givenAttributeValue() {
     @LogAfterThrowing(printStackTrace = false)
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAfterThrowing annotation = Local.class.getAnnotation(LogAfterThrowing.class);
     assertThat(annotation.printStackTrace()).isFalse();

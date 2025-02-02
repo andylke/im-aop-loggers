@@ -17,10 +17,7 @@ class LogAroundTests {
   @Test
   void declaringClass_defaultValue() {
     @LogBefore
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogBefore annotation = Local.class.getAnnotation(LogBefore.class);
     assertThat(annotation.declaringClass()).isEqualTo(void.class);
@@ -29,10 +26,7 @@ class LogAroundTests {
   @Test
   void declaringClass_givenAttributeValue() {
     @LogBefore(declaringClass = Local.class)
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogBefore annotation = Local.class.getAnnotation(LogBefore.class);
     assertThat(annotation.declaringClass()).isEqualTo(Local.class);
@@ -41,10 +35,7 @@ class LogAroundTests {
   @Test
   void level_defaultValue() {
     @LogAround
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.level()).isEqualTo(Level.DEFAULT);
@@ -53,10 +44,7 @@ class LogAroundTests {
   @Test
   void level_givenAttributeValue() {
     @LogAround(level = Level.DEBUG)
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.level()).isEqualTo(Level.DEBUG);
@@ -65,10 +53,7 @@ class LogAroundTests {
   @Test
   void enteringMessage_defaultValue() {
     @LogAround
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.enteringMessage()).isEmpty();
@@ -77,10 +62,7 @@ class LogAroundTests {
   @Test
   void enteringMessage_givenAttributeValue() {
     @LogAround(enteringMessage = "foo")
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.enteringMessage()).isEqualTo("foo");
@@ -89,10 +71,7 @@ class LogAroundTests {
   @Test
   void exitedMessage_defaultValue() {
     @LogAround
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.exitedMessage()).isEmpty();
@@ -101,10 +80,7 @@ class LogAroundTests {
   @Test
   void exitedMessage_givenAttributeValue() {
     @LogAround(exitedMessage = "foo")
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.exitedMessage()).isEqualTo("foo");
@@ -113,10 +89,7 @@ class LogAroundTests {
   @Test
   void exitedAbnormallyLevel_defaultValue() {
     @LogAround
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.exitedAbnormallyLevel()).isEqualTo(Level.DEFAULT);
@@ -125,10 +98,7 @@ class LogAroundTests {
   @Test
   void exitedAbnormallyLevel_givenAttributeValue() {
     @LogAround(exitedAbnormallyLevel = Level.DEBUG)
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.exitedAbnormallyLevel()).isEqualTo(Level.DEBUG);
@@ -137,10 +107,7 @@ class LogAroundTests {
   @Test
   void exitedAbnormallyMessage_defaultValue() {
     @LogAround
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.exitedAbnormallyMessage()).isEmpty();
@@ -149,10 +116,7 @@ class LogAroundTests {
   @Test
   void exitedAbnormallyMessage_givenAttributeValue() {
     @LogAround(exitedAbnormallyMessage = "foo")
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.exitedAbnormallyMessage()).isEqualTo("foo");
@@ -161,10 +125,7 @@ class LogAroundTests {
   @Test
   void ignoreExceptions_defaultValue() {
     @LogAround
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.ignoreExceptions()).isEmpty();
@@ -173,10 +134,7 @@ class LogAroundTests {
   @Test
   void ignoreExceptions_givenAttributeValue() {
     @LogAround(ignoreExceptions = {RuntimeException.class})
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.ignoreExceptions()).containsExactly(RuntimeException.class);
@@ -185,10 +143,7 @@ class LogAroundTests {
   @Test
   void printStackTrace_defaultValue() {
     @LogAround
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.printStackTrace()).isTrue();
@@ -197,10 +152,7 @@ class LogAroundTests {
   @Test
   void printStackTrace_givenAttributeValue() {
     @LogAround(printStackTrace = false)
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.printStackTrace()).isFalse();
@@ -209,10 +161,7 @@ class LogAroundTests {
   @Test
   void elapsedMessage_defaultValue() {
     @LogAround
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.elapsedMessage()).isEmpty();
@@ -221,10 +170,7 @@ class LogAroundTests {
   @Test
   void elapsedMessage_givenAttributeValue() {
     @LogAround(elapsedMessage = "foo")
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.elapsedMessage()).isEqualTo("foo");
@@ -233,10 +179,7 @@ class LogAroundTests {
   @Test
   void elapsedWarningLevel_defaultValue() {
     @LogAround
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.elapsedWarningLevel()).isEqualTo(Level.DEFAULT);
@@ -245,10 +188,7 @@ class LogAroundTests {
   @Test
   void elapsedWarningLevel_givenAttributeValue() {
     @LogAround(elapsedWarningLevel = Level.DEBUG)
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.elapsedWarningLevel()).isEqualTo(Level.DEBUG);
@@ -257,10 +197,7 @@ class LogAroundTests {
   @Test
   void elapsedWarningMessage_defaultValue() {
     @LogAround
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.elapsedWarningMessage()).isEmpty();
@@ -269,10 +206,7 @@ class LogAroundTests {
   @Test
   void elapsedWarningMessage_givenAttributeValue() {
     @LogAround(elapsedWarningMessage = "foo")
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.elapsedWarningMessage()).isEqualTo("foo");
@@ -281,10 +215,7 @@ class LogAroundTests {
   @Test
   void elapsedTimeLimit_defaultValue() {
     @LogAround
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.elapsedTimeLimit()).isZero();
@@ -293,10 +224,7 @@ class LogAroundTests {
   @Test
   void elapsedTimeLimit_givenAttributeValue() {
     @LogAround(elapsedTimeLimit = 1)
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.elapsedTimeLimit()).isOne();
@@ -305,10 +233,7 @@ class LogAroundTests {
   @Test
   void elapsedTimeUnit_defaultValue() {
     @LogAround
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.elapsedTimeUnit()).isEqualTo(ChronoUnit.MILLIS);
@@ -317,10 +242,7 @@ class LogAroundTests {
   @Test
   void elapsedTimeUnit_givenAttributeValue() {
     @LogAround(elapsedTimeUnit = ChronoUnit.SECONDS)
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogAround annotation = Local.class.getAnnotation(LogAround.class);
     assertThat(annotation.elapsedTimeUnit()).isEqualTo(ChronoUnit.SECONDS);

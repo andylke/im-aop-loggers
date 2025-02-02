@@ -15,10 +15,7 @@ class LogBeforeTests {
   @Test
   void declaringClass_defaultValue() {
     @LogBefore
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogBefore annotation = Local.class.getAnnotation(LogBefore.class);
     assertThat(annotation.declaringClass()).isEqualTo(void.class);
@@ -27,10 +24,7 @@ class LogBeforeTests {
   @Test
   void declaringClass_givenAttributeValue() {
     @LogBefore(declaringClass = Local.class)
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogBefore annotation = Local.class.getAnnotation(LogBefore.class);
     assertThat(annotation.declaringClass()).isEqualTo(Local.class);
@@ -39,10 +33,7 @@ class LogBeforeTests {
   @Test
   void level_defaultValue() {
     @LogBefore
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogBefore annotation = Local.class.getAnnotation(LogBefore.class);
     assertThat(annotation.level()).isEqualTo(Level.DEFAULT);
@@ -51,10 +42,7 @@ class LogBeforeTests {
   @Test
   void level_givenAttributeValue() {
     @LogBefore(level = Level.DEBUG)
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogBefore annotation = Local.class.getAnnotation(LogBefore.class);
     assertThat(annotation.level()).isEqualTo(Level.DEBUG);
@@ -63,10 +51,7 @@ class LogBeforeTests {
   @Test
   void enteringMessage_defaultValue() {
     @LogBefore
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogBefore annotation = Local.class.getAnnotation(LogBefore.class);
     assertThat(annotation.enteringMessage()).isEmpty();
@@ -75,10 +60,7 @@ class LogBeforeTests {
   @Test
   void enteringMessage_givenAttributeValue() {
     @LogBefore(enteringMessage = "foo")
-    class Local {
-
-    }
-    ;
+    class Local {}
 
     final LogBefore annotation = Local.class.getAnnotation(LogBefore.class);
     assertThat(annotation.enteringMessage()).isEqualTo("foo");

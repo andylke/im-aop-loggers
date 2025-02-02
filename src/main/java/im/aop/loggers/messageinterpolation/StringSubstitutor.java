@@ -14,7 +14,7 @@ public class StringSubstitutor {
   private static final String EMPTY_STRING = "";
 
   public String substitute(final String template, final StringLookup stringLookup) {
-    if (template == null || template.length() == 0) {
+    if (template == null || template.isEmpty()) {
       return template;
     }
 

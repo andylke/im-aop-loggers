@@ -20,7 +20,7 @@ class AopLoggersAutoConfigurationTests {
   @Test
   void aopLoggersConfigurationNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(AopLoggersConfiguration.class))
               .isNotNull()
               .isExactlyInstanceOf(AopLoggersConfiguration.class);

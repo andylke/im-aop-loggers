@@ -22,7 +22,7 @@ class LogAroundConfigurationTests {
   @Test
   void logAroundAdviceNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(LogAroundAdvice.class))
               .isNotNull()
               .isExactlyInstanceOf(LogAroundAdvice.class);
@@ -32,7 +32,7 @@ class LogAroundConfigurationTests {
   @Test
   void logAroundServiceNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(LogAroundService.class))
               .isNotNull()
               .isExactlyInstanceOf(LogAroundService.class);

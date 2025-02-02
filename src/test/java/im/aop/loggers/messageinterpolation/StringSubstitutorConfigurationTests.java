@@ -21,7 +21,7 @@ class StringSubstitutorConfigurationTests {
   @Test
   void dataDomainToStringStrategyConfigurationNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(DataDomainToStringStrategyConfiguration.class)).isNotNull();
         });
   }
@@ -29,7 +29,7 @@ class StringSubstitutorConfigurationTests {
   @Test
   void toStringStrategyConfigurationNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(ToStringStrategyConfiguration.class)).isNotNull();
         });
   }
@@ -37,7 +37,7 @@ class StringSubstitutorConfigurationTests {
   @Test
   void toStringStrategyFactoryNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(ToStringStrategyFactory.class)).isNotNull();
         });
   }
@@ -45,7 +45,7 @@ class StringSubstitutorConfigurationTests {
   @Test
   void stringSubstitutorNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(StringSubstitutor.class))
               .isNotNull()
               .isExactlyInstanceOf(StringSubstitutor.class);
@@ -55,7 +55,7 @@ class StringSubstitutorConfigurationTests {
   @Test
   void elapsedStringSupplierRegistrarNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(ElapsedStringSupplierRegistrar.class))
               .isNotNull()
               .isExactlyInstanceOf(ElapsedStringSupplierRegistrar.class);
@@ -65,7 +65,7 @@ class StringSubstitutorConfigurationTests {
   @Test
   void elapsedTimeLimitStringSupplierRegistrarNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(ElapsedTimeLimitStringSupplierRegistrar.class))
               .isNotNull()
               .isExactlyInstanceOf(ElapsedTimeLimitStringSupplierRegistrar.class);
@@ -75,7 +75,7 @@ class StringSubstitutorConfigurationTests {
   @Test
   void exceptionStringSupplierRegistrarNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(ExceptionStringSupplierRegistrar.class))
               .isNotNull()
               .isExactlyInstanceOf(ExceptionStringSupplierRegistrar.class);
@@ -85,7 +85,7 @@ class StringSubstitutorConfigurationTests {
   @Test
   void joinPointStringSupplierRegistrarNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(JoinPointStringSupplierRegistrar.class))
               .isNotNull()
               .isExactlyInstanceOf(JoinPointStringSupplierRegistrar.class);
@@ -95,7 +95,7 @@ class StringSubstitutorConfigurationTests {
   @Test
   void returnValueStringSupplierRegistrarNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(ReturnValueStringSupplierRegistrar.class))
               .isNotNull()
               .isExactlyInstanceOf(ReturnValueStringSupplierRegistrar.class);

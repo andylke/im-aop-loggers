@@ -16,7 +16,7 @@ class ExceptionStringSupplierRegistrarTests {
       new ApplicationContextRunner().withBean(ExceptionStringSupplierRegistrar.class);
 
   @Test
-  void exception() throws NoSuchMethodException, SecurityException {
+  void exception() throws SecurityException {
     runner.run(
         context -> {
           final ExceptionStringSupplierRegistrar registrar =

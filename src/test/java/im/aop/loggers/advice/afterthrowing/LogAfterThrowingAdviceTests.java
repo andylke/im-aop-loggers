@@ -89,7 +89,7 @@ class LogAfterThrowingAdviceTests {
               context -> {
                 final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
 
-                assertThrows(RuntimeException.class, () -> methodContext.methodWithoutParameter());
+                assertThrows(RuntimeException.class, methodContext::methodWithoutParameter);
                 assertThat(capturedOutput)
                     .contains(
                         "joinPoint=execution(void "
@@ -124,7 +124,7 @@ class LogAfterThrowingAdviceTests {
           .run(
               context -> {
                 final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
-                assertThrows(RuntimeException.class, () -> methodContext.methodWithResult());
+                assertThrows(RuntimeException.class, methodContext::methodWithResult);
                 assertThat(capturedOutput)
                     .contains(
                         "joinPoint=execution(String "
@@ -141,7 +141,7 @@ class LogAfterThrowingAdviceTests {
           .run(
               context -> {
                 final TestMethodContext methodContext = context.getBean(TestMethodContext.class);
-                assertThrows(RuntimeException.class, () -> methodContext.toString());
+                assertThrows(RuntimeException.class, methodContext::toString);
                 assertThat(capturedOutput)
                     .contains(
                         "joinPoint=execution(String "
@@ -183,7 +183,7 @@ class LogAfterThrowingAdviceTests {
           .run(
               context -> {
                 final TestClassContext classContext = context.getBean(TestClassContext.class);
-                assertThrows(RuntimeException.class, () -> classContext.methodWithoutParameter());
+                assertThrows(RuntimeException.class, classContext::methodWithoutParameter);
                 assertThat(capturedOutput)
                     .contains(
                         "joinPoint=execution(void "
@@ -217,7 +217,7 @@ class LogAfterThrowingAdviceTests {
           .run(
               context -> {
                 final TestClassContext classContext = context.getBean(TestClassContext.class);
-                assertThrows(RuntimeException.class, () -> classContext.methodWithResult());
+                assertThrows(RuntimeException.class, classContext::methodWithResult);
                 assertThat(capturedOutput)
                     .contains(
                         "joinPoint=execution(String "
@@ -234,7 +234,7 @@ class LogAfterThrowingAdviceTests {
           .run(
               context -> {
                 final TestClassContext classContext = context.getBean(TestClassContext.class);
-                assertThrows(RuntimeException.class, () -> classContext.toString());
+                assertThrows(RuntimeException.class, classContext::toString);
                 assertThat(capturedOutput)
                     .doesNotContain(
                         "joinPoint=execution(String "
@@ -278,7 +278,7 @@ class LogAfterThrowingAdviceTests {
           .run(
               context -> {
                 final ChildClassContext classContext = context.getBean(ChildClassContext.class);
-                assertThrows(RuntimeException.class, () -> classContext.methodWithoutParameter());
+                assertThrows(RuntimeException.class, classContext::methodWithoutParameter);
                 assertThat(capturedOutput)
                     .contains(
                         "joinPoint=execution(void "
@@ -312,7 +312,7 @@ class LogAfterThrowingAdviceTests {
           .run(
               context -> {
                 final ChildClassContext classContext = context.getBean(ChildClassContext.class);
-                assertThrows(RuntimeException.class, () -> classContext.methodWithResult());
+                assertThrows(RuntimeException.class, classContext::methodWithResult);
                 assertThat(capturedOutput)
                     .contains(
                         "joinPoint=execution(String "
@@ -329,7 +329,7 @@ class LogAfterThrowingAdviceTests {
           .run(
               context -> {
                 final ChildClassContext classContext = context.getBean(ChildClassContext.class);
-                assertThrows(RuntimeException.class, () -> classContext.toString());
+                assertThrows(RuntimeException.class, classContext::toString);
                 assertThat(capturedOutput)
                     .doesNotContain(
                         "joinPoint=execution(String "

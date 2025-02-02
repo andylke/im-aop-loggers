@@ -16,9 +16,7 @@ class ReflectionToStringPropertiesTests {
 
   @TestConfiguration(proxyBeanMethods = false)
   @EnableConfigurationProperties({ReflectionToStringProperties.class})
-  static class ReflectionToStringPropertiesTestConfiguration {
-
-  }
+  static class ReflectionToStringPropertiesTestConfiguration {}
 
   private ApplicationContextRunner runner =
       new ApplicationContextRunner()
@@ -27,7 +25,7 @@ class ReflectionToStringPropertiesTests {
   @Test
   void baseClasses_defaultValue() {
     runner.run(
-        (context) -> {
+        context -> {
           final ReflectionToStringProperties properties =
               context.getBean(ReflectionToStringProperties.class);
           assertThat(properties.getBaseClasses()).isEmpty();
@@ -41,7 +39,7 @@ class ReflectionToStringPropertiesTests {
             ReflectionToStringProperties.PREFIX + ".base-classes.0=foo",
             ReflectionToStringProperties.PREFIX + ".base-classes.1=bar")
         .run(
-            (context) -> {
+            context -> {
               final ReflectionToStringProperties properties =
                   context.getBean(ReflectionToStringProperties.class);
               assertThat(properties.getBaseClasses()).containsExactly("foo", "bar");
@@ -51,7 +49,7 @@ class ReflectionToStringPropertiesTests {
   @Test
   void excludeNullValues_defaultValue() {
     runner.run(
-        (context) -> {
+        context -> {
           final ReflectionToStringProperties properties =
               context.getBean(ReflectionToStringProperties.class);
           assertThat(properties.isExcludeNullValues()).isTrue();
@@ -63,7 +61,7 @@ class ReflectionToStringPropertiesTests {
     runner
         .withPropertyValues(ReflectionToStringProperties.PREFIX + ".exclude-null-values=false")
         .run(
-            (context) -> {
+            context -> {
               final ReflectionToStringProperties properties =
                   context.getBean(ReflectionToStringProperties.class);
               assertThat(properties.isExcludeNullValues()).isFalse();
@@ -73,7 +71,7 @@ class ReflectionToStringPropertiesTests {
   @Test
   void excludeEmptyValues_defaultValue() {
     runner.run(
-        (context) -> {
+        context -> {
           final ReflectionToStringProperties properties =
               context.getBean(ReflectionToStringProperties.class);
           assertThat(properties.isExcludeEmptyValues()).isTrue();
@@ -85,7 +83,7 @@ class ReflectionToStringPropertiesTests {
     runner
         .withPropertyValues(ReflectionToStringProperties.PREFIX + ".exclude-empty-values=false")
         .run(
-            (context) -> {
+            context -> {
               final ReflectionToStringProperties properties =
                   context.getBean(ReflectionToStringProperties.class);
               assertThat(properties.isExcludeEmptyValues()).isFalse();
@@ -95,7 +93,7 @@ class ReflectionToStringPropertiesTests {
   @Test
   void excludeZeroValues_defaultValue() {
     runner.run(
-        (context) -> {
+        context -> {
           final ReflectionToStringProperties properties =
               context.getBean(ReflectionToStringProperties.class);
           assertThat(properties.isExcludeZeroValues()).isTrue();
@@ -107,7 +105,7 @@ class ReflectionToStringPropertiesTests {
     runner
         .withPropertyValues(ReflectionToStringProperties.PREFIX + ".exclude-zero-values=false")
         .run(
-            (context) -> {
+            context -> {
               final ReflectionToStringProperties properties =
                   context.getBean(ReflectionToStringProperties.class);
               assertThat(properties.isExcludeZeroValues()).isFalse();
@@ -117,7 +115,7 @@ class ReflectionToStringPropertiesTests {
   @Test
   void excludeFieldNames_defaultValue() {
     runner.run(
-        (context) -> {
+        context -> {
           final ReflectionToStringProperties properties =
               context.getBean(ReflectionToStringProperties.class);
           assertThat(properties.getExcludeFieldNames())
@@ -132,7 +130,7 @@ class ReflectionToStringPropertiesTests {
             ReflectionToStringProperties.PREFIX + ".exclude-field-names.0=foo",
             ReflectionToStringProperties.PREFIX + ".exclude-field-names.1=bar")
         .run(
-            (context) -> {
+            context -> {
               final ReflectionToStringProperties properties =
                   context.getBean(ReflectionToStringProperties.class);
               assertThat(properties.getExcludeFieldNames())

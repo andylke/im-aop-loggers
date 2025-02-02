@@ -23,7 +23,7 @@ class AopLoggersConfigurationTests {
   @Test
   void aopLoggersPropertiesNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(AopLoggersProperties.class))
               .isNotNull()
               .isExactlyInstanceOf(AopLoggersProperties.class);
@@ -33,7 +33,7 @@ class AopLoggersConfigurationTests {
   @Test
   void stringSubstitutorConfigurationNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(StringSubstitutorConfiguration.class))
               .isNotNull()
               .isExactlyInstanceOf(StringSubstitutorConfiguration.class);
@@ -43,7 +43,7 @@ class AopLoggersConfigurationTests {
   @Test
   void logAfterReturningConfigurationNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(LogAfterReturningConfiguration.class))
               .isNotNull()
               .isExactlyInstanceOf(LogAfterReturningConfiguration.class);
@@ -53,7 +53,7 @@ class AopLoggersConfigurationTests {
   @Test
   void logAfterThrowingConfigurationNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(LogAfterThrowingConfiguration.class))
               .isNotNull()
               .isExactlyInstanceOf(LogAfterThrowingConfiguration.class);
@@ -63,7 +63,7 @@ class AopLoggersConfigurationTests {
   @Test
   void logAroundConfigurationNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(LogAroundConfiguration.class))
               .isNotNull()
               .isExactlyInstanceOf(LogAroundConfiguration.class);
@@ -73,7 +73,7 @@ class AopLoggersConfigurationTests {
   @Test
   void logBeforeConfigurationNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(LogBeforeConfiguration.class))
               .isNotNull()
               .isExactlyInstanceOf(LogBeforeConfiguration.class);

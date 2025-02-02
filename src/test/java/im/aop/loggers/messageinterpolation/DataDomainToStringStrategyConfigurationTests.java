@@ -23,7 +23,7 @@ class DataDomainToStringStrategyConfigurationTests {
   @Test
   void pageableToStringStrategyNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(PageableToStringStrategy.class))
               .isNotNull()
               .isExactlyInstanceOf(PageableToStringStrategy.class);
@@ -33,7 +33,7 @@ class DataDomainToStringStrategyConfigurationTests {
   @Test
   void pageToStringStrategyNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(PageToStringStrategy.class))
               .isNotNull()
               .isExactlyInstanceOf(PageToStringStrategy.class);
@@ -43,7 +43,7 @@ class DataDomainToStringStrategyConfigurationTests {
   @Test
   void sliceToStringStrategyNotNull() {
     runner.run(
-        (context) -> {
+        context -> {
           assertThat(context.getBean(SliceToStringStrategy.class))
               .isNotNull()
               .isExactlyInstanceOf(SliceToStringStrategy.class);
