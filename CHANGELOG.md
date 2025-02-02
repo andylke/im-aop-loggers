@@ -4,6 +4,8 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+## [1.1.4] - 2025-02-02
+
 ### Added
 
 - Support logging before and after transaction is committed and after transaction is rolls back due to an exception.
