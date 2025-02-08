@@ -6,7 +6,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -123,18 +122,14 @@ class PageableToStringStrategyTests {
                   @Override
                   public Object invoke(Object proxy, Method method, Object[] args)
                       throws Throwable {
-                    switch (method.getName()) {
-                      case "isPaged":
-                        return true;
-                      case "getPageNumber":
-                        return 0;
-                      case "getPageSize":
-                        return 10;
-                      case "getSort":
-                        return Sort.unsorted();
-                      default:
-                        throw new IllegalStateException();
-                    }
+                    return switch (method.getName()) {
+                      case "isPaged" -> true;
+                      case "getPageNumber" -> 0;
+                      case "getPageSize" -> 10;
+                      case "getSort" -> Sort.unsorted();
+                      case "hashCode" -> -1;
+                      default -> throw new IllegalStateException();
+                    };
                   }
                 });
 
@@ -143,31 +138,6 @@ class PageableToStringStrategyTests {
 
   @Test
   void toString_givenPageableJavaProxy_pagedAndSorted() {
-    Pageable proxy =
-        (Pageable)
-            Proxy.newProxyInstance(
-                ClassLoader.getSystemClassLoader(),
-                new Class<?>[] {Pageable.class},
-                new InvocationHandler() {
-
-                  @Override
-                  public Object invoke(Object proxy, Method method, Object[] args)
-                      throws Throwable {
-                    switch (method.getName()) {
-                      case "isUnpaged":
-                        return true;
-                      case "getPageNumber":
-                        return 0;
-                      case "getPageSize":
-                        return 10;
-                      case "getSort":
-                        return Sort.by(Direction.ASC, "foo");
-                      default:
-                        throw new IllegalStateException();
-                    }
-                  }
-                });
-
     assertThat(toStringStrategy.toString(PageRequest.of(0, 10, Sort.by(Direction.ASC, "foo"))))
         .isEqualTo("[page=0,size=10,sort=foo: ASC]");
   }

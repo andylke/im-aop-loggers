@@ -11,6 +11,8 @@ All notable changes to this project will be documented in this file.
 - Upgrade Jacoco Maven Plugin version to 0.8.12.
 - Upgrade Maven GPG Plugin version to 3.2.7.
 - Upgrade Nexus Staging Maven Plugin version to 1.7.0.
+- Fix failed unit test due to Spring Boot upgrade.
+  - Expecting ToStringStyle.nullText instead of NPE for ReflectionToStringBuilder.toString().
 
 ## [1.1.4] - 2025-02-02
 

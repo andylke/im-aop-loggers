@@ -63,7 +63,7 @@ class ReflectionToStringStrategyTests {
   void toString_givenNull() {
     toStringStrategy.postConstruct();
 
-    assertThrows(NullPointerException.class, () -> toStringStrategy.toString(null));
+    assertThat(toStringStrategy.toString(null)).isEqualTo("<null>");
   }
 
   static class TestObject {

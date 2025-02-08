@@ -9,7 +9,6 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -154,22 +153,16 @@ class SliceToStringStrategyTests {
                   @Override
                   public Object invoke(Object proxy, Method method, Object[] args)
                       throws Throwable {
-                    switch (method.getName()) {
-                      case "getPageable":
-                        return PageRequest.of(0, 10);
-                      case "getNumber":
-                        return 0;
-                      case "getSize":
-                        return 10;
-                      case "getNumberOfElements":
-                        return 1;
-                      case "getSort":
-                        return Sort.unsorted();
-                      case "getContent":
-                        return List.of(new TestObject("foo"));
-                      default:
-                        throw new IllegalStateException();
-                    }
+                    return switch (method.getName()) {
+                      case "getPageable" -> PageRequest.of(0, 10);
+                      case "getNumber" -> 0;
+                      case "getSize" -> 10;
+                      case "getNumberOfElements" -> 1;
+                      case "getSort" -> Sort.unsorted();
+                      case "getContent" -> List.of(new TestObject("foo"));
+                      case "hashCode" -> -1;
+                      default -> throw new IllegalStateException();
+                    };
                   }
                 });
     when(iterableToStringStrategy.toString(any())).thenReturn("[value=foo]");
@@ -190,16 +183,13 @@ class SliceToStringStrategyTests {
                   @Override
                   public Object invoke(Object proxy, Method method, Object[] args)
                       throws Throwable {
-                    switch (method.getName()) {
-                      case "getPageable":
-                        return Pageable.unpaged();
-                      case "getNumberOfElements":
-                        return 1;
-                      case "getContent":
-                        return List.of(new TestObject("foo"));
-                      default:
-                        throw new IllegalStateException();
-                    }
+                    return switch (method.getName()) {
+                      case "getPageable" -> Pageable.unpaged();
+                      case "getNumberOfElements" -> 1;
+                      case "getContent" -> List.of(new TestObject("foo"));
+                      case "hashCode" -> -1;
+                      default -> throw new IllegalStateException();
+                    };
                   }
                 });
     when(iterableToStringStrategy.toString(any())).thenReturn("[value=foo]");
