@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+
+- Upgrade Java version to 21.
+- Upgrade Spring Boot version to 3.4.2.
+- Upgrade Jacoco Maven Plugin version to 0.8.12.
+- Upgrade Maven GPG Plugin version to 3.2.7.
+- Upgrade Nexus Staging Maven Plugin version to 1.7.0.
+
 ## [1.1.4] - 2025-02-02
 
 ### Added
