@@ -13,11 +13,11 @@ programming (AOP).
 
 The table below outlines the version that is compatible with Spring Boot.
 
-| I'm AOP Loggers                                               | Java LTS | Spring Boot   |
-|---------------------------------------------------------------|----------|---------------|
-| [1.2](https://github.com/andylke/im-aop-loggers/tree/v1.2.0)  | 21       | 3.2, 3,3, 3.4 |
-| [1.1](https://github.com/andylke/im-aop-loggers/tree/v1.1.4)  | 17       | 3.0, 3.1      |
-| [1.0](https://github.com/andylke/im-aop-loggers/tree/v1.0.11) | 8        | 2.7           |
+| I'm AOP Loggers | Java LTS | Spring Boot   |
+|-----------------|----------|---------------|
+| 1.2             | 21       | 3.2, 3,3, 3.4 |
+| 1.1             | 17       | 3.0, 3.1      |
+| 1.0             | 8        | 2.7           |
 
 # Feature
 
