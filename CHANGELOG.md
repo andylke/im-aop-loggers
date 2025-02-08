@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - Upgrade Nexus Staging Maven Plugin version to 1.7.0.
 - Fix failed unit test due to Spring Boot upgrade.
   - Expecting ToStringStyle.nullText instead of NPE for ReflectionToStringBuilder.toString().
+- Fix SonarQube issues.
 
 ## [1.1.4] - 2025-02-02
 

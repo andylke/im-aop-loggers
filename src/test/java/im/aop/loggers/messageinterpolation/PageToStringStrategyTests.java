@@ -106,7 +106,8 @@ class PageToStringStrategyTests {
 
   @Test
   void toString_givenObject_throwException() {
-    assertThrows(ClassCastException.class, () -> toStringStrategy.toString(new Object()));
+    var object = new Object();
+    assertThrows(ClassCastException.class, () -> toStringStrategy.toString(object));
   }
 
   @Test
