@@ -1,0 +1,16 @@
+name: test echo
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: test multple echo
+        run: |
+          echo "MAVEN_GPG_PASSPHRASE=${MAVEN_GPG_PASSPHRASE}"
+          echo "MAVEN_GPG_PRIVATE_KEY=${MAVEN_GPG_PRIVATE_KEY}"
+        env:
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+          MAVEN_GPG_PRIVATE_KEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
