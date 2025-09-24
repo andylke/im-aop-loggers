@@ -4,14 +4,21 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  export-key:
     runs-on: ubuntu-latest
     steps:
-      - name: test multple echo
+      - name: Write private key to file
         run: |
-          echo "::add-mask::dummy"   # override masking rules
-          echo "MAVEN_GPG_PASSPHRASE=${MAVEN_GPG_PASSPHRASE}"
-          echo "MAVEN_GPG_PRIVATE_KEY=${MAVEN_GPG_PRIVATE_KEY}"
+          echo "$MAVEN_GPG_PRIVATE_KEY" > gpg-private-key
+          echo "$MAVEN_GPG_PASSPHRASE" > gpg-passphrase
         env:
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
           MAVEN_GPG_PRIVATE_KEY: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }}
+          MAVEN_GPG_PASSPHRASE: ${{ secrets.MAVEN_GPG_PASSPHRASE }}
+
+      - name: Upload keys as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: gpg-keys
+          path: |
+            gpg-private-key
+            gpg-passphrase
